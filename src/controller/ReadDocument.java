@@ -3,17 +3,14 @@ package controller;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.UnknownHostException;
-
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.extractor.WordExtractor;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.commons.io.FilenameUtils;
@@ -29,7 +26,7 @@ public class ReadDocument {
 	private static String textDocument="";
 
 
-	public static String readDocument(String filePath) throws IOException{
+	public  String readDocument(String filePath) throws IOException{
 
 		//Se crea el objeto File con la ruta del archivo
 		File archivodoc = new File(filePath);
@@ -41,18 +38,20 @@ public class ReadDocument {
 			readPDF(archivodoc.getPath());
 			break;
 
-
 		case DOC:
 			readWord(archivodoc.getPath());
 			break;
+                        
 		case DOCX:
 			readXWord(archivodoc.getPath());
 			break;
+                        
 		case TXT:
 			readTxt(archivodoc.getPath());
 			break;
+                        
 		default:
-			textDocument="Extensión no soportada";
+			textDocument="Extensiï¿½n no soportada";
 			System.out.println("Extension de documento no soportada"); break;
 		}
 
@@ -61,12 +60,15 @@ public class ReadDocument {
 		return textDocument;
 	}
 
+        
+       
+        
 	/**
 	 * Lectura de documentos word .doc de la version < 2007
 	 * @param filePath ruta del archivo word a leer
 	 * @throws IOException
 	 */
-	private static void readWord(String filePath) throws IOException{
+	private  void readWord(String filePath) throws IOException{
 		FileInputStream fis = new FileInputStream(filePath);
 		HWPFDocument doc2 = new HWPFDocument(fis);
 		WordExtractor extractor = new WordExtractor(doc2);
@@ -79,7 +81,7 @@ public class ReadDocument {
 	 * @param filePath ruta del archivo word a leer
 	 * @throws IOException
 	 */
-	private static void readXWord(String filePath) throws IOException{
+	private  void readXWord(String filePath) throws IOException{
 		FileInputStream fis = new FileInputStream(filePath);
 		XWPFDocument doc;
 		doc = new XWPFDocument(fis);
@@ -93,7 +95,7 @@ public class ReadDocument {
 	 * @param filePath ruta del archivo PDF a leer
 	 * @throws IOException 
 	 */
-	private static void readPDF(String filePath) throws IOException {
+	private  void readPDF(String filePath) throws IOException {
 		int pageIni=1; 
 		int pageEnd=1;
 		PDDocument doc =PDDocument.load(new File(filePath)); // document
@@ -105,7 +107,7 @@ public class ReadDocument {
 
 	}
 
-	private static void readTxt(String filePath) throws IOException{
+	private  void readTxt2(String filePath) throws IOException{
 		String cadena;
 		FileInputStream fis=new FileInputStream( filePath ) ;
 		InputStreamReader isr=new InputStreamReader(fis,"UTF8");
@@ -114,5 +116,17 @@ public class ReadDocument {
 			textDocument+="\n"+cadena;
 		}
 		br.close();
+                
 	}
+        
+        
+         private void readTxt(String filePath) throws IOException{
+          
+            List<String> lines=new ArrayList<>();
+            File file=new File(filePath);
+            BufferedReader br = Files.newBufferedReader(file.toPath());
+            lines = br.lines().collect(Collectors.toList());
+            br.close();
+            
+        }
 }
