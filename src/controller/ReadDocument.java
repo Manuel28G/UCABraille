@@ -9,6 +9,10 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import model.GeneralPropertie;
+import model.IDocument;
+import model.Letter;
+import model.Text;
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
@@ -24,9 +28,19 @@ public class ReadDocument {
 	private static final String DOC="doc";
 	private static final String TXT="txt";
 	private static String textDocument="";
+        private static String filePath;
 
-
-	public  String readDocument(String filePath) throws IOException{
+        public ReadDocument(String _filePath)
+        {
+            filePath=_filePath;
+        }
+        
+        /**
+         * Metodo que realiza la lectura de un documento de texto
+         * @return Texto contenido en el documento
+         * @throws IOException 
+         */
+	private  String readDocument() throws IOException{
 
 		//Se crea el objeto File con la ruta del archivo
 		File archivodoc = new File(filePath);
@@ -84,6 +98,7 @@ public class ReadDocument {
 	private  void readXWord(String filePath) throws IOException{
 		FileInputStream fis = new FileInputStream(filePath);
 		XWPFDocument doc;
+                
 		doc = new XWPFDocument(fis);
 		XWPFWordExtractor wordxExtractor = new XWPFWordExtractor(doc);
 		textDocument=wordxExtractor.getText();
@@ -127,6 +142,37 @@ public class ReadDocument {
             BufferedReader br = Files.newBufferedReader(file.toPath());
             lines = br.lines().collect(Collectors.toList());
             br.close();
+            for(String line: lines){
+                textDocument+=line+"\n";
+            }
             
         }
+         
+         public void getDocument() throws IOException{
+             String request=this.readDocument();
+             
+             char[] letters=request.toCharArray();
+             Text document=new Text();
+             Text paragraph=new Text();
+             int cont=0;
+             for(char letter: letters){
+                 if(letter==GeneralPropertie.lineJump){
+                    
+                     IDocument letterDocument=new Letter(letter,-1);
+                     paragraph.addChild(letterDocument);
+                     document.addChild(paragraph);
+                     paragraph=new Text();
+                     cont=0;
+                 }
+                 else
+                 {
+                     cont++;
+                     IDocument letterDocument=new Letter(letter,cont);
+                     paragraph.addChild(letterDocument);
+                 }
+             }
+             
+             System.out.println(document.getText());
+             
+         }
 }

@@ -14,27 +14,27 @@ import java.util.Arrays;
  */
 public class Letter implements IDocument {
 
-    private String text;
+    private char text;
     private int id;
-    private int idGeneral;
+    private static int idGeneral=0;
     private static Braille brailleConvert;
     
     public Letter(){
-        text="";
+        text=' ';
         id=0;
         idGeneral=0;
         brailleConvert= new Braille();
     }
-    public Letter(String _letter){
+    public Letter(char _letter,int _id){
         text=_letter;
-        id=0;
-        idGeneral=0;
+        id=_id;
+        idGeneral++;
         brailleConvert= new Braille();
     }
     
     @Override
     public String getText() {
-        return text;  
+        return ""+text;  
     }
 
     @Override
@@ -47,8 +47,9 @@ public class Letter implements IDocument {
         return idGeneral;
     }
     
+    
     public byte[][] toBraille(){
-        byte[][] request=brailleConvert.getBraille(text);
+        byte[][] request=brailleConvert.getBraille(""+text);
         System.out.println("model.Letter.toBraille()-"+Arrays.toString(request[0]));
         System.out.println("model.Letter.toBraille()-"+Arrays.toString(request[1]));
         System.out.println("model.Letter.toBraille()-"+request[0].equals(Braille.emptyArray));

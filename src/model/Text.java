@@ -28,7 +28,7 @@ public class Text implements IDocument{
     
     @Override
     public String getText() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return text;  
     }
 
     @Override
