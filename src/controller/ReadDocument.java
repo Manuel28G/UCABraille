@@ -1,5 +1,6 @@
 package controller;
 
+import controller.util.Layer;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,8 +10,8 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import model.Document;
 import model.GeneralPropertie;
-import model.IDocument;
 import model.Letter;
 import model.Text;
 import org.apache.poi.hwpf.HWPFDocument;
@@ -148,31 +149,38 @@ public class ReadDocument {
             
         }
          
-         public void getDocument() throws IOException{
+         public Document getDocument() throws IOException{
              String request=this.readDocument();
-             
+             boolean lineJump=false;//validar si la ultima linea fue un salto
              char[] letters=request.toCharArray();
-             Text document=new Text();
-             Text paragraph=new Text();
+             Text document=new Text(Layer.PAGE);
+             Text paragraph=new Text(Layer.PARAGRAPH);
              int cont=0;
              for(char letter: letters){
+                 Document letterDocument;
                  if(letter==GeneralPropertie.lineJump){
                     
-                     IDocument letterDocument=new Letter(letter,-1);
+                     letterDocument=new Letter(letter,-1);
                      paragraph.addChild(letterDocument);
                      document.addChild(paragraph);
-                     paragraph=new Text();
-                     cont=0;
-                 }
+                     paragraph=new Text(Layer.PARAGRAPH);
+                     lineJump=true;
+                  }
                  else
                  {
-                     cont++;
-                     IDocument letterDocument=new Letter(letter,cont);
+                     letterDocument=new Letter(letter,cont);
                      paragraph.addChild(letterDocument);
+                     lineJump=false;
+                     cont++;
                  }
+                 System.out.println("Letter load - id: "+letterDocument.getId());
+                 System.out.println("Letter load - letter: "+letterDocument.getText());
              }
-             
-             System.out.println(document.getText());
+             if(!lineJump){
+                 document.addChild(paragraph);
+                 
+             }
+             return document;
              
          }
 }

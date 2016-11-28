@@ -5,6 +5,8 @@
  */
 package model;
 
+import controller.util;
+import controller.util.Layer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,18 +14,20 @@ import java.util.List;
  *
  * @author Manuel Goncalves Lopez
  */
-public class Text implements IDocument{
+public class Text extends Document{
 
-    private List<IDocument> childrenList;
+    public List<Document> childrenList;
     private String text;
     private int idGeneral;
     private int id;
+   
     
-    public Text(){
+    public Text(Layer _layer ){
         childrenList=new ArrayList<>();
         text="";
         idGeneral=0;
         id=0;
+        layer=_layer;
     }
     
     @Override
@@ -33,12 +37,12 @@ public class Text implements IDocument{
 
     @Override
     public int getId() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return id;
     }
 
     @Override
     public int getGeneralId() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       return this.id;
     }
     
     /**
@@ -46,7 +50,7 @@ public class Text implements IDocument{
      * @param _document Hijo que se desea eliminar de la lista
      * @return true: se elimino al hijo , False: no se eliminó al hijo de la lista, no se encontro o sucedio un error
      */
-    public boolean removeChild(IDocument _document){
+    public boolean removeChild(Document _document){
         if(childrenList.contains(_document)){
              childrenList.remove(_document);
              return true;
@@ -54,19 +58,39 @@ public class Text implements IDocument{
         
         return false;
     }
-     
+    
+    /**
+     * Método que establecer el valor(ID) mínimo y máximo de los hijos contenidos en la lista 
+     */
+    private void getRange(){
+        
+        super.setMaxRangeChild(0);
+        setMinRangeChild(999999999);
+        for(Document document: childrenList){
+            if(document.getGeneralId()<getMinRangeChild()){
+                setMinRangeChild(document.getGeneralId());
+            }
+            
+            if(document.getGeneralId()>getMaxRangeChild()){
+                setMaxRangeChild(document.getGeneralId());
+            }
+        }
+    }
+    
     /**
      * Metodo para agregar un hijo de la lista contenida en el nivel
      * @param _document Hijo que se desea agregar de la lista
      * @return true: se agregar al hijo , False: no se agregó al hijo de la lista, no se encontro o sucedio un error
      */
-    public boolean addChild(IDocument _document){
+    public boolean addChild(Document _document){
         try{
             text+=_document.getText();
             childrenList.add(_document);
+            getRange();
             return true;
         }
         catch(Exception ex){
+            ex.printStackTrace();
             return false;
         }
     }
@@ -75,9 +99,9 @@ public class Text implements IDocument{
      * @param _position posición donde se encuentra el hijo 
      * @return hijo encontrado en la posición,Null si ocurrió una excepción
      */
-    public IDocument getChild(int _position){
+    public Document getChild(int _position){
         try{
-            IDocument child= childrenList.get(_position);
+            Document child= childrenList.get(_position);
             return child;
         }
         catch(Exception ex){
@@ -85,4 +109,54 @@ public class Text implements IDocument{
             return null;
         }
     }
+
+    @Override
+    public void setId(int _id) {
+    id=_id;  
+    }
+
+    @Override
+    public Document getNext(Layer _layer) {
+     Document response=null;
+       for(Document document: childrenList){
+        
+           if((document.getMinRangeChild()<=super.getFocusIdChild().getId() &&
+              document.getMaxRangeChild()>super.getFocusIdChild().getId() )){
+               response=document.getNext(_layer);
+               if(response!=null){
+                   break;
+               }
+           }
+           
+           
+       } 
+       
+       return response;
+       
+         }
+
+    @Override
+    public Document getPrevious(Layer _layer) {
+     
+    Document response=null;
+       for(Document document: childrenList){
+           System.out.println("GetPrevious focusId - "+super.getFocusIdChild().getId());
+           System.out.println("GetPrevious MinRange - "+document.getMinRangeChild());
+           System.out.println("GetPrevious MaxRange - "+document.getMaxRangeChild());
+           if((document.getMinRangeChild() <=(super.getFocusIdChild().getId()-1) &&
+              document.getMaxRangeChild()>=(super.getFocusIdChild().getId() -1 ))){
+               
+               System.out.println("Entro Level - "+this.layer);
+               response=document.getPrevious(_layer);
+               if(response!=null){
+                   break;
+               }
+           }
+           
+           
+        }
+        return response;
+     }
 }
+
+

@@ -5,6 +5,7 @@
  */
 package view;
 
+import controller.ReadDocument;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
@@ -173,13 +174,6 @@ event.consume();
         return fileName.substring(fileName.lastIndexOf(".")+1);
         else return "";
     }
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-       Letter lt=new Letter("b");
-        lt.toBraille();
-      //  launch(args);
-    }
+ 
     
 }

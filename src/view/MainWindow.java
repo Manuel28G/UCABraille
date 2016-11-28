@@ -16,7 +16,7 @@ public class MainWindow {
 	static Highlighter hilit;
     static Highlighter.HighlightPainter painter;
 
-	public static void main(String [] args) throws BadLocationException {
+	public void main(String [] args) throws BadLocationException {
 		
 		
         hilit = new DefaultHighlighter();
