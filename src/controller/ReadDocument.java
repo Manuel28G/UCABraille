@@ -160,7 +160,7 @@ public class ReadDocument {
                  Document letterDocument;
                  if(letter==GeneralPropertie.lineJump){
                     
-                     letterDocument=new Letter(letter,-1);
+                     letterDocument=new Letter(letter,cont);
                      paragraph.addChild(letterDocument);
                      document.addChild(paragraph);
                      paragraph=new Text(Layer.PARAGRAPH);
@@ -171,8 +171,8 @@ public class ReadDocument {
                      letterDocument=new Letter(letter,cont);
                      paragraph.addChild(letterDocument);
                      lineJump=false;
-                     cont++;
                  }
+                 cont++;
                  System.out.println("Letter load - id: "+letterDocument.getId());
                  System.out.println("Letter load - letter: "+letterDocument.getText());
              }

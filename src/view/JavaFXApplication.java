@@ -5,7 +5,6 @@
  */
 package view;
 
-import controller.ReadDocument;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
