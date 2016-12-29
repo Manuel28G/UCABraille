@@ -1,7 +1,13 @@
 package controller;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import javafx.scene.control.RadioButton;
+import javax.swing.JRadioButton;
+import model.Document;
+import model.Letter;
 
 public class Braille {
 
@@ -12,6 +18,14 @@ public class Braille {
         
         public Braille()
         {
+            //Valores sin adignación
+            stringToBraille.put(" ",new byte[][]{emptyArray,{0,0,0,0,0,0}});
+            
+            stringToBraille.put("\n",new byte[][]{emptyArray,{0,0,0,0,0,0}});
+            stringToBraille.put("\r",new byte[][]{emptyArray,{0,0,0,0,0,0}});
+            stringToBraille.put("",new byte[][]{emptyArray,{0,0,0,0,0,0}});
+            
+            
             //Letras miúsculas
             stringToBraille.put("a", new byte[][]{emptyArray,{1,0,0,0,0,0}});
             stringToBraille.put("b", new byte[][]{emptyArray,{1,1,0,0,0,0}});
@@ -140,11 +154,36 @@ public class Braille {
          * @return 
          */
         public byte[][] getBraille(String letter){
-	
+	           System.out.println("getBraille: "+letter);
+	           System.out.println("getBraille: "+stringToBraille.containsKey(letter));
         if(stringToBraille.containsKey(letter)){
          byte[][] request= stringToBraille.get(letter);
          return request;
         }
 	return null;
 	}
+        
+        public void representBraille(List<JRadioButton> left, List<JRadioButton> right,Document letter){
+            byte[][]brailleMatrix=((Letter)letter).toBraille();
+            boolean first=true;
+            for (byte[] brailleArray: brailleMatrix)
+            {
+                Iterator<JRadioButton> radioBTList=left.iterator();
+                if(!first){
+                        radioBTList=right.iterator();
+                }
+                
+                for(byte braille: brailleArray ){
+                    JRadioButton radioBT=radioBTList.next();
+                    if(braille==1){
+                        radioBT.setSelected(true);
+                    }else
+                    {
+                        radioBT.setSelected(false);
+                    }
+                }
+                first=false;
+            }
+            
+        }
 }
