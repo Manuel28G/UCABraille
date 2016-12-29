@@ -5,16 +5,22 @@
  */
 package view;
 
+import controller.Braille;
 import controller.ReadDocument;
 import controller.util;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.RadioButton;
+import javax.swing.JRadioButton;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import javax.swing.text.Highlighter.HighlightPainter;
 import model.Document;
+import model.Letter;
 
 /**
  *
@@ -64,6 +70,18 @@ public class Test extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         TA_Text = new javax.swing.JTextArea();
         CK_Cargado = new javax.swing.JCheckBox();
+        RB_1 = new javax.swing.JRadioButton();
+        RB_4 = new javax.swing.JRadioButton();
+        RB_3 = new javax.swing.JRadioButton();
+        RB_6 = new javax.swing.JRadioButton();
+        RB_2 = new javax.swing.JRadioButton();
+        RB_5 = new javax.swing.JRadioButton();
+        RB_11 = new javax.swing.JRadioButton();
+        RB_14 = new javax.swing.JRadioButton();
+        RB_12 = new javax.swing.JRadioButton();
+        RB_15 = new javax.swing.JRadioButton();
+        RB_13 = new javax.swing.JRadioButton();
+        RB_16 = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addMouseListener(new java.awt.event.MouseAdapter() {
@@ -93,6 +111,30 @@ public class Test extends javax.swing.JFrame {
         CK_Cargado.setText("Archivo Cargado");
         CK_Cargado.setEnabled(false);
 
+        RB_1.setEnabled(false);
+
+        RB_4.setEnabled(false);
+
+        RB_3.setEnabled(false);
+
+        RB_6.setEnabled(false);
+
+        RB_2.setEnabled(false);
+
+        RB_5.setEnabled(false);
+
+        RB_11.setEnabled(false);
+
+        RB_14.setEnabled(false);
+
+        RB_12.setEnabled(false);
+
+        RB_15.setEnabled(false);
+
+        RB_13.setEnabled(false);
+
+        RB_16.setEnabled(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -107,20 +149,77 @@ public class Test extends javax.swing.JFrame {
                         .addComponent(BT_Next)
                         .addGap(18, 18, 18)
                         .addComponent(CK_Cargado)
-                        .addGap(0, 111, Short.MAX_VALUE)))
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(RB_1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(RB_4))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(RB_3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(RB_6))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(RB_2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(RB_5)))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(RB_11)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(RB_14))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(RB_13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(RB_16))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(RB_12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(RB_15)))
+                        .addGap(0, 26, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
-                .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BT_Next)
-                    .addComponent(BT_Previous)
-                    .addComponent(CK_Cargado))
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(BT_Next)
+                                    .addComponent(BT_Previous)
+                                    .addComponent(CK_Cargado)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(RB_4)
+                                    .addComponent(RB_1))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(RB_5)
+                                    .addComponent(RB_2))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(RB_6)
+                            .addComponent(RB_3)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(RB_14)
+                            .addComponent(RB_11))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(RB_15)
+                            .addComponent(RB_12))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(RB_16)
+                            .addComponent(RB_13)))))
         );
 
         pack();
@@ -130,8 +229,28 @@ public class Test extends javax.swing.JFrame {
         
           try {
               highlighter.removeAllHighlights();
-              int min=document.getNext(util.Layer.LETTER).getId();
+              Document letter=document.getNext(util.Layer.LETTER);
+              int min=letter.getId();
               highlighter.addHighlight(min,min+1, painter );
+               List<JRadioButton> left=new ArrayList<JRadioButton>();
+              left.add(RB_1);
+              left.add(RB_2);
+              left.add(RB_3);
+              left.add(RB_4);
+              left.add(RB_5);
+              left.add(RB_6);
+              
+              List<JRadioButton> right=new ArrayList<JRadioButton>();
+              right.add(RB_11);
+              right.add(RB_12);
+              right.add(RB_13);
+              right.add(RB_14);
+              right.add(RB_15);
+              right.add(RB_16);
+              
+              Braille braille=new Braille();
+              braille.representBraille(left, right,letter);
+
           } catch (BadLocationException ex) {
               Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
           }
@@ -139,15 +258,80 @@ public class Test extends javax.swing.JFrame {
 
     private void BT_PreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_PreviousActionPerformed
           try {
+              Braille braille=new Braille();
               highlighter.removeAllHighlights();
               System.out.println("Previous - "+document.getFocusIdChild().getId());
-              int min=document.getPrevious(util.Layer.LETTER).getId();
+              Document letter=document.getPrevious(util.Layer.LETTER);
+              int min=letter.getId();
               highlighter.addHighlight(min,min+1, painter );
+              List<JRadioButton> left=new ArrayList<JRadioButton>();
+              left.add(RB_1);
+              left.add(RB_2);
+              left.add(RB_3);
+              left.add(RB_4);
+              left.add(RB_5);
+              left.add(RB_6);
+              
+              List<JRadioButton> right=new ArrayList<JRadioButton>();
+              right.add(RB_11);
+              right.add(RB_12);
+              right.add(RB_13);
+              right.add(RB_14);
+              right.add(RB_15);
+              right.add(RB_16);
+              
+              braille.representBraille(left, right,letter);
+
+            
           } catch (BadLocationException ex) {
               Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
           }
     }//GEN-LAST:event_BT_PreviousActionPerformed
 
+    private void representBraille(Document document){
+        
+        byte[][] bytes =((Letter)document).toBraille();
+        
+        int cont =0;
+        System.out.println("--------------------");
+        for(byte[] byteArray: bytes){
+            for(byte singleByte:byteArray){
+                cont++;
+                representation(singleByte,cont);
+                
+        System.out.println("Cont: "+cont);
+        System.out.print(" Braille: "+singleByte);
+            }
+        }
+        System.out.println("--------------------");
+        
+        
+    }
+    private void representation(byte selected,int index){
+        boolean selectedBool=false;
+        if(selected==1){
+            selectedBool=true;
+        }
+        switch(index){
+            case 1:RB_1.setSelected(selectedBool);break;
+            case 2:RB_2.setSelected(selectedBool);break;
+            case 3:RB_3.setSelected(selectedBool);break;
+            case 4:RB_4.setSelected(selectedBool);break;
+            case 5:RB_5.setSelected(selectedBool);break;
+            case 6:RB_6.setSelected(selectedBool);break;
+//            case 7:RB_7.setSelected(selectedBool);break;
+//            case 8:RB_8.setSelected(selectedBool);break;
+       
+            case 7:RB_11.setSelected(selectedBool);break;
+            case 8:RB_12.setSelected(selectedBool);break;
+            case 9:RB_13.setSelected(selectedBool);break;
+            case 10:RB_14.setSelected(selectedBool);break;
+            case 11:RB_15.setSelected(selectedBool);break;
+            case 12:RB_16.setSelected(selectedBool);break;
+//      
+        }
+    }
+    
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
  
     }//GEN-LAST:event_formMouseClicked
@@ -193,6 +377,18 @@ public class Test extends javax.swing.JFrame {
     private javax.swing.JButton BT_Next;
     private javax.swing.JButton BT_Previous;
     private javax.swing.JCheckBox CK_Cargado;
+    private javax.swing.JRadioButton RB_1;
+    private javax.swing.JRadioButton RB_11;
+    private javax.swing.JRadioButton RB_12;
+    private javax.swing.JRadioButton RB_13;
+    private javax.swing.JRadioButton RB_14;
+    private javax.swing.JRadioButton RB_15;
+    private javax.swing.JRadioButton RB_16;
+    private javax.swing.JRadioButton RB_2;
+    private javax.swing.JRadioButton RB_3;
+    private javax.swing.JRadioButton RB_4;
+    private javax.swing.JRadioButton RB_5;
+    private javax.swing.JRadioButton RB_6;
     private javax.swing.JTextArea TA_Text;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
