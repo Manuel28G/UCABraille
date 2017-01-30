@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.web.*?>
+
+<AnchorPane id="AnchorPane" disable="false" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ve.edu.ucab.braille.controller.DocumentLoad">
+  <children>
+    <TextArea fx:id="TA_Text" disable="false" layoutX="22.0" layoutY="26.0" prefHeight="262.0" prefWidth="557.0" wrapText="true" />
+    <Button fx:id="BT_Previous" layoutX="14.0" layoutY="333.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="71.0" text="previous" />
+    <Button id="BT_NEXT" fx:id="BT_Next" layoutX="99.0" layoutY="333.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="70.0" text="next" />
+    <Pane fx:id="PN_Left" disable="true" focusTraversable="false" layoutX="328.0" layoutY="307.0" prefHeight="83.0" prefWidth="79.0" visible="true">
+      <children>
+        <RadioButton fx:id="RB_L1" layoutX="14.0" layoutY="6.0" mnemonicParsing="false" text="" />
+        <RadioButton fx:id="RB_L4" layoutX="51.0" layoutY="6.0" mnemonicParsing="false" text="" />
+        <RadioButton fx:id="RB_L2" layoutX="14.0" layoutY="34.0" mnemonicParsing="false" text="" />
+        <RadioButton fx:id="RB_L5" layoutX="51.0" layoutY="34.0" mnemonicParsing="false" text="" />
+        <RadioButton fx:id="RB_L3" layoutX="14.0" layoutY="61.0" mnemonicParsing="false" text="" />
+        <RadioButton fx:id="RB_L6" layoutX="51.0" layoutY="61.0" mnemonicParsing="false" text="" />
+      </children>
+    </Pane>
+    <ProgressIndicator fx:id="PI_ProgressLoad" disable="false" layoutX="275.0" layoutY="162.0" progress="0.0" visible="false" />
+    <Pane fx:id="PN_Right" disable="true" layoutX="424.0" layoutY="307.0" prefHeight="83.0" prefWidth="79.0">
+      <children>
+        <RadioButton id="RB_L1" fx:id="RB_R1" layoutX="14.0" layoutY="6.0" mnemonicParsing="false" text="" />
+        <RadioButton id="RB_L4" fx:id="RB_R4" layoutX="51.0" layoutY="6.0" mnemonicParsing="false" text="" />
+        <RadioButton id="RB_L2" fx:id="RB_R2" layoutX="14.0" layoutY="34.0" mnemonicParsing="false" text="" />
+        <RadioButton id="RB_L5" fx:id="RB_R5" layoutX="51.0" layoutY="34.0" mnemonicParsing="false" text="" />
+        <RadioButton id="RB_L3" fx:id="RB_R3" layoutX="14.0" layoutY="61.0" mnemonicParsing="false" text="" />
+        <RadioButton id="RB_L6" fx:id="RB_R6" layoutX="51.0" layoutY="61.0" mnemonicParsing="false" text="" />
+      </children>
+    </Pane>
+  </children>
+</AnchorPane>
