@@ -1,6 +1,6 @@
-package controller;
+package ve.edu.ucab.braille.controller;
 
-import controller.util.Layer;
+import ve.edu.ucab.braille.controller.util.Layer;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,10 +10,10 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import model.Document;
-import model.GeneralPropertie;
-import model.Letter;
-import model.Text;
+import ve.edu.ucab.braille.model.Document;
+import ve.edu.ucab.braille.model.GeneralPropertie;
+import ve.edu.ucab.braille.model.Letter;
+import ve.edu.ucab.braille.model.Text;
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;

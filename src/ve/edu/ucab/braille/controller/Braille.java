@@ -1,13 +1,12 @@
-package controller;
+package ve.edu.ucab.braille.controller;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javafx.scene.control.RadioButton;
-import javax.swing.JRadioButton;
-import model.Document;
-import model.Letter;
+import ve.edu.ucab.braille.model.Document;
+import ve.edu.ucab.braille.model.Letter;
 
 public class Braille {
 
@@ -15,11 +14,11 @@ public class Braille {
         
         private static final Map<String,byte[][]> stringToBraille=new HashMap<>();
 	
-        
+        //Revisar: http://www.ite.educacion.es/formacion/materiales/129/cd/unidad_5/m5_estructura_sistema.htm
         public Braille()
         {
             //Valores sin adignación
-            stringToBraille.put(" ",new byte[][]{emptyArray,{0,0,0,0,0,0}});
+            stringToBraille.put(" ",new byte[][]{emptyArray,emptyArray});
             
             stringToBraille.put("\n",new byte[][]{emptyArray,{0,0,0,0,0,0}});
             stringToBraille.put("\r",new byte[][]{emptyArray,{0,0,0,0,0,0}});
@@ -53,7 +52,7 @@ public class Braille {
             stringToBraille.put("w", new byte[][]{emptyArray,{0,1,0,1,1,1}});
             stringToBraille.put("x", new byte[][]{emptyArray,{1,0,1,1,0,1}});
             stringToBraille.put("y", new byte[][]{emptyArray,{1,0,1,1,1,1}});
-            stringToBraille.put("z", new byte[][]{emptyArray,{1,0,1,1,1,0}});
+            stringToBraille.put("z", new byte[][]{emptyArray,{1,0,1,0,1,1}});
             //Letras Mayúsculas
             stringToBraille.put("A", new byte[][]{{0,0,1,1,1,0},{1,0,0,0,0,0}});
             stringToBraille.put("B", new byte[][]{{0,0,1,1,1,0},{1,1,0,0,0,0}});
@@ -81,7 +80,7 @@ public class Braille {
             stringToBraille.put("W", new byte[][]{{0,0,1,1,1,0},{0,1,0,1,1,1}});
             stringToBraille.put("X", new byte[][]{{0,0,1,1,1,0},{1,0,1,1,0,1}});
             stringToBraille.put("Y", new byte[][]{{0,0,1,1,1,0},{1,0,1,1,1,1}});
-            stringToBraille.put("Z", new byte[][]{{0,0,1,1,1,0},{1,0,1,1,1,0}});
+            stringToBraille.put("Z", new byte[][]{{0,0,1,1,1,0},{1,0,1,0,1,1}});
             //Numeros
             stringToBraille.put("0", new byte[][]{{0,0,1,1,1,1},{0,1,0,1,1,0}});
             stringToBraille.put("1", new byte[][]{{0,0,1,1,1,1},{1,0,0,0,0,0}});
@@ -96,7 +95,7 @@ public class Braille {
             //vocales asentuadas
             
             stringToBraille.put("á", new byte[][]{emptyArray,{1,1,1,0,1,1}});
-            stringToBraille.put("é", new byte[][]{emptyArray,{0,1,1,1,0,1}});
+            stringToBraille.put("é", new byte[][]{emptyArray,{0,1,1,1,0,1}});//
             stringToBraille.put("í", new byte[][]{emptyArray,{0,0,1,1,0,0}});
             stringToBraille.put("ó", new byte[][]{emptyArray,{0,0,1,1,0,1}});
             stringToBraille.put("ú", new byte[][]{emptyArray,{0,1,1,1,1,1}});
@@ -107,7 +106,14 @@ public class Braille {
             stringToBraille.put("ï", new byte[][]{emptyArray,emptyArray});
             stringToBraille.put("ö", new byte[][]{emptyArray,emptyArray});
             stringToBraille.put("ü", new byte[][]{emptyArray,{1,1,0,0,1,1}});
- 
+            
+            stringToBraille.put("à", new byte[][]{emptyArray,{1,1,1,0,1,1}});
+            stringToBraille.put("è", new byte[][]{emptyArray,{1,1,1,0,1,1}});
+            stringToBraille.put("ì", new byte[][]{emptyArray,{1,1,1,0,1,1}});
+            stringToBraille.put("ò", new byte[][]{emptyArray,{1,1,1,0,1,1}});
+            stringToBraille.put("ù", new byte[][]{emptyArray,{1,1,1,0,1,1}});
+            
+            
             //signos de puntuacion
             stringToBraille.put(".", new byte[][]{emptyArray,{0,0,1,0,0,0}});
             stringToBraille.put(",", new byte[][]{emptyArray,{0,1,0,0,0,0}});
@@ -129,7 +135,7 @@ public class Braille {
             stringToBraille.put("\"", new byte[][]{emptyArray,{0,1,1,0,0,1}});
             stringToBraille.put("\'", new byte[][]{emptyArray,{0,0,1,0,0,0}});
             //Caracteres especiales
-            stringToBraille.put("@", new byte[][]{emptyArray,{0,0,1,1,1,0}});
+            stringToBraille.put("@", new byte[][]{emptyArray,{0,0,1,1,1,0}});//
             stringToBraille.put("#", new byte[][]{emptyArray,{0,0,1,1,1,1}});
             stringToBraille.put("$", new byte[][]{emptyArray,emptyArray});
             stringToBraille.put("&", new byte[][]{emptyArray,{1,1,1,1,0,1}});
@@ -146,7 +152,13 @@ public class Braille {
             stringToBraille.put("_", new byte[][]{emptyArray,{0,0,1,0,0,1}});
             stringToBraille.put("[", new byte[][]{emptyArray,{1,1,1,0,1,1}});
             stringToBraille.put("]", new byte[][]{emptyArray,{0,1,1,1,1,1}});
-        }
+            stringToBraille.put("ç", new byte[][]{emptyArray,{1,1,1,1,0,1}});//
+            stringToBraille.put("€", new byte[][]{emptyArray,emptyArray});
+            stringToBraille.put("£", new byte[][]{emptyArray,emptyArray});
+            stringToBraille.put("§", new byte[][]{emptyArray,emptyArray});
+            stringToBraille.put("\\", new byte[][]{emptyArray,emptyArray});
+            
+        }  
         
         /**
          * 
@@ -154,8 +166,8 @@ public class Braille {
          * @return 
          */
         public byte[][] getBraille(String letter){
-	           System.out.println("getBraille: "+letter);
-	           System.out.println("getBraille: "+stringToBraille.containsKey(letter));
+//	           System.out.println("getBraille: "+letter);
+//	           System.out.println("getBraille: "+stringToBraille.containsKey(letter));
         if(stringToBraille.containsKey(letter)){
          byte[][] request= stringToBraille.get(letter);
          return request;
@@ -163,18 +175,18 @@ public class Braille {
 	return null;
 	}
         
-        public void representBraille(List<JRadioButton> left, List<JRadioButton> right,Document letter){
+        public void representBraille(List<RadioButton> left, List<RadioButton> right,Document letter){
             byte[][]brailleMatrix=((Letter)letter).toBraille();
             boolean first=true;
             for (byte[] brailleArray: brailleMatrix)
             {
-                Iterator<JRadioButton> radioBTList=left.iterator();
+                Iterator<RadioButton> radioBTList=left.iterator();
                 if(!first){
                         radioBTList=right.iterator();
                 }
                 
                 for(byte braille: brailleArray ){
-                    JRadioButton radioBT=radioBTList.next();
+                    RadioButton radioBT=radioBTList.next();
                     if(braille==1){
                         radioBT.setSelected(true);
                     }else

@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package ve.edu.ucab.braille.model;
 
-import controller.util.Layer;
+import ve.edu.ucab.braille.controller.util.Layer;
 
 
 /**
