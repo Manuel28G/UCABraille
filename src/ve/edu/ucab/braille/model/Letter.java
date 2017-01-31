@@ -56,10 +56,6 @@ public class Letter extends Document {
     
     public byte[][] toBraille(){
         byte[][] request=brailleConvert.getBraille(""+text);
-        System.out.println("model.Letter.toBraille()-"+Arrays.toString(request[0]));
-        System.out.println("model.Letter.toBraille()-"+Arrays.toString(request[1]));
-        System.out.println("model.Letter.toBraille()-"+request[0].equals(Braille.emptyArray));
-        System.out.println("model.Letter.toBraille()-"+request[1].equals(Braille.emptyArray));
         return request;
     }
 
@@ -70,9 +66,6 @@ public class Letter extends Document {
 
     @Override
     public Document getNext(Layer layer) {
-        System.out.println("Letter: "+this.getText());
-        System.out.println("Id from Letter: "+id);
-        System.out.println("Id search: "+(this.getFocusIdChild().getId()+1));
         if(this.id==this.getFocusIdChild().getId()+1){
             this.setFocusIdChild(this);
             return this;}
@@ -82,9 +75,6 @@ public class Letter extends Document {
 
     @Override
     public Document getPrevious(Layer layer) {
-        System.out.println("Letter: "+this.getText());
-        System.out.println("Id from Letter: "+id);
-        System.out.println("Id search: "+(this.getFocusIdChild().getId()-1));
     if(this.id==(this.getFocusIdChild().getId()-1)){
             this.setFocusIdChild(this);
             return this;}

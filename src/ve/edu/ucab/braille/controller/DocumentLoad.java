@@ -21,10 +21,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import java.awt.Color;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.layout.AnchorPane;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import javax.swing.text.Highlighter.HighlightPainter;
@@ -79,6 +81,8 @@ public class DocumentLoad implements Initializable {
     @FXML
     private TextArea TA_Text;
     private Text TB_Prueba;
+    @FXML
+    private AnchorPane PN_Principal;
 
     /**
      * Initializes the controller class.
@@ -127,27 +131,28 @@ public class DocumentLoad implements Initializable {
     private void pressPreviousButton(){
               Braille braille=new Braille();
               Document letter=document.getPrevious(util.Layer.LETTER);
-              int min=letter.getId();
-              TA_Text.deselect();
-               TA_Text.selectRange(min, min+1);
-              List<RadioButton> left=new ArrayList<>();
-              left.add(RB_L1);
-              left.add(RB_L2);
-              left.add(RB_L3);
-              left.add(RB_L4);
-              left.add(RB_L5);
-              left.add(RB_L6);
-              
-              List<RadioButton> right=new ArrayList<>();
-              right.add(RB_R1);
-              right.add(RB_R2);
-              right.add(RB_R3);
-              right.add(RB_R4);
-              right.add(RB_R5);
-              right.add(RB_R6);
-              
-              braille.representBraille(left, right,letter);
+              if(letter!=null){
+                int min=letter.getId();
+                TA_Text.deselect();
+                TA_Text.selectRange(min, min+1);
+                List<RadioButton> left=new ArrayList<>();
+                left.add(RB_L1);
+                left.add(RB_L2);
+                left.add(RB_L3);
+                left.add(RB_L4);
+                left.add(RB_L5);
+                left.add(RB_L6);
 
+                List<RadioButton> right=new ArrayList<>();
+                right.add(RB_R1);
+                right.add(RB_R2);
+                right.add(RB_R3);
+                right.add(RB_R4);
+                right.add(RB_R5);
+                right.add(RB_R6);
+
+                braille.representBraille(left, right,letter);
+              }
             
     }
     /**
@@ -157,28 +162,29 @@ public class DocumentLoad implements Initializable {
     private void pressNextButton(){
         
               Document letter=document.getNext(util.Layer.LETTER);
-              int min=letter.getId();
-              
-              TA_Text.deselect();
-               TA_Text.selectRange(min, min+1);
-               List<RadioButton> left=new ArrayList<>();
-              left.add(RB_L1);
-              left.add(RB_L2);
-              left.add(RB_L3);
-              left.add(RB_L4);
-              left.add(RB_L5);
-              left.add(RB_L6);
-              
-              List<RadioButton> right=new ArrayList<>();
-              right.add(RB_R1);
-              right.add(RB_R2);
-              right.add(RB_R3);
-              right.add(RB_R4);
-              right.add(RB_R5);
-              right.add(RB_R6);
-              
-              Braille braille=new Braille();
-              braille.representBraille(left, right,letter);
+              if(letter!=null){
+                int min=letter.getId();
+                TA_Text.deselect();
+                TA_Text.selectRange(min, min+1);
+                List<RadioButton> left=new ArrayList<>();
+                left.add(RB_L1);
+                left.add(RB_L2);
+                left.add(RB_L3);
+                left.add(RB_L4);
+                left.add(RB_L5);
+                left.add(RB_L6);
+
+                List<RadioButton> right=new ArrayList<>();
+                right.add(RB_R1);
+                right.add(RB_R2);
+                right.add(RB_R3);
+                right.add(RB_R4);
+                right.add(RB_R5);
+                right.add(RB_R6);
+
+                Braille braille=new Braille();
+                braille.representBraille(left, right,letter);
+              }
     }
     
     /**
@@ -188,9 +194,6 @@ public class DocumentLoad implements Initializable {
      */
     private void OnDragDropped(DragEvent event) {
         
-                
-                PI_ProgressLoad.setVisible(true);
-                PI_ProgressLoad.setProgress(0);
                 event.acceptTransferModes(TransferMode.ANY);
                 Dragboard db = event.getDragboard();
                 boolean success = false;
@@ -204,24 +207,26 @@ public class DocumentLoad implements Initializable {
                         String path=archivo.getAbsolutePath();
                         ReadDocument read=new ReadDocument(path);
                         try {
-                            document=read.getDocument();
+                            document=read.getDocument(PI_ProgressLoad);
                             
                             TA_Text.setText(document.getText());
-                                                        
+                            TA_Text.setEditable(false);
 
                         } catch (IOException ex) {
+                            Logger.getLogger(DocumentLoad.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(DocumentLoad.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (InvocationTargetException ex) {
                             Logger.getLogger(DocumentLoad.class.getName()).log(Level.SEVERE, null, ex);
                         } 
                     }
                     
                     TA_Text.selectRange(1, 0);
-                    PI_ProgressLoad.setProgress(1);
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(DocumentLoad.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    PI_ProgressLoad.setVisible(false);
                 
                 event.setDropCompleted(success);
                 

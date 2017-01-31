@@ -140,13 +140,9 @@ public class Text extends Document{
      
     Document response=null;
        for(Document document: childrenList){
-           System.out.println("GetPrevious focusId - "+super.getFocusIdChild().getId());
-           System.out.println("GetPrevious MinRange - "+document.getMinRangeChild());
-           System.out.println("GetPrevious MaxRange - "+document.getMaxRangeChild());
            if((document.getMinRangeChild() <=(super.getFocusIdChild().getId()-1) &&
               document.getMaxRangeChild()>=(super.getFocusIdChild().getId() -1 ))){
                
-               System.out.println("Entro Level - "+this.layer);
                response=document.getPrevious(_layer);
                if(response!=null){
                    break;

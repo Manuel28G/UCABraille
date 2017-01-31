@@ -6,10 +6,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import javafx.scene.control.ProgressIndicator;
 import ve.edu.ucab.braille.model.Document;
 import ve.edu.ucab.braille.model.GeneralPropertie;
 import ve.edu.ucab.braille.model.Letter;
@@ -30,7 +32,7 @@ public class ReadDocument {
 	private static final String TXT="txt";
 	private static String textDocument="";
         private static String filePath;
-
+        
         public ReadDocument(String _filePath)
         {
             filePath=_filePath;
@@ -149,15 +151,21 @@ public class ReadDocument {
             
         }
          
-         public Document getDocument() throws IOException{
+         public Document getDocument(ProgressIndicator _progressIndicator) throws IOException, InterruptedException, InvocationTargetException{
+             _progressIndicator.setVisible(true);
+             double progressLoad=0.0d;
              String request=this.readDocument();
              boolean lineJump=false;//validar si la ultima linea fue un salto
              char[] letters=request.toCharArray();
+             int sizeText=letters.length;
+             double progress=1.0/sizeText;
              Text document=new Text(Layer.PAGE);
              Text paragraph=new Text(Layer.PARAGRAPH);
              int cont=0;
              for(char letter: letters){
                  Document letterDocument;
+                 progressLoad+=progress;
+                 _progressIndicator.setProgress(progressLoad);
                  if(letter==GeneralPropertie.lineJump){
                     
                      letterDocument=new Letter(letter,cont);
@@ -173,13 +181,17 @@ public class ReadDocument {
                      lineJump=false;
                  }
                  cont++;
-                 System.out.println("Letter load - id: "+letterDocument.getId());
-                 System.out.println("Letter load - letter: "+letterDocument.getText());
              }
+             
+                 progressLoad=Numeric.round(progressLoad, 2);
+                 _progressIndicator.setProgress(progressLoad);
+                 
+//             progressLoad=0.0;
              if(!lineJump){
                  document.addChild(paragraph);
                  
              }
+//             _progressIndicator.setVisible(false);
              return document;
              
          }
