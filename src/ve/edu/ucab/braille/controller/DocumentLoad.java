@@ -132,11 +132,11 @@ public class DocumentLoad implements Initializable {
     */
     private void pressPreviousButton(){
               Braille braille=new Braille();
-              Document letter=document.getPrevious(util.Layer.LETTER);
+              Document letter=document.getPrevious(util.Layer.PARAGRAPH);
               if(letter!=null){
                 int min=letter.getId();
                 TA_Text.deselect();
-                TA_Text.selectRange(min, min+1);
+                TA_Text.selectRange(letter.getId(), letter.getId()+1);
                 List<RadioButton> left=new ArrayList<>();
                 left.add(RB_L1);
                 left.add(RB_L2);
@@ -171,11 +171,12 @@ public class DocumentLoad implements Initializable {
      */
     private void pressNextButton(){
         
-              Document letter=document.getNext(util.Layer.LETTER);
+              Document letter=document.getNext(util.Layer.PARAGRAPH);
+              
               if(letter!=null){
                 int min=letter.getId();
                 TA_Text.deselect();
-                TA_Text.selectRange(min, min+1);
+                TA_Text.selectRange(letter.getId(),letter.getId()+1);
                 List<RadioButton> left=new ArrayList<>();
                 left.add(RB_L1);
                 left.add(RB_L2);
