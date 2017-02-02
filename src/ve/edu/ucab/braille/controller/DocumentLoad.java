@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
@@ -153,6 +155,14 @@ public class DocumentLoad implements Initializable {
 
                 braille.representBraille(left, right,letter);
               }
+               else
+              {
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Información del sistema");
+                alert.setHeaderText("Limite de frontera");
+                alert.setContentText("ha llegado al comienzo del documento");
+                alert.showAndWait();    
+              }
             
     }
     /**
@@ -184,6 +194,14 @@ public class DocumentLoad implements Initializable {
 
                 Braille braille=new Braille();
                 braille.representBraille(left, right,letter);
+              }
+              else
+              {
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Información del sistema");
+                alert.setHeaderText("Limite de frontera");
+                alert.setContentText("ha llegado al final del documento");
+                alert.showAndWait();    
               }
     }
     
