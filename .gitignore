@@ -53,3 +53,4 @@ build/
 #Todos los archivos de configuración privada
 nbproject/private/
 REAME.txt
+nbproject/private/private.xml
