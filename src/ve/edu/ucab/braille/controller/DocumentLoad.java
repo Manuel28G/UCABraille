@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
@@ -130,11 +132,11 @@ public class DocumentLoad implements Initializable {
     */
     private void pressPreviousButton(){
               Braille braille=new Braille();
-              Document letter=document.getPrevious(util.Layer.LETTER);
+              Document letter=document.getPrevious(util.Layer.PARAGRAPH);
               if(letter!=null){
                 int min=letter.getId();
                 TA_Text.deselect();
-                TA_Text.selectRange(min, min+1);
+                TA_Text.selectRange(letter.getId(), letter.getId()+1);
                 List<RadioButton> left=new ArrayList<>();
                 left.add(RB_L1);
                 left.add(RB_L2);
@@ -153,6 +155,14 @@ public class DocumentLoad implements Initializable {
 
                 braille.representBraille(left, right,letter);
               }
+               else
+              {
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Información del sistema");
+                alert.setHeaderText("Limite de frontera");
+                alert.setContentText("ha llegado al comienzo del documento");
+                alert.showAndWait();    
+              }
             
     }
     /**
@@ -161,11 +171,12 @@ public class DocumentLoad implements Initializable {
      */
     private void pressNextButton(){
         
-              Document letter=document.getNext(util.Layer.LETTER);
+              Document letter=document.getNext(util.Layer.PARAGRAPH);
+              
               if(letter!=null){
                 int min=letter.getId();
                 TA_Text.deselect();
-                TA_Text.selectRange(min, min+1);
+                TA_Text.selectRange(letter.getId(),letter.getId()+1);
                 List<RadioButton> left=new ArrayList<>();
                 left.add(RB_L1);
                 left.add(RB_L2);
@@ -184,6 +195,14 @@ public class DocumentLoad implements Initializable {
 
                 Braille braille=new Braille();
                 braille.representBraille(left, right,letter);
+              }
+              else
+              {
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Información del sistema");
+                alert.setHeaderText("Limite de frontera");
+                alert.setContentText("ha llegado al final del documento");
+                alert.showAndWait();    
               }
     }
     
