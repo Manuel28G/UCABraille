@@ -68,8 +68,8 @@ public class ReadDocument {
 			break;
                         
 		default:
-			textDocument="Extensi�n no soportada";
-			System.out.println("Extension de documento no soportada"); break;
+			textDocument="Extensión no soportada";
+			System.out.println("Extensión de documento no soportada"); break;
 		}
 
 
@@ -124,19 +124,6 @@ public class ReadDocument {
 		textDocument=reader.getText(doc);
 
 	}
-
-	private  void readTxt2(String filePath) throws IOException{
-		String cadena;
-		FileInputStream fis=new FileInputStream( filePath ) ;
-		InputStreamReader isr=new InputStreamReader(fis,"UTF8");
-		BufferedReader br = new BufferedReader(isr);
-		while((cadena=br.readLine())!=null){
-			textDocument+="\n"+cadena;
-		}
-		br.close();
-                
-	}
-        
         
          private void readTxt(String filePath) throws IOException{
           
@@ -152,47 +139,51 @@ public class ReadDocument {
         }
          
          public Document getDocument(ProgressIndicator _progressIndicator) throws IOException, InterruptedException, InvocationTargetException{
-             _progressIndicator.setVisible(true);
-             double progressLoad=0.0d;
              String request=this.readDocument();
              boolean lineJump=false;//validar si la ultima linea fue un salto
              char[] letters=request.toCharArray();
-             int sizeText=letters.length;
-             double progress=1.0/sizeText;
              Text document=new Text(Layer.PAGE);
              Text paragraph=new Text(Layer.PARAGRAPH);
+             Text word=new Text(Layer.WORD);
              int cont=0;
              for(char letter: letters){
                  Document letterDocument;
-                 progressLoad+=progress;
-                 _progressIndicator.setProgress(progressLoad);
                  if(letter==GeneralPropertie.lineJump){
-                    
-                     letterDocument=new Letter(letter,cont);
-                     paragraph.addChild(letterDocument);
-                     document.addChild(paragraph);
-                     paragraph=new Text(Layer.PARAGRAPH);
-                     lineJump=true;
+                    paragraph.addChild(word);
+                    word=new Text(Layer.WORD);
+                    letterDocument=new Letter(letter,cont); 
+                    word.addChild(letterDocument);
+                    //agregamos la palabra antes del salto de linea
+                    paragraph.addChild(word);
+                    document.addChild(paragraph);
+                    paragraph=new Text(Layer.PARAGRAPH);
+                    word=new Text(Layer.WORD); 
+                    lineJump=true;
                   }
                  else
                  {
-                     letterDocument=new Letter(letter,cont);
-                     paragraph.addChild(letterDocument);
+                     if(letter==GeneralPropertie.lineSeparator){
+                        paragraph.addChild(word);
+                        word=new Text(Layer.WORD);
+                        letterDocument=new Letter(letter,cont); 
+                        word.addChild(letterDocument);
+                        paragraph.addChild(word);
+                        word=new Text(Layer.WORD);
+                     }
+                     else
+                     {
+                        letterDocument=new Letter(letter,cont); 
+                        word.addChild(letterDocument);
+                     }
                      lineJump=false;
                  }
                  cont++;
              }
-             
-                 progressLoad=Numeric.round(progressLoad, 2);
-                 _progressIndicator.setProgress(progressLoad);
-                 
-//             progressLoad=0.0;
+
              if(!lineJump){
                  document.addChild(paragraph);
                  
              }
-//             _progressIndicator.setVisible(false);
-             return document;
-             
+             return document;             
          }
 }

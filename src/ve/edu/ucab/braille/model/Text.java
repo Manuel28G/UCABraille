@@ -5,10 +5,11 @@
  */
 package ve.edu.ucab.braille.model;
 
-import ve.edu.ucab.braille.controller.util;
 import ve.edu.ucab.braille.controller.util.Layer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  *
@@ -20,6 +21,7 @@ public class Text extends Document{
     private String text;
     private int idGeneral;
     private int id;
+    private boolean searchReverse=false;//variable para complementar la logia de busqueda inversa
    
     
     public Text(Layer _layer ){
@@ -62,19 +64,22 @@ public class Text extends Document{
     /**
      * Método que establecer el valor(ID) mínimo y máximo de los hijos contenidos en la lista 
      */
-    private void getRange(){
-        
-        super.setMaxRangeChild(0);
-        setMinRangeChild(999999999);
-        for(Document document: childrenList){
-            if(document.getGeneralId()<getMinRangeChild()){
-                setMinRangeChild(document.getGeneralId());
+    private void getRange(Document _document){
+            int min=_document.getId();
+            int max=_document.getId();
+            if(this.layer!=Layer.WORD){
+               min=_document.getMinRangeChild();
+               max=_document.getMaxRangeChild();
             }
             
-            if(document.getGeneralId()>getMaxRangeChild()){
-                setMaxRangeChild(document.getGeneralId());
+            if(min<getMinRangeChild()){
+                setMinRangeChild(min);
             }
-        }
+            
+            if(max>getMaxRangeChild()){
+                setMaxRangeChild(max);
+            }
+            
     }
     
     /**
@@ -84,9 +89,10 @@ public class Text extends Document{
      */
     public boolean addChild(Document _document){
         try{
+            
             text+=_document.getText();
             childrenList.add(_document);
-            getRange();
+            getRange(_document);
             return true;
         }
         catch(Exception ex){
@@ -117,17 +123,27 @@ public class Text extends Document{
 
     @Override
     public Document getNext(Layer _layer) {
-     Document response=null;
-       for(Document document: childrenList){
-        
-           if((document.getMinRangeChild()<=super.getFocusIdChild().getId() &&
-              document.getMaxRangeChild()>super.getFocusIdChild().getId() )){
-               response=document.getNext(_layer);
-               if(response!=null){
-                   break;
+        Document response=null;
+        ListIterator li = childrenList.listIterator();
+        while(li.hasNext()) {
+            Document document=(Document)li.next();
+
+           if((document.getMinRangeChild()<=(super.getFocusIdChild().getId()+1) &&
+              document.getMaxRangeChild()>=(super.getFocusIdChild().getId()+1) )){
+               if(document.layer==_layer && (document.getMinRangeChild()!=getFocusIdChild().getId()+1) && document.getMinRangeChild()!= document.getMaxRangeChild()){
+                   
+                   setFocusIdChild(new Letter(' ',document.getMaxRangeChild()));//se crea una letra vacia con la posición que se esta buscando
+               }
+               else
+               {
+                        response=document.getNext(_layer);
+                   
+                   if(response!=null){
+                            break;
+                        }
+                   
                }
            }
-           
            
        } 
        
@@ -137,20 +153,40 @@ public class Text extends Document{
 
     @Override
     public Document getPrevious(Layer _layer) {
-     
+
     Document response=null;
-       for(Document document: childrenList){
-           if((document.getMinRangeChild() <=(super.getFocusIdChild().getId()-1) &&
-              document.getMaxRangeChild()>=(super.getFocusIdChild().getId() -1 ))){
-               
-               response=document.getPrevious(_layer);
-               if(response!=null){
-                   break;
+    ListIterator li = childrenList.listIterator(childrenList.size());
+
+    while(li.hasPrevious()) {
+        Document document=(Document)li.previous();
+
+           if(document.getMinRangeChild() <=(super.getFocusIdChild().getId()-1) &&
+              document.getMaxRangeChild()>=(super.getFocusIdChild().getId() -1 )){
+               if(document.layer==_layer && (document.getMaxRangeChild()!=getFocusIdChild().getId()-1)){
+
+                       setFocusIdChild(new Letter(' ',document.getMinRangeChild()));//se crea una letra vacia con la posición que se esta buscando
+                 
                }
+               else
+               {
+                
+                   if(document.layer==_layer){
+                          setFocusIdChild(new Letter(' ',document.getMinRangeChild()+1));//se crea una letra vacia con la posición que se esta buscando
+                 
+                   }
+                   response=document.getPrevious(_layer);
+                   
+                        if(response!=null){
+                                 break;
+                             }
+                   
+               }
+           
            }
            
            
         }
+//        searchReverse=false;
         return response;
      }
 }
