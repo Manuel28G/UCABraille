@@ -7,7 +7,6 @@ package ve.edu.ucab.braille.model;
 
 import ve.edu.ucab.braille.controller.Braille;
 import ve.edu.ucab.braille.controller.util.Layer;
-import java.util.Arrays;
 
 /**
  *
@@ -25,7 +24,7 @@ public class Letter extends Document {
         id=0;
         idGeneral=0;
         brailleConvert= new Braille();
-        layer=Layer.LETTER;
+        this.layer=Layer.LETTER;
         this.setMinRangeChild(id);
         this.setMaxRangeChild(id);
     }
@@ -34,6 +33,7 @@ public class Letter extends Document {
         id=_id;
         idGeneral++;
         brailleConvert= new Braille();
+        this.layer=Layer.LETTER;
         this.setMinRangeChild(id);
         this.setMaxRangeChild(id);
     }
@@ -66,6 +66,8 @@ public class Letter extends Document {
 
     @Override
     public Document getNext(Layer layer) {
+        System.out.println("ID: "+this.id);
+        System.out.println("FocusId: "+(this.getFocusIdChild().getId()+1));
         if(this.id==this.getFocusIdChild().getId()+1){
             this.setFocusIdChild(this);
             return this;}
@@ -75,6 +77,8 @@ public class Letter extends Document {
 
     @Override
     public Document getPrevious(Layer layer) {
+        System.out.println("ID: "+this.id);
+        System.out.println("FocusId: "+(this.getFocusIdChild().getId()-1));
     if(this.id==(this.getFocusIdChild().getId()-1)){
             this.setFocusIdChild(this);
             return this;}
