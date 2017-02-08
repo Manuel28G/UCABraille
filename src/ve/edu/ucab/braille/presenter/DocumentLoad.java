@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ve.edu.ucab.braille.controller;
+package ve.edu.ucab.braille.presenter;
 
 import java.io.File;
 import java.net.URL;
@@ -32,6 +32,9 @@ import javafx.scene.layout.AnchorPane;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import javax.swing.text.Highlighter.HighlightPainter;
+import ve.edu.ucab.braille.controller.Braille;
+import ve.edu.ucab.braille.controller.ReadDocument;
+import ve.edu.ucab.braille.controller.util;
 import ve.edu.ucab.braille.model.Document;
 
 /**
@@ -85,6 +88,14 @@ public class DocumentLoad implements Initializable {
     private Text TB_Prueba;
     @FXML
     private AnchorPane PN_Principal;
+    @FXML
+    private Button BT_NextWord;
+    @FXML
+    private Button BT_NextParagraph;
+    @FXML
+    private Button BT_PreviousParagraph;
+    @FXML
+    private Button BT_PreviousWord;
 
     /**
      * Initializes the controller class.
@@ -123,18 +134,92 @@ public class DocumentLoad implements Initializable {
           BT_Previous.setOnMouseClicked(mouseEvent->{      
               pressPreviousButton();
           });
+          
+          BT_NextParagraph.setOnMouseClicked(mouseEvent->{
+             pressNextParragraph();
+          });
+          
+          BT_PreviousParagraph.setOnMouseClicked(mouseEvent->{      
+              pressPreviousParragraph();
+          });
+          
+          BT_NextWord.setOnMouseClicked(mouseEvent->{
+              pressNextWord();
+          });
+          
+          BT_PreviousWord.setOnMouseClicked(mouseEvent->{      
+             pressPreviousWord();
+          });
    }
     
-   
-   /**
-    * Método que se ejecuta al presionar el boto "Anterior" en la interfaz
-    * el cual realiza la lectura del caracter anterior y su represenación braille
-    */
-    private void pressPreviousButton(){
-              Braille braille=new Braille();
-              Document letter=document.getPrevious(util.Layer.PARAGRAPH);
+   private void pressNextWord(){
+                  System.out.println("==Press next word==");
+         Document letter=document.getNext(util.Layer.WORD);
               if(letter!=null){
-                int min=letter.getId();
+                  representBraille(letter);
+              }
+               else
+              {
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Información del sistema");
+                alert.setHeaderText("Limite de frontera");
+                alert.setContentText("ha llegado al comienzo del documento");
+                alert.showAndWait();    
+              }
+   }
+   
+   private void pressNextParragraph(){
+                  System.out.println("==Press next parragraph==");
+         Document letter=document.getNext(util.Layer.PARAGRAPH);
+              if(letter!=null){
+                  
+                  representBraille(letter);
+              }
+               else
+              {
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Información del sistema");
+                alert.setHeaderText("Limite de frontera");
+                alert.setContentText("ha llegado al comienzo del documento");
+                alert.showAndWait();    
+              }
+   }
+   
+   private void pressPreviousWord(){
+                  System.out.println("==Press previous word==");
+         Document letter=document.getPrevious(util.Layer.WORD);
+              if(letter!=null){
+                  representBraille(letter);
+              }
+               else
+              {
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Información del sistema");
+                alert.setHeaderText("Limite de frontera");
+                alert.setContentText("ha llegado al comienzo del documento");
+                alert.showAndWait();    
+              }
+   }
+   
+   private void pressPreviousParragraph(){
+                  System.out.println("==Press previous parragraph==");
+         Document letter=document.getPrevious(util.Layer.PARAGRAPH);
+              if(letter!=null){
+                  representBraille(letter);
+              }
+               else
+              {
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Información del sistema");
+                alert.setHeaderText("Limite de frontera");
+                alert.setContentText("ha llegado al comienzo del documento");
+                alert.showAndWait();    
+              }
+   }
+   
+   private void representBraille(Document letter){
+       
+                Braille braille=new Braille();
                 TA_Text.deselect();
                 TA_Text.selectRange(letter.getId(), letter.getId()+1);
                 List<RadioButton> left=new ArrayList<>();
@@ -154,6 +239,16 @@ public class DocumentLoad implements Initializable {
                 right.add(RB_R6);
 
                 braille.representBraille(left, right,letter);
+   }
+   
+   /**
+    * Método que se ejecuta al presionar el boto "Anterior" en la interfaz
+    * el cual realiza la lectura del caracter anterior y su represenación braille
+    */
+    private void pressPreviousButton(){
+              Document letter=document.getPrevious(util.Layer.LETTER);
+              if(letter!=null){
+                  representBraille(letter);
               }
                else
               {
@@ -171,30 +266,10 @@ public class DocumentLoad implements Initializable {
      */
     private void pressNextButton(){
         
-              Document letter=document.getNext(util.Layer.PARAGRAPH);
+              Document letter=document.getNext(util.Layer.LETTER);
               
               if(letter!=null){
-                int min=letter.getId();
-                TA_Text.deselect();
-                TA_Text.selectRange(letter.getId(),letter.getId()+1);
-                List<RadioButton> left=new ArrayList<>();
-                left.add(RB_L1);
-                left.add(RB_L2);
-                left.add(RB_L3);
-                left.add(RB_L4);
-                left.add(RB_L5);
-                left.add(RB_L6);
-
-                List<RadioButton> right=new ArrayList<>();
-                right.add(RB_R1);
-                right.add(RB_R2);
-                right.add(RB_R3);
-                right.add(RB_R4);
-                right.add(RB_R5);
-                right.add(RB_R6);
-
-                Braille braille=new Braille();
-                braille.representBraille(left, right,letter);
+                  representBraille(letter);
               }
               else
               {
