@@ -7,12 +7,12 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.web.*?>
 
-<AnchorPane id="AnchorPane" fx:id="PN_Principal" disable="false" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ve.edu.ucab.braille.controller.DocumentLoad">
+<AnchorPane id="AnchorPane" fx:id="PN_Principal" disable="false" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ve.edu.ucab.braille.presenter.DocumentLoad">
   <children>
     <ProgressIndicator fx:id="PI_ProgressLoad" disable="false" layoutX="516.0" layoutY="318.0" prefHeight="63.0" prefWidth="49.0" progress="0.0" visible="true" />
     <TextArea fx:id="TA_Text" disable="false" layoutX="22.0" layoutY="26.0" prefHeight="262.0" prefWidth="557.0" wrapText="true" />
-    <Button fx:id="BT_Previous" layoutX="14.0" layoutY="333.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="71.0" text="previous" />
-    <Button id="BT_NEXT" fx:id="BT_Next" layoutX="99.0" layoutY="333.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="70.0" text="next" />
+    <Button fx:id="BT_Previous" layoutX="20.0" layoutY="357.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="71.0" text="previous" />
+    <Button id="BT_NEXT" fx:id="BT_Next" layoutX="105.0" layoutY="357.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="70.0" text="next" />
     <Pane fx:id="PN_Left" disable="true" focusTraversable="false" layoutX="328.0" layoutY="307.0" prefHeight="83.0" prefWidth="79.0" visible="true">
       <children>
         <RadioButton fx:id="RB_L1" layoutX="14.0" layoutY="6.0" mnemonicParsing="false" text="" />
@@ -33,5 +33,9 @@
         <RadioButton id="RB_L6" fx:id="RB_R6" layoutX="51.0" layoutY="61.0" mnemonicParsing="false" text="" />
       </children>
     </Pane>
+    <Button fx:id="BT_NextWord" layoutX="105.0" layoutY="325.0" mnemonicParsing="false" prefWidth="70.0" text="palabra" />
+    <Button fx:id="BT_PreviousWord" layoutX="20.0" layoutY="326.0" mnemonicParsing="false" prefWidth="70.0" text="palabra" />
+    <Button fx:id="BT_NextParagraph" layoutX="105.0" layoutY="297.0" mnemonicParsing="false" text="parrafo" />
+    <Button fx:id="BT_PreviousParagraph" layoutX="32.0" layoutY="297.0" mnemonicParsing="false" text="parrafo" />
   </children>
 </AnchorPane>
