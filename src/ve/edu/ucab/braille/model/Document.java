@@ -21,7 +21,7 @@ public abstract class Document {
      private static Document childInFocus;//indice del hijo que se contiene como seleccionado para saltar al siguiente o anterior
    
      public Document(){
-         childRangeMin=0;
+         childRangeMin=999999;
          childRangeMax=0;
          
          if(childInFocus==null){
@@ -46,7 +46,7 @@ public abstract class Document {
          childRangeMax=_id;
      }
      public void setMinRangeChild(int _id){
-         childRangeMax=_id;
+         childRangeMin=_id;
      }
      public int getMinRangeChild(){
          return childRangeMin;
