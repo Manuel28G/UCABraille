@@ -12,9 +12,9 @@ package ve.edu.ucab.braille.controller;
 public class util {
     
     public static enum Layer{
-        PAGE,
-        PARAGRAPH,
+        LETTER,
         WORD,
-        LETTER
+        PARAGRAPH,
+        PAGE
     }
 }

@@ -166,8 +166,6 @@ public class Braille {
          * @return 
          */
         public byte[][] getBraille(String letter){
-//	           System.out.println("getBraille: "+letter);
-//	           System.out.println("getBraille: "+stringToBraille.containsKey(letter));
         if(stringToBraille.containsKey(letter)){
          byte[][] request= stringToBraille.get(letter);
          return request;

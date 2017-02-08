@@ -17,4 +17,5 @@ public class GeneralPropertie {
         public static final char lineJump='\n';
         public static final char carReturn='\r';
         public static String colorOfHighlight="Yellow";
+        public static final char lineSeparator=' ';
 }
