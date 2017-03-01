@@ -20,15 +20,22 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import java.awt.Color;
+import java.awt.Desktop;
+import java.awt.FileDialog;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import javax.swing.text.Highlighter.HighlightPainter;
@@ -49,9 +56,7 @@ public class DocumentLoad implements Initializable {
     HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Color.yellow);
     Document document;
     
-    @FXML
     private Button BT_Previous;
-    @FXML
     private Button BT_Next;
     @FXML
     private Pane PN_Left;
@@ -88,14 +93,28 @@ public class DocumentLoad implements Initializable {
     private Text TB_Prueba;
     @FXML
     private AnchorPane PN_Principal;
-    @FXML
     private Button BT_NextWord;
-    @FXML
     private Button BT_NextParagraph;
-    @FXML
     private Button BT_PreviousParagraph;
-    @FXML
     private Button BT_PreviousWord;
+    @FXML
+    private MenuItem MN_LoadFile;
+    @FXML
+    private MenuItem MN_PreviousLetter;
+    @FXML
+    private MenuItem MN_PreviousWord;
+    @FXML
+    private MenuItem MN_PreviousParagraph;
+    @FXML
+    private MenuItem MN_NextLetter;
+    @FXML
+    private MenuItem MN_NextWord;
+    @FXML
+    private MenuItem MN_NextParagraph;
+    @FXML
+    private MenuItem MN_Information;
+    @FXML
+    private MenuItem MN_Contact;
 
     /**
      * Initializes the controller class.
@@ -127,29 +146,7 @@ public class DocumentLoad implements Initializable {
             this.OnDragDropped(DragEvent);
          });
           
-          BT_Next.setOnMouseClicked(mouseEvent->{
-              pressNextButton();
-          });
-          
-          BT_Previous.setOnMouseClicked(mouseEvent->{      
-              pressPreviousButton();
-          });
-          
-          BT_NextParagraph.setOnMouseClicked(mouseEvent->{
-             pressNextParragraph();
-          });
-          
-          BT_PreviousParagraph.setOnMouseClicked(mouseEvent->{      
-              pressPreviousParragraph();
-          });
-          
-          BT_NextWord.setOnMouseClicked(mouseEvent->{
-              pressNextWord();
-          });
-          
-          BT_PreviousWord.setOnMouseClicked(mouseEvent->{      
-             pressPreviousWord();
-          });
+         
    }
     
    private void pressNextWord(){
@@ -327,6 +324,85 @@ public class DocumentLoad implements Initializable {
                 event.consume();
             }
     
+    }
+
+
+
+    @FXML
+    private void loadFileActionMenu(ActionEvent event) {
+        
+        
+        
+        try {
+            FileDialog fd = new FileDialog(new JFrame(), "Test", FileDialog.LOAD);
+            
+            fd.setFile("*.txt;*.doc;*.docx;*.pdf");
+            fd.setVisible(true);
+            String file=fd.getFile();
+            String directory=fd.getDirectory();
+            String path=directory+file;
+            ReadDocument read=new ReadDocument(path);
+            document=read.getDocument(PI_ProgressLoad);
+            
+            TA_Text.setText(document.getText());
+            TA_Text.setEditable(false);
+            fd.dispose();
+            
+//                System.out.println(fd.getFile());
+//         JFileChooser fileChooser = new JFileChooser();
+//            int returnValue = fileChooser.showOpenDialog(null);
+//            if (returnValue == JFileChooser.APPROVE_OPTION) {
+//              File selectedFile = fileChooser.getSelectedFile();
+//              System.out.println(selectedFile.getName());
+//            }
+          
+//        Desktop.getDesktop().open(selectedFile);
+        } catch (IOException ex) {
+            Logger.getLogger(DocumentLoad.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(DocumentLoad.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvocationTargetException ex) {
+            Logger.getLogger(DocumentLoad.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @FXML
+    private void previousLetterActionMenu(ActionEvent event) {
+        this.pressPreviousButton();
+    }
+
+    @FXML
+    private void previousWordActionMenu(ActionEvent event) {
+        this.pressPreviousWord();
+    }
+
+    @FXML
+    private void previousParagraphActionMenu(ActionEvent event) {
+        this.pressPreviousParragraph();
+    }
+
+    @FXML
+    private void nextLetterActionMenu(ActionEvent event) {
+        this.pressNextButton();
+    }
+
+    @FXML
+    private void nextWordActionMenu(ActionEvent event) {
+        this.pressNextWord();
+    }
+
+    @FXML
+    private void nextParagraphActionMenu(ActionEvent event) {
+        this.pressNextParragraph();
+    }
+
+    @FXML
+    private void informationActionMenu(ActionEvent event) {
+        
+    }
+
+    @FXML
+    private void contactActionMenu(ActionEvent event) {
     }
 
 

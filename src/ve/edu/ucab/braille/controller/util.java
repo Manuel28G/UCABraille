@@ -16,5 +16,15 @@ public class util {
         WORD,
         PARAGRAPH,
         PAGE
-    }
+    }      
+    
+        public static String SEPARATOR_JUMP="\n";
+        public static String SEPARATOR_SPACE=" ";
+        public static int charPerPage=800;
+        public static String tipography="";
+        public static int fontSize=0;
+        public static final char lineJump='\n';
+        public static final char carReturn='\r';
+        public static String colorOfHighlight="Yellow";
+        public static final char lineSeparator=' ';
 }
