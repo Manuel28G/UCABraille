@@ -6,6 +6,8 @@
 package ve.edu.ucab.braille.presenter;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -32,11 +34,17 @@ public class UCABraille extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-         FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource(ruteFXML));
+         FXMLLoader fxmlLoader = null;         
          Parent root1 = null;
+
         try {
+            fxmlLoader = new FXMLLoader(UCABraille.class.getResource(ruteFXML));
+       System.out.println(fxmlLoader.getLocation());
             root1 = (Parent) fxmlLoader.load();
+            
         } catch (IOException ex) {
+            System.out.println(ex.getCause());
+            System.out.println(ex.getMessage());
             Logger.getLogger(UCABraille.class.getName()).log(Level.SEVERE, null, ex);
         }
             Stage stage = new Stage();
