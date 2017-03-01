@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
+import sun.rmi.server.Util;
+import ve.edu.ucab.braille.controller.util;
 
 /**
  *
@@ -138,8 +140,16 @@ public class Text extends Document{
                {
                         response=document.getNext(_layer);
                    
-                   if(response!=null){
-                            break;
+                  if(response!=null){
+                      
+                            if(_layer!=Layer.LETTER &&(response.getText().equals(util.SEPARATOR_JUMP)|| response.getText().equals(util.SEPARATOR_SPACE))){
+                             this.setFocusIdChild(new Letter(' ', response.getId()));
+                             response=null;
+                            }
+                            else
+                            {
+                                 break;
+                            }
                         }
                    
                }
@@ -176,9 +186,17 @@ public class Text extends Document{
                    }
                    response=document.getPrevious(_layer);
                    
-                        if(response!=null){
+                      if(response!=null){
+                      
+                            if(_layer!=Layer.LETTER &&(response.getText().equals(util.SEPARATOR_JUMP)|| response.getText().equals(util.SEPARATOR_SPACE))){
+                             this.setFocusIdChild(new Letter(' ', response.getId()));
+                             response=null;
+                            }
+                            else
+                            {
                                  break;
-                             }
+                            }
+                        }
                    
                }
            
