@@ -1,5 +1,9 @@
 package ve.edu.ucab.braille.controller;
 
+import com.sun.javafx.cursor.CursorFrame;
+import java.awt.Component;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import ve.edu.ucab.braille.controller.util.Layer;
 import java.io.BufferedReader;
 import java.io.File;
@@ -10,7 +14,11 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.Cursor;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.Slider;
 import ve.edu.ucab.braille.model.Document;
 import ve.edu.ucab.braille.model.GeneralPropertie;
 import ve.edu.ucab.braille.model.Letter;
@@ -22,6 +30,8 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
+import ve.edu.ucab.braille.model.progress;
+import ve.edu.ucab.braille.presenter.DocumentLoad;
 
 public class ReadDocument {
 
@@ -137,7 +147,7 @@ public class ReadDocument {
             
         }
          
-         public Document getDocument(ProgressIndicator _progressIndicator) throws IOException, InterruptedException, InvocationTargetException{
+         public Document getDocument(ProgressBar _progress) throws IOException, InterruptedException, InvocationTargetException{
              String request=this.readDocument();
              boolean lineJump=false;//validar si la ultima linea fue un salto
              char[] letters=request.toCharArray();
@@ -145,7 +155,33 @@ public class ReadDocument {
              Text paragraph=new Text(Layer.PARAGRAPH);
              Text word=new Text(Layer.WORD);
              int cont=0;
+//             DocumentLoad.PB_Progress.setVisible(true);
+//             DocumentLoad.PB_Progress.setMaxWidth(1.0);
+    
+             progress p;
+//             p.addPropertyChangeListener(new PropertyChangeListener() {
+//                 @Override
+//                 public void propertyChange(PropertyChangeEvent evt) {
+//                     if(evt.getPropertyName().equalsIgnoreCase("progress")){
+//                         Component.setCursor(Cursor.WAIT);
+//                     }
+//                     else
+//                     {
+//                         
+//                         setCursor(new Cursor(Cursor.DEFAULT));
+//                     }
+//                     
+//                 }
+//             });
+
+
+        double jump=1.0/(double)letters.length;
+        double act=0.0;
              for(char letter: letters){
+                 act+=jump;
+                 System.out.println(act);
+                 p=new progress(_progress, null, act);
+                 p.execute();
                  Document letterDocument;
                  if(letter==GeneralPropertie.lineJump){
                     paragraph.addChild(word);
@@ -183,6 +219,9 @@ public class ReadDocument {
                  document.addChild(paragraph);
                  
              }
+//             DocumentLoad.PB_Progress.setOpacity(0.5);
+//             Thread.sleep(10000);
+//             progress.setVisible(false);
              return document;             
          }
 }
