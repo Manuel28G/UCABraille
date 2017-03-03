@@ -33,6 +33,7 @@ import javafx.event.Event;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.AnchorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -75,7 +76,7 @@ public class DocumentLoad implements Initializable {
     @FXML
     private Pane PN_Right;
     @FXML
-    private ProgressIndicator PI_ProgressLoad;
+    public static  ProgressIndicator PI_ProgressLoad;
     @FXML
     private RadioButton RB_R1;
     @FXML
@@ -115,6 +116,8 @@ public class DocumentLoad implements Initializable {
     private MenuItem MN_Information;
     @FXML
     private MenuItem MN_Contact;
+    @FXML
+    public ProgressBar PB_Progress;
 
     /**
      * Initializes the controller class.
@@ -298,7 +301,7 @@ public class DocumentLoad implements Initializable {
                         String path=archivo.getAbsolutePath();
                         ReadDocument read=new ReadDocument(path);
                         try {
-                            document=read.getDocument(PI_ProgressLoad);
+                            document=read.getDocument(PB_Progress);
                             
                             TA_Text.setText(document.getText());
                             TA_Text.setEditable(false);
@@ -342,21 +345,11 @@ public class DocumentLoad implements Initializable {
             String directory=fd.getDirectory();
             String path=directory+file;
             ReadDocument read=new ReadDocument(path);
-            document=read.getDocument(PI_ProgressLoad);
+            document=read.getDocument(PB_Progress);
             
             TA_Text.setText(document.getText());
             TA_Text.setEditable(false);
             fd.dispose();
-            
-//                System.out.println(fd.getFile());
-//         JFileChooser fileChooser = new JFileChooser();
-//            int returnValue = fileChooser.showOpenDialog(null);
-//            if (returnValue == JFileChooser.APPROVE_OPTION) {
-//              File selectedFile = fileChooser.getSelectedFile();
-//              System.out.println(selectedFile.getName());
-//            }
-          
-//        Desktop.getDesktop().open(selectedFile);
         } catch (IOException ex) {
             Logger.getLogger(DocumentLoad.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
