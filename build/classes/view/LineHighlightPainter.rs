@@ -1,3 +1,0 @@
-linehighlightpainter.LineHighlightPainter
-linehighlightpainter.LineHighlightPainter$1
-linehighlightpainter.LineHighlightPainter$MyHighlightPainter
