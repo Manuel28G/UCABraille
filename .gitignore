@@ -54,3 +54,6 @@ build/
 nbproject/private/
 REAME.txt
 nbproject/private/private.xml
+nbproject/project.properties
+nbproject/project.xml
+nbproject/private/private.properties
