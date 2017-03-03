@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.input.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.web.*?>
+
+<AnchorPane id="AnchorPane" fx:id="PN_Principal" disable="false" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ve.edu.ucab.braille.presenter.DocumentLoad">
+  <children>
+    <TextArea fx:id="TA_Text" disable="false" layoutX="14.0" layoutY="45.0" prefHeight="262.0" prefWidth="572.0" wrapText="true" />
+    <Pane fx:id="PN_Left" disable="true" focusTraversable="false" layoutX="422.0" layoutY="307.0" prefHeight="83.0" prefWidth="79.0001220703125" visible="true">
+      <children>
+        <RadioButton fx:id="RB_L1" layoutX="14.0" layoutY="6.0" mnemonicParsing="false" text="" />
+        <RadioButton fx:id="RB_L4" layoutX="51.0" layoutY="6.0" mnemonicParsing="false" text="" />
+        <RadioButton fx:id="RB_L2" layoutX="14.0" layoutY="34.0" mnemonicParsing="false" text="" />
+        <RadioButton fx:id="RB_L5" layoutX="51.0" layoutY="34.0" mnemonicParsing="false" text="" />
+        <RadioButton fx:id="RB_L3" layoutX="14.0" layoutY="61.0" mnemonicParsing="false" text="" />
+        <RadioButton fx:id="RB_L6" layoutX="51.0" layoutY="61.0" mnemonicParsing="false" text="" />
+      </children>
+    </Pane>
+    <Pane fx:id="PN_Right" disable="true" layoutX="505.0" layoutY="307.0" prefHeight="83.0" prefWidth="79.9998779296875">
+      <children>
+        <RadioButton id="RB_L1" fx:id="RB_R1" layoutX="14.0" layoutY="6.0" mnemonicParsing="false" text="" />
+        <RadioButton id="RB_L4" fx:id="RB_R4" layoutX="51.0" layoutY="6.0" mnemonicParsing="false" text="" />
+        <RadioButton id="RB_L2" fx:id="RB_R2" layoutX="14.0" layoutY="34.0" mnemonicParsing="false" text="" />
+        <RadioButton id="RB_L5" fx:id="RB_R5" layoutX="51.0" layoutY="34.0" mnemonicParsing="false" text="" />
+        <RadioButton id="RB_L3" fx:id="RB_R3" layoutX="14.0" layoutY="61.0" mnemonicParsing="false" text="" />
+        <RadioButton id="RB_L6" fx:id="RB_R6" layoutX="51.0" layoutY="61.0" mnemonicParsing="false" text="" />
+      </children>
+    </Pane>
+    <MenuBar layoutX="-1.0" layoutY="-1.0" prefWidth="607.0">
+      <contextMenu>
+        <ContextMenu>
+          <items>
+            <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+          </items>
+        </ContextMenu>
+      </contextMenu>
+      <menus>
+        <Menu mnemonicParsing="false" text="Archivo">
+          <items>
+            <MenuItem mnemonicParsing="false" onAction="#loadFileActionMenu" text="Cargar" fx:id="MN_LoadFile">
+              <accelerator>
+                <KeyCodeCombination alt="UP" code="D" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+              </accelerator>
+            </MenuItem>
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Edición">
+          <items>
+            <Menu mnemonicParsing="false" text="Anterior">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#previousLetterActionMenu" text="Letra" fx:id="MN_PreviousLetter">
+                  <accelerator>
+                    <KeyCodeCombination alt="UP" code="L" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+                  </accelerator>
+                </MenuItem>
+                <MenuItem mnemonicParsing="false" onAction="#previousWordActionMenu" text="Texto" fx:id="MN_PreviousWord">
+                  <accelerator>
+                    <KeyCodeCombination alt="UP" code="T" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+                  </accelerator>
+                </MenuItem>
+                <MenuItem mnemonicParsing="false" onAction="#previousParagraphActionMenu" text="Parrafo" fx:id="MN_PreviousParagraph">
+                  <accelerator>
+                    <KeyCodeCombination alt="UP" code="P" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+                  </accelerator>
+                </MenuItem>
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Siguiente">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#nextLetterActionMenu" text="Letra" fx:id="MN_NextLetter">
+                  <accelerator>
+                    <KeyCodeCombination alt="DOWN" code="L" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                  </accelerator>
+                </MenuItem>
+                <MenuItem mnemonicParsing="false" onAction="#nextWordActionMenu" text="Texto" fx:id="MN_NextWord">
+                  <accelerator>
+                    <KeyCodeCombination alt="DOWN" code="T" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                  </accelerator>
+                </MenuItem>
+                <MenuItem mnemonicParsing="false" onAction="#nextParagraphActionMenu" text="Parrafo" fx:id="MN_NextParagraph">
+                  <accelerator>
+                    <KeyCodeCombination alt="DOWN" code="P" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                  </accelerator>
+                </MenuItem>
+              </items>
+            </Menu>
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Ayuda">
+          <items>
+            <MenuItem mnemonicParsing="false" onAction="#informationActionMenu" text="información" fx:id="MN_Information" />
+            <MenuItem mnemonicParsing="false" onAction="#contactActionMenu" text="Contacto" fx:id="MN_Contact" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+    <ProgressIndicator fx:id="PI_ProgressLoad" disable="false" layoutX="276.0" layoutY="169.0" prefHeight="63.0" prefWidth="49.0" progress="0.0" visible="true" />
+  </children>
+</AnchorPane>
