@@ -1,4 +1,4 @@
-# Windows image file caches
+﻿# Windows image file caches
 Thumbs.db
 ehthumbs.db
 
@@ -52,9 +52,12 @@ Temporary Items
 build/
 #Todos los archivos de configuración privada
 nbproject/private/
+nbproject/
 REAME.txt
+
 nbproject/private/private.xml
 nbproject/project.properties
 nbproject/project.xml
 nbproject/private/private.properties
-nbproject/private/private.xml
+nbproject/build-impl.xml
+nbproject/private/private.properties
