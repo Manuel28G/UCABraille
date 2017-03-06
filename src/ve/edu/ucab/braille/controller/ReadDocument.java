@@ -148,80 +148,64 @@ public class ReadDocument {
         }
          
          public Document getDocument(ProgressBar _progress) throws IOException, InterruptedException, InvocationTargetException{
-             String request=this.readDocument();
-             boolean lineJump=false;//validar si la ultima linea fue un salto
-             char[] letters=request.toCharArray();
-             Text document=new Text(Layer.PAGE);
-             Text paragraph=new Text(Layer.PARAGRAPH);
-             Text word=new Text(Layer.WORD);
-             int cont=0;
-//             DocumentLoad.PB_Progress.setVisible(true);
-//             DocumentLoad.PB_Progress.setMaxWidth(1.0);
-    
-             progress p;
-//             p.addPropertyChangeListener(new PropertyChangeListener() {
-//                 @Override
-//                 public void propertyChange(PropertyChangeEvent evt) {
-//                     if(evt.getPropertyName().equalsIgnoreCase("progress")){
-//                         Component.setCursor(Cursor.WAIT);
-//                     }
-//                     else
-//                     {
-//                         
-//                         setCursor(new Cursor(Cursor.DEFAULT));
-//                     }
-//                     
-//                 }
-//             });
-
-
-        double jump=1.0/(double)letters.length;
-        double act=0.0;
-             for(char letter: letters){
+            String request=this.readDocument();
+            boolean lineJump=false;//validar si la ultima linea fue un salto
+            char[] letters=request.toCharArray();
+            Text document=new Text(Layer.PAGE);
+            Text paragraph=new Text(Layer.PARAGRAPH);
+            Text word=new Text(Layer.WORD);
+            int cont=0;
+            progress p;
+            double jump=1.0/(double)letters.length;
+            double act=0.0;
+            boolean lineSeparator=false;
+            for(char letter: letters){
                  act+=jump;
                  System.out.println(act);
                  p=new progress(_progress, null, act);
                  p.execute();
                  Document letterDocument;
-                 if(letter==GeneralPropertie.lineJump){
-                    paragraph.addChild(word);
-                    word=new Text(Layer.WORD);
-                    letterDocument=new Letter(letter,cont); 
-                    word.addChild(letterDocument);
-                    //agregamos la palabra antes del salto de linea
-                    paragraph.addChild(word);
-                    document.addChild(paragraph);
-                    paragraph=new Text(Layer.PARAGRAPH);
-                    word=new Text(Layer.WORD); 
-                    lineJump=true;
-                  }
-                 else
-                 {
-                     if(letter==GeneralPropertie.lineSeparator){
-                        paragraph.addChild(word);
-                        word=new Text(Layer.WORD);
-                        letterDocument=new Letter(letter,cont); 
-                        word.addChild(letterDocument);
-                        paragraph.addChild(word);
-                        word=new Text(Layer.WORD);
-                     }
-                     else
-                     {
-                        letterDocument=new Letter(letter,cont); 
-                        word.addChild(letterDocument);
-                     }
-                     lineJump=false;
-                 }
-                 cont++;
+                 switch(letter){
+                     case GeneralPropertie.lineJump:
+                            if(!lineSeparator){
+                                paragraph.addChild(word);
+                             }
+                            word=new Text(Layer.WORD);
+                            letterDocument=new Letter(letter,cont); 
+                            word.addChild(letterDocument);
+                            //agregamos la palabra antes del salto de linea
+                            paragraph.addChild(word);
+                            document.addChild(paragraph);
+                            paragraph=new Text(Layer.PARAGRAPH);
+                            word=new Text(Layer.WORD); 
+                            lineJump=true;
+                            break;
+                     case GeneralPropertie.carReturn: 
+                            //Si es un CarReturn no se toma en cuenta y se omite ya que eso no es visible para el usuario final
+                            cont--;
+                            break;
+                     case GeneralPropertie.lineSeparator :
+                            lineSeparator=true;
+                            paragraph.addChild(word);
+                            word=new Text(Layer.WORD);
+                            letterDocument=new Letter(letter,cont); 
+                            word.addChild(letterDocument);
+                            paragraph.addChild(word);
+                            word=new Text(Layer.WORD);
+                            break;
+                     default:
+                            lineSeparator=false;
+                            letterDocument=new Letter(letter,cont); 
+                            word.addChild(letterDocument);
+                            break;
+                }
+                cont++;
              }
 
              if(!lineJump){
                  document.addChild(paragraph);
                  
              }
-//             DocumentLoad.PB_Progress.setOpacity(0.5);
-//             Thread.sleep(10000);
-//             progress.setVisible(false);
              return document;             
          }
 }
