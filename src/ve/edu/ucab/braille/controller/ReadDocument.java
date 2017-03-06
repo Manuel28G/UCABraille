@@ -1,9 +1,5 @@
 package ve.edu.ucab.braille.controller;
 
-import com.sun.javafx.cursor.CursorFrame;
-import java.awt.Component;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import ve.edu.ucab.braille.controller.util.Layer;
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,11 +10,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import javafx.beans.value.ObservableValue;
-import javafx.scene.Cursor;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.Slider;
 import ve.edu.ucab.braille.model.Document;
 import ve.edu.ucab.braille.model.GeneralPropertie;
 import ve.edu.ucab.braille.model.Letter;
@@ -31,7 +23,6 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import ve.edu.ucab.braille.model.progress;
-import ve.edu.ucab.braille.presenter.DocumentLoad;
 
 public class ReadDocument {
 
@@ -41,6 +32,7 @@ public class ReadDocument {
 	private static final String TXT="txt";
 	private static String textDocument="";
         private static String filePath;
+        public static String documentExtesion;
         
         public ReadDocument(String _filePath)
         {
@@ -57,11 +49,11 @@ public class ReadDocument {
 		//Se crea el objeto File con la ruta del archivo
 		File archivodoc = new File(filePath);
 
-
-		switch(FilenameUtils.getExtension(archivodoc.getPath()))
+                documentExtesion=FilenameUtils.getExtension(archivodoc.getPath());
+		switch(documentExtesion)
 		{
 		case PDF: 
-			readPDF(archivodoc.getPath());
+			readPDF(archivodoc.getPath(),1,1000);
 			break;
 
 		case DOC:
@@ -82,7 +74,9 @@ public class ReadDocument {
 		}
 
 
-
+                System.out.println("TEXTO---------------------");
+                System.out.println(textDocument);
+                System.out.println("FIN---------------------");
 		return textDocument;
 	}
 
@@ -122,9 +116,7 @@ public class ReadDocument {
 	 * @param filePath ruta del archivo PDF a leer
 	 * @throws IOException 
 	 */
-	private  void readPDF(String filePath) throws IOException {
-		int pageIni=1; 
-		int pageEnd=1;
+	private  void readPDF(String filePath,int pageIni,int pageEnd) throws IOException {
 		PDDocument doc =PDDocument.load(new File(filePath)); // document
 
 		PDFTextStripper reader = new PDFTextStripper();
@@ -135,7 +127,7 @@ public class ReadDocument {
 	}
         
          private void readTxt(String filePath) throws IOException{
-          
+            textDocument="";
             List<String> lines=new ArrayList<>();
             File file=new File(filePath);
             BufferedReader br = Files.newBufferedReader(file.toPath());
