@@ -43,11 +43,11 @@ public class NumericTest {
     @Test
     public void testRound() {
         System.out.println("round");
-        double value = 3.4543;
+        double value = 3.4576;
         int places = 2;
-        double expResult = 3.45;
+        double expResult = 3.46;
         double result = Numeric.round(value, places);
-        assertEquals(expResult, result, 0.0);
+        assertEquals(expResult, result, 0.01);
         
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
