@@ -3,24 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/C:/Users/Yadira%20Brea/Documents/GitHub/UCABraille/src/ve/edu/ucab/braille/model/Document.java</file>
-            <file>file:/C:/Users/Yadira%20Brea/Documents/GitHub/UCABraille/src/ve/edu/ucab/braille/model/Letter.java</file>
-            <file>file:/C:/Users/Yadira%20Brea/Documents/GitHub/UCABraille/src/ve/edu/ucab/braille/controller/ReadDocument.java</file>
-            <file>file:/C:/Users/Yadira%20Brea/Documents/GitHub/UCABraille/src/ve/edu/ucab/braille/model/Text.java</file>
-=======
-<<<<<<< HEAD
-            <file>file:/C:/Users/Yadira%20Brea/Documents/GitHub/UCABraille/src/ve/edu/ucab/braille/presenter/UCABraille.java</file>
->>>>>>> 9ab3716761a03febda3ab6d8f16fed79f87f00c7
-            <file>file:/C:/Users/Yadira%20Brea/Documents/GitHub/UCABraille/src/ve/edu/ucab/braille/presenter/DocumentLoad.java</file>
-=======
-            <file>file:/C:/Users/manue/OneDrive/Documentos/GitHub/UCABraille/src/ve/edu/ucab/braille/model/ArduinoConnection.java</file>
-            <file>file:/C:/Users/manue/OneDrive/Documentos/GitHub/UCABraille/src/ve/edu/ucab/braille/controller/ReadDocument.java</file>
-            <file>file:/C:/Users/manue/OneDrive/Documentos/GitHub/UCABraille/src/ve/edu/ucab/braille/model/Letter.java</file>
-            <file>file:/C:/Users/manue/OneDrive/Documentos/GitHub/UCABraille/src/ve/edu/ucab/braille/presenter/DocumentLoad.java</file>
-            <file>file:/C:/Users/manue/OneDrive/Documentos/GitHub/UCABraille/src/ve/edu/ucab/braille/controller/Braille.java</file>
-            <file>file:/C:/Users/manue/OneDrive/Documentos/GitHub/UCABraille/src/ve/edu/ucab/braille/model/GeneralPropertie.java</file>
->>>>>>> refs/remotes/origin/master
+            <file>file:/C:/Users/Yadira%20Brea/Documents/GitHub/UCABraille/test/ve/edu/ucab/braille/controller/NumericTest.java</file>
         </group>
     </open-files>
 </project-private>
