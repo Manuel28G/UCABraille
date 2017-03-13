@@ -4,12 +4,8 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/manue/OneDrive/Documentos/GitHub/UCABraille/src/ve/edu/ucab/braille/controller/util.java</file>
-            <file>file:/C:/Users/manue/OneDrive/Documentos/GitHub/UCABraille/src/ve/edu/ucab/braille/model/ArduinoConnection.java</file>
-            <file>file:/C:/Users/manue/OneDrive/Documentos/GitHub/UCABraille/src/ve/edu/ucab/braille/controller/ReadDocument.java</file>
-            <file>file:/C:/Users/manue/OneDrive/Documentos/GitHub/UCABraille/src/ve/edu/ucab/braille/model/Letter.java</file>
-            <file>file:/C:/Users/manue/OneDrive/Documentos/GitHub/UCABraille/src/ve/edu/ucab/braille/presenter/DocumentLoad.java</file>
-            <file>file:/C:/Users/manue/OneDrive/Documentos/GitHub/UCABraille/src/ve/edu/ucab/braille/controller/Braille.java</file>
-            <file>file:/C:/Users/manue/OneDrive/Documentos/GitHub/UCABraille/src/ve/edu/ucab/braille/model/GeneralPropertie.java</file>
+            <file>file:/C:/Users/Yadira%20Brea/Documents/GitHub/UCABraille/src/ve/edu/ucab/braille/presenter/UCABraille.java</file>
+            <file>file:/C:/Users/Yadira%20Brea/Documents/GitHub/UCABraille/src/ve/edu/ucab/braille/presenter/DocumentLoad.java</file>
         </group>
     </open-files>
 </project-private>
