@@ -14,7 +14,9 @@ import java.util.logging.Logger;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.Dragboard;
+import ve.edu.ucab.braille.model.ArduinoConnection;
 import ve.edu.ucab.braille.model.Document;
+import ve.edu.ucab.braille.model.Letter;
 import ve.edu.ucab.braille.presenter.DocumentLoad;
 
 /**
@@ -25,6 +27,7 @@ import ve.edu.ucab.braille.presenter.DocumentLoad;
 public class ManagementDocument {
     
     private static ManagementDocument managementDocument=null;
+    private ArduinoConnection arduino;
     
     private Document document;
     private String documentRute;
@@ -35,6 +38,7 @@ public class ManagementDocument {
     private ManagementDocument(){
 //        document
         braille=new Braille();
+        arduino=new ArduinoConnection();
     }
     
     public String getDocumentRute(){
@@ -52,6 +56,7 @@ public class ManagementDocument {
     public String getNextLetter(){
         letterOnFocus=document.getNext(util.Layer.LETTER);
         String response=(letterOnFocus!=null)?letterOnFocus.getText():null;
+        validateEdge(response);
         return response;
     }
     
@@ -59,36 +64,57 @@ public class ManagementDocument {
         
         letterOnFocus=document.getPrevious(util.Layer.LETTER);
         String response=(letterOnFocus!=null)?letterOnFocus.getText():null;
+        validateEdge(response);
         return response;
     }
     
     public String getNextWord(){
         letterOnFocus=document.getNext(util.Layer.WORD);
         String response=(letterOnFocus!=null)?letterOnFocus.getText():null;
+        validateEdge(response);
         return response;
     }
     
     public String getPreviousWord(){
         letterOnFocus=document.getPrevious(util.Layer.WORD);
         String response=(letterOnFocus!=null)?letterOnFocus.getText():null;
+        validateEdge(response);
         return response;
     }
     
     public String getNextParagraph(){
         letterOnFocus=document.getNext(util.Layer.PARAGRAPH);
         String response=(letterOnFocus!=null)?letterOnFocus.getText():null;
+        validateEdge(response);
         return response;
     }
     
     public String getPreviousParagraph(){
         letterOnFocus=document.getPrevious(util.Layer.PARAGRAPH);
         String response=(letterOnFocus!=null)?letterOnFocus.getText():null;
+        validateEdge(response);
         return response;
     }
     
+    private void validateEdge(String response){
+        new Thread(){
+            public void run(){
+                if(response==null){
+                    arduino.alertNotification();
+                }
+            }
+        }.start();
+    }
+    
     public void refreshBrailleRepresent(List<RadioButton> _left,List<RadioButton> _right,TextArea _textArea){
+        
+                new Thread(){ 
+                    public void run(){
+                    arduino.sendData(((Letter)letterOnFocus).toBraille());
+                    }}.start();        
                 braille.representBraille(_left, _right,letterOnFocus);
                 _textArea.selectRange(letterOnFocus.getId(),letterOnFocus.getId()+1);
+                
     }
     
     
