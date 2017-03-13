@@ -139,7 +139,7 @@ public class ReadDocument {
             
         }
          
-         public Document getDocument(ProgressBar _progress) throws IOException, InterruptedException, InvocationTargetException{
+         public Document getDocument() throws IOException, InterruptedException, InvocationTargetException{
             String request=this.readDocument();
             boolean lineJump=false;//validar si la ultima linea fue un salto
             char[] letters=request.toCharArray();
@@ -147,15 +147,15 @@ public class ReadDocument {
             Text paragraph=new Text(Layer.PARAGRAPH);
             Text word=new Text(Layer.WORD);
             int cont=0;
-            progress p;
+//            progress p;
             double jump=1.0/(double)letters.length;
             double act=0.0;
             boolean lineSeparator=false;
             for(char letter: letters){
                  act+=jump;
                  System.out.println(act);
-                 p=new progress(_progress, null, act);
-                 p.execute();
+//                 p=new progress(_progress, null, act);
+//                 p.execute();
                  Document letterDocument;
                  switch(letter){
                      case GeneralPropertie.lineJump:

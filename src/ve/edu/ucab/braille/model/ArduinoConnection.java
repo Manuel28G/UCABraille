@@ -26,13 +26,30 @@ public class ArduinoConnection {
        frecuency=_frecuency;
        connection=new PanamaHitek_Arduino();
    }
+   
+   /**
+    * Constructor de la clase Arduino Connection
+    * @param _terminal Terminal por el cual esta conectado el Arduino p.e. COM1
+    * @param frecuency frecuencia de la conexión 
+    */
+   public ArduinoConnection(String _terminal){
+       terminal=_terminal;
+       connection=new PanamaHitek_Arduino();
+   }
+
+    public ArduinoConnection() {
+        
+       connection=new PanamaHitek_Arduino();
+    }
     
    /**
    * Metodo que envia dos caracteres al ardunio para ser representados
    * @param represent caracteres que serán representados en el arduino
    */
-   public void sendData(String[][] represent){
-       
+   public void sendData(byte[][] represent){
+       System.out.println("Imprimiendo por el arduino");
+       System.out.println("Represent:"+new String(represent[0]));
+       System.out.println("Represent:"+new String(represent[1]));
    }
    
    /**
@@ -56,7 +73,7 @@ public class ArduinoConnection {
     * limite de frontera
     */
    public void alertNotification(){
-       
+       System.out.println("Enviando señal de notificación al arduino");
    }
    
 }
