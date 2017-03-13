@@ -26,6 +26,16 @@ public class ArduinoConnection {
        frecuency=_frecuency;
        connection=new PanamaHitek_Arduino();
    }
+   
+   /**
+    * Constructor de la clase Arduino Connection
+    * @param _terminal Terminal por el cual esta conectado el Arduino p.e. COM1
+    * @param frecuency frecuencia de la conexión 
+    */
+   public ArduinoConnection(String _terminal){
+       terminal=_terminal;
+       connection=new PanamaHitek_Arduino();
+   }
     
    /**
    * Metodo que envia dos caracteres al ardunio para ser representados
