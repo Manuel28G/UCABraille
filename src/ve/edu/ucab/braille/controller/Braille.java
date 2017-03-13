@@ -157,6 +157,7 @@ public class Braille {
             stringToBraille.put("£", new byte[][]{emptyArray,emptyArray});
             stringToBraille.put("§", new byte[][]{emptyArray,emptyArray});
             stringToBraille.put("\\", new byte[][]{emptyArray,emptyArray});
+            stringToBraille.put(Character.toString ((char) 9),new byte[][]{emptyArray,emptyArray});//Tabulador 
             
         }  
         
