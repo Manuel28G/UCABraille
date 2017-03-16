@@ -54,7 +54,8 @@ public class ArduinoConnection {
    */
    public void sendData(byte[][] represent){
        System.out.println("Imprimiendo por el arduino");
-       String message=Arrays.toString(represent[1]).replace("[", "").replace("]", "").replace(",","").replace(" ", "");
+       String message=Arrays.toString(represent[0]).replace("[", "").replace("]", "").replace(",","").replace(" ", "");
+       message+=Arrays.toString(represent[1]).replace("[", "").replace("]", "").replace(",","").replace(" ", "");
        System.out.println("Message:"+message);
        try {
            connection.sendData(message);
