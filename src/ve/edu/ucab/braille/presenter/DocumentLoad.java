@@ -16,7 +16,6 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
-import java.awt.Color;
 import java.awt.FileDialog;
 import java.util.ArrayList;
 import java.util.List;

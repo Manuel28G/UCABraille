@@ -38,7 +38,7 @@ public class ManagementDocument {
     private ManagementDocument(){
 //        document
         braille=new Braille();
-        arduino=new ArduinoConnection();
+        arduino=new ArduinoConnection("COM3");
     }
     
     public String getDocumentRute(){
