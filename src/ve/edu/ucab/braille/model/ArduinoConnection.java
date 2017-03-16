@@ -5,14 +5,19 @@
  */
 package ve.edu.ucab.braille.model;
 
+import com.panamahitek.ArduinoException;
 import com.panamahitek.PanamaHitek_Arduino;
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import jssc.SerialPortException;
 
 /**
  * Clase que contendrá los metodos necesarios para realizar la conexión con el dispositivo del arduino
  * @author Manuel Goncalves Lopez
  */
 public class ArduinoConnection {
-   private String terminal="";//Terminal por el cual se conecta el arduino
+   private String terminal="COM3";//Terminal por el cual se conecta el arduino
    private int frecuency=9600;
    private PanamaHitek_Arduino connection ;
    
@@ -21,10 +26,13 @@ public class ArduinoConnection {
     * @param _terminal Terminal por el cual esta conectado el Arduino p.e. COM1
     * @param frecuency frecuencia de la conexión 
     */
-   public ArduinoConnection(String _terminal,int _frecuency){
+   public ArduinoConnection(String _terminal,int _frecuency) throws ArduinoException{
        terminal=_terminal;
+       System.out.println("TERMINAL:"+terminal);
+       System.out.println("Frecuencia:"+frecuency);
        frecuency=_frecuency;
        connection=new PanamaHitek_Arduino();
+       connection.arduinoTX(terminal, frecuency);//declaramos solo para envio
    }
    
    /**
@@ -32,24 +40,29 @@ public class ArduinoConnection {
     * @param _terminal Terminal por el cual esta conectado el Arduino p.e. COM1
     * @param frecuency frecuencia de la conexión 
     */
-   public ArduinoConnection(String _terminal){
+   public ArduinoConnection(String _terminal) throws ArduinoException{
        terminal=_terminal;
+       
+       System.out.println("TERMINAL:"+terminal);
+       System.out.println("Frecuencia:"+frecuency);
        connection=new PanamaHitek_Arduino();
+       connection.arduinoTX(terminal, frecuency);//declaramos solo para envio
    }
-
-    public ArduinoConnection() {
-        
-       connection=new PanamaHitek_Arduino();
-    }
-    
    /**
    * Metodo que envia dos caracteres al ardunio para ser representados
    * @param represent caracteres que serán representados en el arduino
    */
    public void sendData(byte[][] represent){
        System.out.println("Imprimiendo por el arduino");
-       System.out.println("Represent:"+new String(represent[0]));
-       System.out.println("Represent:"+new String(represent[1]));
+       String message=Arrays.toString(represent[1]).replace("[", "").replace("]", "").replace(",","").replace(" ", "");
+       System.out.println("Message:"+message);
+       try {
+           connection.sendData(message);
+       } catch (ArduinoException ex) {
+           Logger.getLogger(ArduinoConnection.class.getName()).log(Level.SEVERE, null, ex);
+       } catch (SerialPortException ex) {
+           Logger.getLogger(ArduinoConnection.class.getName()).log(Level.SEVERE, null, ex);
+       }
    }
    
    /**
