@@ -51,8 +51,9 @@ Temporary Items
 #Todos los archivos compilados
 build/
 #Todos los archivos de configuración privada
-nbproject/private/
-nbproject/
+nbproject/private/**
+nbproject/**
+bin/**
 REAME.txt
 
 nbproject/private/private.xml
