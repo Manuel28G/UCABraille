@@ -5,6 +5,7 @@
  */
 package ve.edu.ucab.braille.controller;
 
+import com.panamahitek.ArduinoException;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -38,7 +39,11 @@ public class ManagementDocument {
     private ManagementDocument(){
 //        document
         braille=new Braille();
-        arduino=new ArduinoConnection("COM3");
+        try {
+            arduino=new ArduinoConnection("COM3");
+        } catch (ArduinoException ex) {
+            Logger.getLogger(ManagementDocument.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public String getDocumentRute(){
