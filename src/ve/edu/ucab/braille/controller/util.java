@@ -5,6 +5,8 @@
  */
 package ve.edu.ucab.braille.controller;
 
+import java.text.SimpleDateFormat;
+
 /**
  *
  * @author Manuel Goncalves Lopez
@@ -27,4 +29,5 @@ public class util {
         public static final char carReturn='\r';
         public static String colorOfHighlight="Yellow";
         public static final char lineSeparator=' ';
+        public static final SimpleDateFormat DATA_FORMAT=new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 }
