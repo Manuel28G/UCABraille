@@ -29,9 +29,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.AnchorPane;
 import javax.swing.JFrame;
-import javax.swing.text.DefaultHighlighter;
-import javax.swing.text.Highlighter;
-import javax.swing.text.Highlighter.HighlightPainter;
 import ve.edu.ucab.braille.controller.ManagementDocument;
 import ve.edu.ucab.braille.controller.ManagementHistory;
 
