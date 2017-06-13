@@ -64,3 +64,13 @@ nbproject/project.properties
 nbproject/project.xml
 nbproject/build-impl.xml
 nbproject/project.properties
+
+nbproject/
+
+dist/javadoc/
+
+HistoryTmp\.json
+
+nb-configuration\.xml
+
+nbactions\.xml

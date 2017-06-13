@@ -17,8 +17,11 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
 import java.awt.FileDialog;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -26,10 +29,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.AnchorPane;
 import javax.swing.JFrame;
-import javax.swing.text.DefaultHighlighter;
-import javax.swing.text.Highlighter;
-import javax.swing.text.Highlighter.HighlightPainter;
 import ve.edu.ucab.braille.controller.ManagementDocument;
+import ve.edu.ucab.braille.controller.ManagementHistory;
 
 /**
  * FXML Controller class
@@ -104,24 +105,30 @@ public class DocumentLoad implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
      
-                 initializeEvents();
-                 //Cargando en la lista los RadioButtons para la representación
-                 //visual del codigo braille
-                leftRepresentation=new ArrayList<>();
-                leftRepresentation.add(RB_L1);
-                leftRepresentation.add(RB_L2);
-                leftRepresentation.add(RB_L3);
-                leftRepresentation.add(RB_L4);
-                leftRepresentation.add(RB_L5);
-                leftRepresentation.add(RB_L6);
-
-                rightRepresentation=new ArrayList<>();
-                rightRepresentation.add(RB_R1);
-                rightRepresentation.add(RB_R2);
-                rightRepresentation.add(RB_R3);
-                rightRepresentation.add(RB_R4);
-                rightRepresentation.add(RB_R5);
-                rightRepresentation.add(RB_R6);
+        try {
+            initializeEvents();
+            ManagementHistory history=ManagementHistory.getInstance();
+                    history.registerHistory("");
+                    //Cargando en la lista los RadioButtons para la representación
+                    //visual del codigo braille
+                    leftRepresentation=new ArrayList<>();
+                    leftRepresentation.add(RB_L1);
+                    leftRepresentation.add(RB_L2);
+                    leftRepresentation.add(RB_L3);
+                    leftRepresentation.add(RB_L4);
+                    leftRepresentation.add(RB_L5);
+                    leftRepresentation.add(RB_L6);
+                    
+                    rightRepresentation=new ArrayList<>();
+                    rightRepresentation.add(RB_R1);
+                    rightRepresentation.add(RB_R2);
+                    rightRepresentation.add(RB_R3);
+                    rightRepresentation.add(RB_R4);
+                    rightRepresentation.add(RB_R5);
+                    rightRepresentation.add(RB_R6);
+        } catch (IOException ex) {
+            Logger.getLogger(DocumentLoad.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
          }
                  

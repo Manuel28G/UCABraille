@@ -124,6 +124,7 @@ public class ManagementDocument {
     
     
     public void loadDocumentText(TextArea _textArea,String _path){
+//                        ManagementHistory history=new ManagementHistory();
                         ReadDocument read=new ReadDocument(_path);
                         try {
                             document=read.getDocument();
