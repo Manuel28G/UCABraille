@@ -22,7 +22,6 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
-import ve.edu.ucab.braille.model.progress;
 
 public class ReadDocument {
 
