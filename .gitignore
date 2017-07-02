@@ -78,3 +78,5 @@ nbactions\.xml
 build\.fxbuild
 
 \.classpath
+
+\.settings/
