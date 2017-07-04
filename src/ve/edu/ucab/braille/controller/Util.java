@@ -5,13 +5,14 @@
  */
 package ve.edu.ucab.braille.controller;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 
 /**
  *
  * @author Manuel Goncalves Lopez
  */
-public class util {
+public class Util {
     
     public static enum Layer{
         LETTER,
@@ -30,4 +31,5 @@ public class util {
         public static String colorOfHighlight="Yellow";
         public static final char lineSeparator=' ';
         public static final SimpleDateFormat DATA_FORMAT=new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        public static File configurationRute = new File("src/resource/config.json");
 }

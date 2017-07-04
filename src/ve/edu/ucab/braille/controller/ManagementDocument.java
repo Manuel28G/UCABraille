@@ -59,7 +59,7 @@ public class ManagementDocument {
     
     
     public String getNextLetter(){
-        letterOnFocus=document.getNext(util.Layer.LETTER);
+        letterOnFocus=document.getNext(Util.Layer.LETTER);
         String response=(letterOnFocus!=null)?letterOnFocus.getText():null;
         validateEdge(response);
         return response;
@@ -67,35 +67,35 @@ public class ManagementDocument {
     
     public String getPreviousLetter(){
         
-        letterOnFocus=document.getPrevious(util.Layer.LETTER);
+        letterOnFocus=document.getPrevious(Util.Layer.LETTER);
         String response=(letterOnFocus!=null)?letterOnFocus.getText():null;
         validateEdge(response);
         return response;
     }
     
     public String getNextWord(){
-        letterOnFocus=document.getNext(util.Layer.WORD);
+        letterOnFocus=document.getNext(Util.Layer.WORD);
         String response=(letterOnFocus!=null)?letterOnFocus.getText():null;
         validateEdge(response);
         return response;
     }
     
     public String getPreviousWord(){
-        letterOnFocus=document.getPrevious(util.Layer.WORD);
+        letterOnFocus=document.getPrevious(Util.Layer.WORD);
         String response=(letterOnFocus!=null)?letterOnFocus.getText():null;
         validateEdge(response);
         return response;
     }
     
     public String getNextParagraph(){
-        letterOnFocus=document.getNext(util.Layer.PARAGRAPH);
+        letterOnFocus=document.getNext(Util.Layer.PARAGRAPH);
         String response=(letterOnFocus!=null)?letterOnFocus.getText():null;
         validateEdge(response);
         return response;
     }
     
     public String getPreviousParagraph(){
-        letterOnFocus=document.getPrevious(util.Layer.PARAGRAPH);
+        letterOnFocus=document.getPrevious(Util.Layer.PARAGRAPH);
         String response=(letterOnFocus!=null)?letterOnFocus.getText():null;
         validateEdge(response);
         return response;
@@ -124,7 +124,6 @@ public class ManagementDocument {
     
     
     public void loadDocumentText(TextArea _textArea,String _path){
-//                        ManagementHistory history=new ManagementHistory();
                         ReadDocument read=new ReadDocument(_path);
                         try {
                             document=read.getDocument();
