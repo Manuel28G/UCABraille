@@ -1,6 +1,6 @@
 package ve.edu.ucab.braille.controller;
 
-import ve.edu.ucab.braille.controller.util.Layer;
+import ve.edu.ucab.braille.controller.Util.Layer;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javafx.scene.control.ProgressBar;
+import ve.edu.ucab.braille.model.Configuration;
 import ve.edu.ucab.braille.model.Document;
+import ve.edu.ucab.braille.model.DocumentRead;
 import ve.edu.ucab.braille.model.GeneralPropertie;
 import ve.edu.ucab.braille.model.Letter;
 import ve.edu.ucab.braille.model.Text;
@@ -30,8 +32,9 @@ public class ReadDocument {
 	private static final String DOC="doc";
 	private static final String TXT="txt";
 	private static String textDocument="";
-        private static String filePath;
-        public static String documentExtesion;
+	private DocumentRead document;
+    private static String filePath;
+    public static String documentExtesion;
         
         public ReadDocument(String _filePath)
         {
@@ -72,10 +75,6 @@ public class ReadDocument {
 			System.out.println("Extensión de documento no soportada"); break;
 		}
 
-
-                System.out.println("TEXTO---------------------");
-                System.out.println(textDocument);
-                System.out.println("FIN---------------------");
 		return textDocument;
 	}
 
@@ -102,11 +101,15 @@ public class ReadDocument {
 	 */
 	private  void readXWord(String filePath) throws IOException{
 		FileInputStream fis = new FileInputStream(filePath);
+		
 		XWPFDocument doc;
-                
 		doc = new XWPFDocument(fis);
-		XWPFWordExtractor wordxExtractor = new XWPFWordExtractor(doc);
-		textDocument=wordxExtractor.getText();
+		XWPFWordExtractor file = new XWPFWordExtractor(doc);
+		document = new DocumentRead();
+//        document.setTitle(file.getExtendedProperties().getName());
+//        document.setSize(Long.toString(file.length()));
+        document.setExtension("WORD");
+		textDocument=file.getText();
 
 
 	}
@@ -116,9 +119,15 @@ public class ReadDocument {
 	 * @throws IOException 
 	 */
 	private  void readPDF(String filePath,int pageIni,int pageEnd) throws IOException {
-		PDDocument doc =PDDocument.load(new File(filePath)); // document
+		File file = new File(filePath);
+		PDDocument doc =PDDocument.load(file); // document
 
 		PDFTextStripper reader = new PDFTextStripper();
+    	document = new DocumentRead();
+        document.setTitle(file.getName());
+        document.setSize(Long.toString(file.length()));
+        document.setExtension("PDF");
+        document.setTotalLetter(pageEnd);
 		reader.setStartPage(pageIni);
 		reader.setEndPage(pageEnd);
 		textDocument=reader.getText(doc);
@@ -129,6 +138,10 @@ public class ReadDocument {
             textDocument="";
             List<String> lines=new ArrayList<>();
             File file=new File(filePath);
+        	document = new DocumentRead();
+            document.setTitle(file.getName());
+            document.setSize(Long.toString(file.length()));
+            document.setExtension("TXT");
             BufferedReader br = Files.newBufferedReader(file.toPath());
             lines = br.lines().collect(Collectors.toList());
             br.close();
@@ -152,7 +165,6 @@ public class ReadDocument {
             boolean lineSeparator=false;
             for(char letter: letters){
                  act+=jump;
-                 System.out.println(act);
 //                 p=new progress(_progress, null, act);
 //                 p.execute();
                  Document letterDocument;
@@ -197,6 +209,9 @@ public class ReadDocument {
                  document.addChild(paragraph);
                  
              }
+             this.document.setTotalLetter(document.getMaxRangeChild());
+             Configuration.getInstance().addDocument(this.document);
+             Configuration.getInstance().saveConfiguration();
              return document;             
          }
 }

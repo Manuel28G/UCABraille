@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import ve.edu.ucab.braille.model.Configuration;
 
 /**
  *
@@ -34,9 +35,7 @@ public class UCABraille extends Application {
     public void start(Stage primaryStage) {
          FXMLLoader fxmlLoader;         
          Parent root1 = null;
-         ve.edu.ucab.braille.model.Configuration config = new ve.edu.ucab.braille.model.Configuration();
-         config = ve.edu.ucab.braille.model.Configuration.loadConfiguration();
-         config.setSaveLastFile(!config.isSaveLastFile());
+         ve.edu.ucab.braille.model.Configuration config = Configuration.getInstance();
          config.saveConfiguration();
         try {
             fxmlLoader = new FXMLLoader(UCABraille.class.getResource(ruteFXML));
