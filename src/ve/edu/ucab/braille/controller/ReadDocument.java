@@ -46,12 +46,16 @@ public class ReadDocument {
          * @return Texto contenido en el documento
          * @throws IOException 
          */
-	private  String readDocument() throws IOException{
+	private  String readDocument(DocumentRead _documentRead) throws IOException{
 
 		//Se crea el objeto File con la ruta del archivo
 		File archivodoc = new File(filePath);
 
                 documentExtesion=FilenameUtils.getExtension(archivodoc.getPath());
+                _documentRead.setExtension(documentExtesion.toString());
+                _documentRead.setTitle(archivodoc.getName());
+                _documentRead.setPath(archivodoc.getPath());
+                _documentRead.setSize(archivodoc.getTotalSpace());
 		switch(documentExtesion)
 		{
 		case PDF: 
@@ -151,22 +155,16 @@ public class ReadDocument {
             
         }
          
-         public Document getDocument() throws IOException, InterruptedException, InvocationTargetException{
-            String request=this.readDocument();
+         public Document getDocument(DocumentRead _documentRead) throws IOException, InterruptedException, InvocationTargetException{
+            String request=this.readDocument(_documentRead);
             boolean lineJump=false;//validar si la ultima linea fue un salto
             char[] letters=request.toCharArray();
             Text document=new Text(Layer.PAGE);
             Text paragraph=new Text(Layer.PARAGRAPH);
             Text word=new Text(Layer.WORD);
             int cont=0;
-//            progress p;
-            double jump=1.0/(double)letters.length;
-            double act=0.0;
             boolean lineSeparator=false;
             for(char letter: letters){
-                 act+=jump;
-//                 p=new progress(_progress, null, act);
-//                 p.execute();
                  Document letterDocument;
                  switch(letter){
                      case GeneralPropertie.lineJump:
@@ -209,8 +207,10 @@ public class ReadDocument {
                  document.addChild(paragraph);
                  
              }
+             _documentRead.setTotalLetter(cont);
              this.document.setTotalLetter(document.getMaxRangeChild());
-             Configuration.getInstance().addDocument(this.document);
+             document.setDocumentRead(_documentRead);
+             Configuration.getInstance().getDocument(document);
              Configuration.getInstance().saveConfiguration();
              return document;             
          }
