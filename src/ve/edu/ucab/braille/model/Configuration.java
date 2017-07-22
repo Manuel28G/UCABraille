@@ -7,9 +7,7 @@ package ve.edu.ucab.braille.model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import ve.edu.ucab.braille.controller.Util;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -17,7 +15,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -75,7 +72,7 @@ public class Configuration {
 		this.arduinoTransmisionRate = arduinoTransmisionRate;
 	}
 
-	public List<DocumentRead> getDocument() {
+	public List<DocumentRead> getListDocument() {
 		return document;
 	}
 
@@ -87,26 +84,53 @@ public class Configuration {
 		return Util.configurationRute.getAbsolutePath();
 	}
 
-	public void addDocument(DocumentRead _document) {
+	public void addDocument(DocumentRead _documentRead) {
 		if(!document.isEmpty()) {
 			for(DocumentRead doc: document) {
-				if(doc.getTitle().equals(_document.getTitle()) && (doc.getSize().equals(_document.getSize()))) {
-					if((_document.getActualLetter()>doc.getActualLetter()) || (doc.getActualLetter() == doc.getTotalLetter())) {
-						doc = _document;
-					}
-					else
-					{
-						_document = doc;
-					}
+				if(doc.getTitle().equals(_documentRead.getTitle()) && (doc.getSize().equals(_documentRead.getSize()))) {
+					document.remove(doc);
+					break;
 				}
 			}
 		}
-		else
-		{
-			document.add(_document);
-		}
+			
+		document.add(_documentRead);
 	}
 	
+	public DocumentRead getDocument(DocumentRead _documentRead) {
+		boolean find = false;
+		if(!document.isEmpty()) {
+			for(DocumentRead doc: document) {
+				if(doc.getTitle().equals(_documentRead.getTitle()) && (doc.getSize().equals(_documentRead.getSize()))) {
+					find = true;
+					_documentRead = doc;
+					if(_documentRead.getActualLetter() >= doc.getTotalLetter()) {
+						_documentRead.setActualLetter(0);
+					}
+					break;
+				}
+			}
+		}
+		if(!find) {
+			document.add(_documentRead);
+		}
+			
+		return _documentRead;
+	}
+	
+	public Document getDocument(Document _document) {
+		DocumentRead documentRead = getDocument(_document.getDocumentRead());
+		_document.setDocumentRead(documentRead);
+		return _document;
+	}
+	
+	public void addDocument(Document _document) {
+
+		DocumentRead document = _document.getDocumentRead();
+		addDocument(document);
+		_document.setDocumentRead(document);
+
+	}
 	
 	/**
      * Metodo que carga la configuración inicial del sistema de un archivo JSON
@@ -142,6 +166,7 @@ public class Configuration {
         }
         return configuration;
     }
+    
     
     /**
      * Método que guarda la configuración en un archivo JSON 
