@@ -16,7 +16,9 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.Dragboard;
 import ve.edu.ucab.braille.model.ArduinoConnection;
+import ve.edu.ucab.braille.model.Configuration;
 import ve.edu.ucab.braille.model.Document;
+import ve.edu.ucab.braille.model.DocumentRead;
 import ve.edu.ucab.braille.model.Letter;
 import ve.edu.ucab.braille.presenter.DocumentLoad;
 
@@ -30,20 +32,24 @@ public class ManagementDocument {
     private static ManagementDocument managementDocument=null;
     private ArduinoConnection arduino;
     
-    private Document document;
+    private static Document document;
     private String documentRute;
     private int caracterOnFocus;
     private Document letterOnFocus;
     private final Braille braille;
     
     private ManagementDocument(){
-//        document
-        braille=new Braille();
-        try {
-            arduino=new ArduinoConnection("COM3");
-        } catch (ArduinoException ex) {
-            Logger.getLogger(ManagementDocument.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        braille=new Braille();    
+        
+        try { 
+            arduino=new ArduinoConnection("COM3"); 
+        } catch (ArduinoException ex) { 
+            Logger.getLogger(ManagementDocument.class.getName()).log(Level.SEVERE, null, ex); 
+        } 
+    }
+    
+    public Document getDocument() {
+    		return document;
     }
     
     public String getDocumentRute(){
@@ -60,7 +66,12 @@ public class ManagementDocument {
     
     public String getNextLetter(){
         letterOnFocus=document.getNext(Util.Layer.LETTER);
-        String response=(letterOnFocus!=null)?letterOnFocus.getText():null;
+        String response = null;
+        if(letterOnFocus != null) {
+	        document.getDocumentRead().setActualLetter(letterOnFocus.getId());
+	        response=(letterOnFocus!=null)?letterOnFocus.getText():null;
+        }
+
         validateEdge(response);
         return response;
     }
@@ -68,35 +79,55 @@ public class ManagementDocument {
     public String getPreviousLetter(){
         
         letterOnFocus=document.getPrevious(Util.Layer.LETTER);
-        String response=(letterOnFocus!=null)?letterOnFocus.getText():null;
+        String response = null;
+        if(letterOnFocus != null) {
+	        document.getDocumentRead().setActualLetter(letterOnFocus.getId());
+	        response=(letterOnFocus!=null)?letterOnFocus.getText():null;
+        }
         validateEdge(response);
         return response;
     }
     
     public String getNextWord(){
         letterOnFocus=document.getNext(Util.Layer.WORD);
-        String response=(letterOnFocus!=null)?letterOnFocus.getText():null;
+        String response = null;
+        if(letterOnFocus != null) {
+	        document.getDocumentRead().setActualLetter(letterOnFocus.getId());
+	        response=(letterOnFocus!=null)?letterOnFocus.getText():null;
+        }
         validateEdge(response);
         return response;
     }
     
     public String getPreviousWord(){
         letterOnFocus=document.getPrevious(Util.Layer.WORD);
-        String response=(letterOnFocus!=null)?letterOnFocus.getText():null;
+        String response = null;
+        if(letterOnFocus != null) {
+	        document.getDocumentRead().setActualLetter(letterOnFocus.getId());
+	        response=(letterOnFocus!=null)?letterOnFocus.getText():null;
+        }
         validateEdge(response);
         return response;
     }
     
     public String getNextParagraph(){
         letterOnFocus=document.getNext(Util.Layer.PARAGRAPH);
-        String response=(letterOnFocus!=null)?letterOnFocus.getText():null;
+        String response = null;
+        if(letterOnFocus != null) {
+	        document.getDocumentRead().setActualLetter(letterOnFocus.getId());
+	        response=(letterOnFocus!=null)?letterOnFocus.getText():null;
+        }
         validateEdge(response);
         return response;
     }
     
     public String getPreviousParagraph(){
         letterOnFocus=document.getPrevious(Util.Layer.PARAGRAPH);
-        String response=(letterOnFocus!=null)?letterOnFocus.getText():null;
+        String response = null;
+        if(letterOnFocus != null) {
+		    document.getDocumentRead().setActualLetter(letterOnFocus.getId());
+		    response=(letterOnFocus!=null)?letterOnFocus.getText():null;
+        }
         validateEdge(response);
         return response;
     }
@@ -111,23 +142,20 @@ public class ManagementDocument {
         }.start();
     }
     
-    public void refreshBrailleRepresent(List<RadioButton> _left,List<RadioButton> _right,TextArea _textArea){
-        
-                new Thread(){ 
-                    public void run(){
-                    arduino.sendData(((Letter)letterOnFocus).toBraille());
-                    }}.start();        
+    public void refreshBrailleRepresent(List<RadioButton> _left,List<RadioButton> _right,TextArea _textArea){  
                 braille.representBraille(_left, _right,letterOnFocus);
-                _textArea.selectRange(letterOnFocus.getId(),letterOnFocus.getId()+1);
-                
+                System.out.println("letterOnFocus:"+letterOnFocus.getId());
+                _textArea.selectRange(letterOnFocus.getId(),letterOnFocus.getId()+1);           
     }
     
     
-    public void loadDocumentText(TextArea _textArea,String _path){
+    public void loadDocumentText(TextArea _textArea,String _path,Configuration _configuration){
                         ReadDocument read=new ReadDocument(_path);
                         try {
-                            document=read.getDocument();
-                            
+                        	DocumentRead _documentRead = new DocumentRead();
+                            document=read.getDocument(_documentRead);
+                    		ManagementDocument.getInstance().getNextLetter();//actualizamos a la letra actual obteniendo el texto y todos sus atributos
+                            letterOnFocus = document.getFocusIdChild();
                             _textArea.setText(document.getText());
                             _textArea.setEditable(false);
                             _textArea.selectRange(1, 0);
@@ -142,13 +170,12 @@ public class ManagementDocument {
                 boolean success = false;
                 if (_dragBoard.hasFiles()){
                     success = true;
-                    List<File> ListArchivo ;
-                    ListArchivo = _dragBoard.getFiles();
-                    File archivo;
-                    for (int i=0;i<ListArchivo.size();i++){
-                        archivo =ListArchivo.get(i);
+                    List<File> listArchivo ;
+                    listArchivo = _dragBoard.getFiles();
+                    Configuration config = Configuration.getInstance();
+                    for (File archivo : listArchivo){
                         String path=archivo.getAbsolutePath();
-                        this.loadDocumentText(_textArea, path);
+                        this.loadDocumentText(_textArea, path,config);
                     }
                     try {
                         Thread.sleep(1000);
