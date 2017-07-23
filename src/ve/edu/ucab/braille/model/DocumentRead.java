@@ -77,6 +77,9 @@ public class DocumentRead {
 	public void setSize(String size) {
 		this.size = size;
 	}
+	public void setSize(long size) {
+		this.size = Long.toString(size);
+	}
 
 	public String getExtension() {
 		return extension;
