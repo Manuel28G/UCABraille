@@ -8,6 +8,7 @@ package ve.edu.ucab.braille.presenter;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.RadioButton;
@@ -16,6 +17,10 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
 import java.awt.FileDialog;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,6 +28,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
@@ -31,6 +38,7 @@ import javafx.scene.layout.AnchorPane;
 import javax.swing.JFrame;
 import ve.edu.ucab.braille.controller.ManagementDocument;
 import ve.edu.ucab.braille.controller.ManagementHistory;
+import ve.edu.ucab.braille.model.Configuration;
 
 /**
  * FXML Controller class
@@ -224,6 +232,8 @@ public class DocumentLoad implements Initializable {
                 Dragboard db = event.getDragboard();
                 boolean success=ManagementDocument.getInstance().dragAndDrop(db, TA_Text);
                 event.setDropCompleted(success);
+                //refrescamos la selección
+                ManagementDocument.getInstance().refreshBrailleRepresent(leftRepresentation, rightRepresentation,TA_Text);
                 event.consume();
     }
 
@@ -238,10 +248,38 @@ public class DocumentLoad implements Initializable {
             String file=fd.getFile();
             String directory=fd.getDirectory();
             String path=directory+file;
-            ManagementDocument.getInstance().loadDocumentText(TA_Text, path);
+            Configuration config = Configuration.getInstance();
+            ManagementDocument.getInstance().loadDocumentText(TA_Text, path,config);
+            //refrescamos la selección
+            ManagementDocument.getInstance().refreshBrailleRepresent(leftRepresentation, rightRepresentation,TA_Text);
             fd.dispose();
     }
 
+    @FXML
+    void configActionMenu(ActionEvent event) {
+
+        FXMLLoader fxmlLoader;         
+        Parent root1 = null;
+    	
+    	fxmlLoader = new FXMLLoader(UCABraille.class.getResource(UCABraille.ruteOptionsFXML));
+         System.out.println(fxmlLoader.getLocation());
+         try {
+			root1 = (Parent) fxmlLoader.load();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+         Stage stage = new Stage();
+         stage.initModality(Modality.APPLICATION_MODAL);
+         stage.initStyle(StageStyle.DECORATED);
+         stage.setMaximized(false);
+         stage.setResizable(false);
+         stage.setTitle("Option");
+         stage.setScene(new Scene(root1));  
+         stage.show();
+    }
+    
     @FXML
     private void previousLetterActionMenu(ActionEvent event) {
         this.pressPreviousButton();
