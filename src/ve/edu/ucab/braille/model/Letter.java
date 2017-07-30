@@ -66,9 +66,6 @@ public class Letter extends Document {
 
     @Override
     public Document getNext(Layer layer) {
-        System.out.println("ID: "+this.id);
-        System.out.println("FocusId: "+(this.getFocusIdChild().getId()+1));
-        System.out.println("Text:["+this.text+"]");
         if(this.id==this.getFocusIdChild().getId()+1){
             this.setFocusIdChild(this);
             return this;}

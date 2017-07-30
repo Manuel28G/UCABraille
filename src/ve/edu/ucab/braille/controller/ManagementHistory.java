@@ -47,20 +47,16 @@ public class ManagementHistory {
     
     public void registerHistory(String fileRute) throws FileNotFoundException, IOException{
         File f = new File(jsonRute);
-        System.out.println("file:"+f.exists());
         if(f.exists()){
             FileReader fr=new FileReader(f);
-            System.out.println("fr:"+fr);
-               System.out.println("bf:"+new BufferedReader(fr));    
+//               System.out.println("bf:"+new BufferedReader(fr));    
             
         }
     
         
            try (Writer writer = new FileWriter(jsonRute)) {
-
                    Gson gson = new GsonBuilder().create();
                   String json= gson.toJson(new DocumentsRegister());
-                  System.out.println("JSON:"+json);
                    gson.toJson(json, writer);
                }
     

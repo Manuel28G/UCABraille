@@ -8,6 +8,8 @@ package ve.edu.ucab.braille.model;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import ve.edu.ucab.braille.controller.Util;
+import ve.edu.ucab.braille.presenter.DocumentLoad;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -126,9 +128,11 @@ public class Configuration {
 	
 	public void addDocument(Document _document) {
 
-		DocumentRead document = _document.getDocumentRead();
-		addDocument(document);
-		_document.setDocumentRead(document);
+		if(_document != null) {
+			DocumentRead document = _document.getDocumentRead();
+			addDocument(document);
+			_document.setDocumentRead(document);
+		}
 
 	}
 	
@@ -139,9 +143,10 @@ public class Configuration {
         try {
             return loadConfiguration(Util.configurationRute.getAbsolutePath());
         } catch (FileNotFoundException ex) {
-            System.out.println("Mensaje: "+ex.getMessage());
-            System.out.println("Causa: "+ex.getCause());
-            return null;
+           String error="Mensaje: "+ex.getMessage();
+           error +="Causa: "+ex.getCause();
+           DocumentLoad.logger.error(error);
+           return null;
         }
     }
     
@@ -187,8 +192,9 @@ public class Configuration {
             Gson gson = new GsonBuilder().create();
             gson.toJson(configuration, writer);
         } catch (IOException ex) {
-            System.out.println("Mensaje: "+ex.getMessage());
-            System.out.println("Causa: "+ex.getCause());
+            String error="Mensaje: "+ex.getMessage();
+            error +="Causa: "+ex.getCause();
+            DocumentLoad.logger.error(error);
         } finally {
             try {
             	if(writer != null) {
