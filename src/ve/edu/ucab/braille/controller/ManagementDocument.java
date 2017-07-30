@@ -12,8 +12,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.Dragboard;
 import ve.edu.ucab.braille.model.ArduinoConnection;
 import ve.edu.ucab.braille.model.Configuration;
@@ -40,11 +43,14 @@ public class ManagementDocument {
     
     private ManagementDocument(){
         braille=new Braille();    
-        
         try { 
-            arduino=new ArduinoConnection("COM3"); 
+            arduino=ArduinoConnection.getInstance(); 
         } catch (ArduinoException ex) { 
-            Logger.getLogger(ManagementDocument.class.getName()).log(Level.SEVERE, null, ex); 
+           	Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Arduino Conexión");
+            alert.setHeaderText("Error al intentar conectar con el arduino");
+            alert.setContentText("Error al intentar conectar con el arduino, por favor verifique que este bien conectado y tenga configurado los parámetros correctos.");
+            alert.showAndWait(); 
         } 
     }
     
@@ -144,7 +150,6 @@ public class ManagementDocument {
     
     public void refreshBrailleRepresent(List<RadioButton> _left,List<RadioButton> _right,TextArea _textArea){  
                 braille.representBraille(_left, _right,letterOnFocus);
-                System.out.println("letterOnFocus:"+letterOnFocus.getId());
                 _textArea.selectRange(letterOnFocus.getId(),letterOnFocus.getId()+1);           
     }
     
@@ -154,11 +159,13 @@ public class ManagementDocument {
                         try {
                         	DocumentRead _documentRead = new DocumentRead();
                             document=read.getDocument(_documentRead);
-                    		ManagementDocument.getInstance().getNextLetter();//actualizamos a la letra actual obteniendo el texto y todos sus atributos
-                            letterOnFocus = document.getFocusIdChild();
-                            _textArea.setText(document.getText());
-                            _textArea.setEditable(false);
-                            _textArea.selectRange(1, 0);
+                            if(document != null) {
+	                    		ManagementDocument.getInstance().getNextLetter();//actualizamos a la letra actual obteniendo el texto y todos sus atributos
+	                            letterOnFocus = document.getFocusIdChild();
+	                            _textArea.setText(document.getText());
+	                            _textArea.setEditable(false);
+	                            _textArea.selectRange(1, 0);
+                            }
 
                         } catch (IOException | InterruptedException | InvocationTargetException ex) {
                             Logger.getLogger(DocumentLoad.class.getName()).log(Level.SEVERE, null, ex);
