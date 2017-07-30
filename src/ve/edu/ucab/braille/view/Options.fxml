@@ -14,12 +14,12 @@
     <URL value="@options.css" />
   </stylesheets>
    <children>
-      <ComboBox layoutX="14.0" layoutY="26.0" prefHeight="25.0" prefWidth="149.0" promptText="Terminal" />
-      <TextField layoutX="193.0" layoutY="26.0" promptText="Transmition rate" />
+      <ComboBox fx:id="CB_Terminal" layoutX="14.0" layoutY="26.0" prefHeight="25.0" prefWidth="149.0" promptText="Terminal" />
       <Slider fx:id="SL_ReadTime" layoutX="22.0" layoutY="114.0" majorTickUnit="10.0" max="60.0" onMouseReleased="#dragMouseReleased" prefHeight="33.0" prefWidth="326.0" showTickLabels="true" snapToTicks="true" />
-      <ToggleButton layoutX="14.0" layoutY="71.0" mnemonicParsing="false" text="Automatic read" />
-      <Button layoutX="290.0" layoutY="161.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="52.0" text="Save" />
-      <Button layoutX="216.0" layoutY="161.0" mnemonicParsing="false" text="Cancel" />
-      <Label fx:id="LB_ReadTime" layoutX="193.0" layoutY="75.0" text="Tiempo por palabra: 0 seg" />
+      <ToggleButton fx:id="TBT_Automatic" layoutX="14.0" layoutY="71.0" mnemonicParsing="false" onAction="#OnActionAutomticRead" text="Automatic read" />
+      <Button id="BT_Save" fx:id="BT_Save" layoutX="290.0" layoutY="161.0" mnemonicParsing="false" onAction="#OnActionSave" prefHeight="25.0" prefWidth="52.0" text="Save" />
+      <Button id="BT_Cancel" fx:id="BT_Cancel" layoutX="216.0" layoutY="161.0" mnemonicParsing="false" onAction="#OnActionCancel" text="Cancel" />
+      <TextField id="TF_TransmitionRate" fx:id="TF_TransmitionRate" layoutX="193.0" layoutY="26.0" onKeyTyped="#OnKeyTypedTransmitionRate" promptText="Transmition rate" />
+      <Label fx:id="LB_ReadTime" layoutX="193.0" layoutY="75.0" text="Tiempo por letra:   0 seg" />
    </children>
 </AnchorPane>
