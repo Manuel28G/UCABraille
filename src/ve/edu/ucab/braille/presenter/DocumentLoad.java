@@ -5,6 +5,8 @@
  */
 package ve.edu.ucab.braille.presenter;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -13,6 +15,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
@@ -22,11 +26,11 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.awt.FileDialog;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -36,6 +40,10 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.AnchorPane;
 import javax.swing.JFrame;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import ve.edu.ucab.braille.controller.ManagementDocument;
 import ve.edu.ucab.braille.controller.ManagementHistory;
 import ve.edu.ucab.braille.model.Configuration;
@@ -100,20 +108,47 @@ public class DocumentLoad implements Initializable {
     private MenuItem MN_Contact;
     @FXML
     public ProgressBar PB_Progress;
+    @FXML
+    private ImageView IV_Connection;
     
     private List<RadioButton> leftRepresentation;
     private List<RadioButton> rightRepresentation;
+    public static final Logger logger = LogManager.getLogger(DocumentLoad.class.getName());
+    private static DocumentLoad documentLoad;
     
+    public static DocumentLoad getInstance() {
+    	if(documentLoad == null) {
+    		documentLoad = new DocumentLoad();
+    	}
+    	return documentLoad;
+    }
     
-    /**
+    public ImageView getIV_Connection() {
+		return IV_Connection;
+	}
+    
+    public void arduinoIsConnect() {
+        File file = new File("src/resource/Image/connect.png");
+        Image image = new Image(file.toURI().toString());
+    	IV_Connection.setImage(image);
+    }
+    
+    public void arduinoIsDisconnect() {
+        File file = new File("src/resource/Image/disconnect.png");
+        Image image = new Image(file.toURI().toString());
+    	IV_Connection.setImage(image);
+    }
+
+	/**
      * Initializes the controller class.
      * @param url
      * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-     
         try {
+        	documentLoad = this;
+        	this.arduinoIsDisconnect();
             initializeEvents();
             ManagementHistory history=ManagementHistory.getInstance();
                     history.registerHistory("");
@@ -135,7 +170,8 @@ public class DocumentLoad implements Initializable {
                     rightRepresentation.add(RB_R5);
                     rightRepresentation.add(RB_R6);
         } catch (IOException ex) {
-            Logger.getLogger(DocumentLoad.class.getName()).log(Level.SEVERE, null, ex);
+        	ex.printStackTrace();
+        	
         }
 
          }
@@ -260,13 +296,10 @@ public class DocumentLoad implements Initializable {
 
         FXMLLoader fxmlLoader;         
         Parent root1 = null;
-    	
     	fxmlLoader = new FXMLLoader(UCABraille.class.getResource(UCABraille.ruteOptionsFXML));
-         System.out.println(fxmlLoader.getLocation());
          try {
 			root1 = (Parent) fxmlLoader.load();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
