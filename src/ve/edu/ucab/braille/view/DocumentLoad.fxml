@@ -4,18 +4,19 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane id="AnchorPane" fx:id="PN_Principal" disable="false" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ve.edu.ucab.braille.presenter.DocumentLoad">
+<AnchorPane id="AnchorPane" fx:id="PN_Principal" disable="false" prefHeight="400.0" prefWidth="594.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ve.edu.ucab.braille.presenter.DocumentLoad">
   <children>
     <TextArea fx:id="TA_Text" disable="false" layoutX="14.0" layoutY="45.0" prefHeight="262.0" prefWidth="572.0" wrapText="true" />
-    <Pane fx:id="PN_Left" disable="true" focusTraversable="false" layoutX="422.0" layoutY="307.0" prefHeight="83.0" prefWidth="79.0001220703125" visible="true">
+    <Pane fx:id="PN_Left" disable="true" focusTraversable="false" layoutX="221.0" layoutY="307.0" prefHeight="83.0" prefWidth="79.0001220703125" visible="true">
       <children>
         <RadioButton fx:id="RB_L1" layoutX="14.0" layoutY="6.0" mnemonicParsing="false" text="" />
         <RadioButton fx:id="RB_L4" layoutX="51.0" layoutY="6.0" mnemonicParsing="false" text="" />
@@ -25,7 +26,7 @@
         <RadioButton fx:id="RB_L6" layoutX="51.0" layoutY="61.0" mnemonicParsing="false" text="" />
       </children>
     </Pane>
-    <Pane fx:id="PN_Right" disable="true" layoutX="505.0" layoutY="307.0" prefHeight="83.0" prefWidth="79.9998779296875">
+    <Pane fx:id="PN_Right" disable="true" layoutX="304.0" layoutY="307.0" prefHeight="83.0" prefWidth="79.9998779296875">
       <children>
         <RadioButton id="RB_L1" fx:id="RB_R1" layoutX="14.0" layoutY="6.0" mnemonicParsing="false" text="" />
         <RadioButton id="RB_L4" fx:id="RB_R4" layoutX="51.0" layoutY="6.0" mnemonicParsing="false" text="" />
@@ -108,7 +109,11 @@
         </Menu>
       </menus>
     </MenuBar>
-    <ProgressIndicator fx:id="PI_ProgressLoad" disable="false" layoutX="276.0" layoutY="169.0" prefHeight="63.0" prefWidth="49.0" progress="0.0" visible="false" />
-    <ProgressBar fx:id="PB_Progress" blendMode="DARKEN" cache="true" cacheHint="DEFAULT" depthTest="INHERIT" layoutX="14.0" layoutY="333.0" prefHeight="24.0" prefWidth="249.0" progress="0.0" style="" visible="true" />
+    <ProgressIndicator fx:id="PI_ProgressLoad" disable="false" layoutX="276.0" layoutY="169.0" opacity="0.0" prefHeight="63.0" prefWidth="49.0" progress="0.0" />
+      <ImageView fx:id="IV_Connection" disable="true" fitHeight="72.0" fitWidth="69.0" layoutX="517.0" layoutY="314.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../../../../../Desktop/Image/disconnect.png" />
+         </image>
+      </ImageView>
   </children>
 </AnchorPane>
