@@ -17,6 +17,8 @@ import ve.edu.ucab.braille.model.DocumentRead;
 import ve.edu.ucab.braille.model.GeneralPropertie;
 import ve.edu.ucab.braille.model.Letter;
 import ve.edu.ucab.braille.model.Text;
+import ve.edu.ucab.braille.presenter.DocumentLoad;
+
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
@@ -75,8 +77,9 @@ public class ReadDocument {
 			break;
                         
 		default:
-			textDocument="Extensión no soportada";
-			System.out.println("Extensión de documento no soportada"); break;
+			textDocument="";
+			DocumentLoad.logger.debug(textDocument);
+			break;
 		}
 
 		return textDocument;
@@ -159,59 +162,62 @@ public class ReadDocument {
             String request=this.readDocument(_documentRead);
             boolean lineJump=false;//validar si la ultima linea fue un salto
             char[] letters=request.toCharArray();
-            Text document=new Text(Layer.PAGE);
-            Text paragraph=new Text(Layer.PARAGRAPH);
-            Text word=new Text(Layer.WORD);
-            int cont=0;
-            boolean lineSeparator=false;
-            for(char letter: letters){
-                 Document letterDocument;
-                 switch(letter){
-                     case GeneralPropertie.lineJump:
-                            if(!lineSeparator){
-                                paragraph.addChild(word);
-                             }
-                            word=new Text(Layer.WORD);
-                            letterDocument=new Letter(letter,cont); 
-                            word.addChild(letterDocument);
-                            //agregamos la palabra antes del salto de linea
-                            paragraph.addChild(word);
-                            document.addChild(paragraph);
-                            paragraph=new Text(Layer.PARAGRAPH);
-                            word=new Text(Layer.WORD); 
-                            lineJump=true;
-                            break;
-                     case GeneralPropertie.carReturn: 
-                            //Si es un CarReturn no se toma en cuenta y se omite ya que eso no es visible para el usuario final
-                            cont--;
-                            break;
-                     case GeneralPropertie.lineSeparator :
-                            lineSeparator=true;
-                            paragraph.addChild(word);
-                            word=new Text(Layer.WORD);
-                            letterDocument=new Letter(letter,cont); 
-                            word.addChild(letterDocument);
-                            paragraph.addChild(word);
-                            word=new Text(Layer.WORD);
-                            break;
-                     default:
-                            lineSeparator=false;
-                            letterDocument=new Letter(letter,cont); 
-                            word.addChild(letterDocument);
-                            break;
-                }
-                cont++;
-             }
-
-             if(!lineJump){
-                 document.addChild(paragraph);
-                 
-             }
-             _documentRead.setTotalLetter(cont);
-             this.document.setTotalLetter(document.getMaxRangeChild());
-             document.setDocumentRead(_documentRead);
-             Configuration.getInstance().getDocument(document);
-             Configuration.getInstance().saveConfiguration();
+            Text document = null;
+            if(!request.isEmpty()) {
+	            document = new Text(Layer.PAGE);
+	            Text paragraph=new Text(Layer.PARAGRAPH);
+	            Text word=new Text(Layer.WORD);
+	            int cont=0;
+	            boolean lineSeparator=false;
+	            for(char letter: letters){
+	                 Document letterDocument;
+	                 switch(letter){
+	                     case GeneralPropertie.lineJump:
+	                            if(!lineSeparator){
+	                                paragraph.addChild(word);
+	                             }
+	                            word=new Text(Layer.WORD);
+	                            letterDocument=new Letter(letter,cont); 
+	                            word.addChild(letterDocument);
+	                            //agregamos la palabra antes del salto de linea
+	                            paragraph.addChild(word);
+	                            document.addChild(paragraph);
+	                            paragraph=new Text(Layer.PARAGRAPH);
+	                            word=new Text(Layer.WORD); 
+	                            lineJump=true;
+	                            break;
+	                     case GeneralPropertie.carReturn: 
+	                            //Si es un CarReturn no se toma en cuenta y se omite ya que eso no es visible para el usuario final
+	                            cont--;
+	                            break;
+	                     case GeneralPropertie.lineSeparator :
+	                            lineSeparator=true;
+	                            paragraph.addChild(word);
+	                            word=new Text(Layer.WORD);
+	                            letterDocument=new Letter(letter,cont); 
+	                            word.addChild(letterDocument);
+	                            paragraph.addChild(word);
+	                            word=new Text(Layer.WORD);
+	                            break;
+	                     default:
+	                            lineSeparator=false;
+	                            letterDocument=new Letter(letter,cont); 
+	                            word.addChild(letterDocument);
+	                            break;
+	                }
+	                cont++;
+	             }
+	
+	             if(!lineJump){
+	                 document.addChild(paragraph);
+	                 
+	             }
+	             _documentRead.setTotalLetter(cont);
+	             this.document.setTotalLetter(document.getMaxRangeChild());
+	             document.setDocumentRead(_documentRead);
+	             Configuration.getInstance().getDocument(document);
+	             Configuration.getInstance().saveConfiguration();
+            }
              return document;             
          }
 }
