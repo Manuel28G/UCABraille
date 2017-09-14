@@ -112,7 +112,7 @@
     <ProgressIndicator fx:id="PI_ProgressLoad" disable="false" layoutX="276.0" layoutY="169.0" opacity="0.0" prefHeight="63.0" prefWidth="49.0" progress="0.0" />
       <ImageView fx:id="IV_Connection" disable="true" fitHeight="72.0" fitWidth="69.0" layoutX="517.0" layoutY="314.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../../../../../Desktop/Image/disconnect.png" />
+            <Image url="@../../../../../resource/Image/disconnect.png" />
          </image>
       </ImageView>
   </children>
