@@ -10,6 +10,7 @@ import com.panamahitek.PanamaHitek_Arduino;
 
 import java.net.URISyntaxException;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,9 +26,9 @@ public class ArduinoConnection {
    private int frecuency=9600;
    private PanamaHitek_Arduino connection ;
    private static ArduinoConnection arduinoConnection;
+   private boolean arduinoIsConnect = false;
    
-   
-   private static ArduinoConnection getInstance() throws ArduinoException {
+   public static ArduinoConnection getInstance() throws ArduinoException {
 	   if(arduinoConnection == null) {
 		   Configuration config = Configuration.getInstance();
 		   if(config.getArduinoTransmisionRate()>0 && !config.getArduinoTerminal().isEmpty()) {
@@ -41,16 +42,31 @@ public class ArduinoConnection {
 	   return arduinoConnection;
    }
 
-   public ArduinoConnection() throws ArduinoException {
+   public ArduinoConnection() {
 	       connection=new PanamaHitek_Arduino();
 	       setTerminalConnection("");
    }
+   
    private void connectToArduino(String _terminal,int _frecuency) throws ArduinoException {
-	   connection.arduinoTX(terminal, frecuency);//declaramos solo para envio
-	   connection.setTimeOut(1);
-	   DocumentLoad.getInstance().arduinoIsConnect();
+	   if(!arduinoIsConnect) {
+		   connection.arduinoTX(terminal, frecuency);//declaramos solo para envio
+		   connection.setTimeOut(1);
+		   DocumentLoad.getInstance().arduinoIsConnect();
+		   arduinoIsConnect = true;
+	   }
+	   else
+	   {
+		   System.out.println("ERROR YA EL ARDUINO ESTA CONECTADO");
+	   }
    }
    
+   public boolean isArduinoConnect() {
+	   return arduinoIsConnect;
+   }
+   
+   public void setArduinoConnect(boolean _arduinoIsConnect) {
+	   arduinoIsConnect = _arduinoIsConnect;
+   }
    
    /**
     * Constructor de la clase Arduino Connection
@@ -67,20 +83,6 @@ public class ArduinoConnection {
        }
    }
    
-   /**
-    * Constructor de la clase Arduino Connection
-    * @param _terminal Terminal por el cual esta conectado el Arduino p.e. COM1
-    * @param frecuency frecuencia de la conexión 
-    */
-   private ArduinoConnection(String _terminal) throws ArduinoException{
-       terminal=_terminal;
-       connection=new PanamaHitek_Arduino();
-       if(connection.getSerialPorts().contains(_terminal)) {
-    	   connectToArduino(terminal, frecuency);
-       }
-   }
-   
-   
    public List<String> getSerialPort(){
 	   return connection.getSerialPorts();
    }
@@ -95,16 +97,18 @@ public class ArduinoConnection {
 	   }
    }
    
-   public void setTerminalConnection(String _terminal) throws ArduinoException {
-
-	   if(connection.getSerialPorts().size() == 1) {
-		   terminal = connection.getSerialPorts().get(0);
-    	   connectToArduino(terminal, frecuency);
-	   }
+   public void connectToArduino() throws ArduinoException {
+	   connectToArduino(terminal, frecuency);
+   }
+   
+   public void setTerminalConnection(String _terminal) throws NullPointerException {
+	   if(_terminal != null || !_terminal.isEmpty()) {
+		   terminal = _terminal;
+	    }
 	   else
-       if(connection.getSerialPorts().contains(_terminal)) {
-    	   connectToArduino(terminal, frecuency);
-       }
+	   {
+		   throw new NullPointerException("El terminal asignado esta vacio o nulo.");
+	   }
    }
    
    /**
@@ -115,8 +119,19 @@ public class ArduinoConnection {
        String message=Arrays.toString(represent[0]).replace("[", "").replace("]", "").replace(",","").replace(" ", "");
        message+=Arrays.toString(represent[1]).replace("[", "").replace("]", "").replace(",","").replace(" ", "");
        try {
+    	   System.out.println("Intentando enviar");
+    	   System.out.println("ports:"+connection.getPortsAvailable());
+    	   System.out.println("portsSerial:"+connection.getSerialPorts());
+    	   PanamaHitek_Arduino connectTmp = new PanamaHitek_Arduino();
+    	   System.out.println("ports:"+connectTmp.getPortsAvailable());
+    	   System.out.println("portsSerial:"+connectTmp.getSerialPorts());
+    	   connectTmp = null;
+ 
+//    	   this.connectToArduino(terminal, frecuency);
            connection.sendData(message);
-           connection.flushSerialPort();
+    	   System.out.println("Enviado..");
+//           connection.flushSerialPort();
+//    	   System.out.println("Enviado..");
        } catch (ArduinoException ex) {
     	   ex.printStackTrace();
     	   DocumentLoad.getInstance().arduinoIsDisconnect();
@@ -143,7 +158,7 @@ public class ArduinoConnection {
    }
    
    /**
-    * Método que envia un pulso al motor de vibración del arduino para notificar
+    *   Método que envia un pulso al motor de vibración del arduino para notificar
     * limite de frontera
     */
    public void alertNotification(){

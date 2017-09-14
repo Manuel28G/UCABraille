@@ -142,6 +142,7 @@ public class ManagementDocument {
         new Thread(){
             public void run(){
                 if(response==null){
+                	//si se llego al limite de frontera notificar al motor que vibrará
                     arduino.alertNotification();
                 }
             }
@@ -150,7 +151,14 @@ public class ManagementDocument {
     
     public void refreshBrailleRepresent(List<RadioButton> _left,List<RadioButton> _right,TextArea _textArea){  
                 braille.representBraille(_left, _right,letterOnFocus);
-                _textArea.selectRange(letterOnFocus.getId(),letterOnFocus.getId()+1);           
+                _textArea.selectRange(letterOnFocus.getId(),letterOnFocus.getId()+1);   
+                if(DocumentLoad.getInstance().isArduinConnect()) {
+	                new Thread(){  
+	                    public void run(){ 
+	                    
+	                    arduino.sendData(((Letter)letterOnFocus).toBraille()); 
+	                    }}.start();  
+                }
     }
     
     

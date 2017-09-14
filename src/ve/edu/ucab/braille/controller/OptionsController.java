@@ -152,6 +152,7 @@ public class OptionsController implements Initializable {
         	
         	ArduinoConnection.getInstance().setTerminalRate(config.getArduinoTransmisionRate());
         	ArduinoConnection.getInstance().setTerminalConnection(config.getArduinoTerminal());
+        	ArduinoConnection.getInstance().connectToArduino();
         	Stage stage = (Stage) BT_Save.getScene().getWindow();
         	Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Configuración");
