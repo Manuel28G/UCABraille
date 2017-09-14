@@ -17,8 +17,10 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
@@ -44,8 +46,11 @@ import javax.swing.JFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.panamahitek.ArduinoException;
+
 import ve.edu.ucab.braille.controller.ManagementDocument;
 import ve.edu.ucab.braille.controller.ManagementHistory;
+import ve.edu.ucab.braille.model.ArduinoConnection;
 import ve.edu.ucab.braille.model.Configuration;
 
 /**
@@ -115,6 +120,12 @@ public class DocumentLoad implements Initializable {
     private List<RadioButton> rightRepresentation;
     public static final Logger logger = LogManager.getLogger(DocumentLoad.class.getName());
     private static DocumentLoad documentLoad;
+    private final ArduinoConnection arduino ;
+
+    public DocumentLoad() {
+    	documentLoad = this;
+    	arduino = new ArduinoConnection();
+    }
     
     public static DocumentLoad getInstance() {
     	if(documentLoad == null) {
@@ -127,16 +138,22 @@ public class DocumentLoad implements Initializable {
 		return IV_Connection;
 	}
     
+    public boolean isArduinConnect() {
+    	return arduino.isArduinoConnect();
+    }
+    
     public void arduinoIsConnect() {
         File file = new File("src/resource/Image/connect.png");
         Image image = new Image(file.toURI().toString());
     	IV_Connection.setImage(image);
+    	arduino.setArduinoConnect(true);
     }
     
     public void arduinoIsDisconnect() {
         File file = new File("src/resource/Image/disconnect.png");
         Image image = new Image(file.toURI().toString());
     	IV_Connection.setImage(image);
+    	arduino.setArduinoConnect(false); 
     }
 
 	/**
@@ -147,8 +164,13 @@ public class DocumentLoad implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-        	documentLoad = this;
-        	this.arduinoIsDisconnect();
+        	if(arduino.isArduinoConnect()) {
+        		this.arduinoIsConnect();
+        	}
+        	else
+        	{
+        		this.arduinoIsDisconnect();
+        	}
             initializeEvents();
             ManagementHistory history=ManagementHistory.getInstance();
                     history.registerHistory("");
@@ -172,7 +194,10 @@ public class DocumentLoad implements Initializable {
         } catch (IOException ex) {
         	ex.printStackTrace();
         	
-        }
+        } catch (ArduinoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
          }
                  
@@ -180,8 +205,9 @@ public class DocumentLoad implements Initializable {
     /**
      * Método que agrega e inicializa los eventos a los componentes de la interfaz
      * DocumentLoad
+     * @throws ArduinoException 
      */
-   private void initializeEvents(){
+   private void initializeEvents() throws ArduinoException{
           
          TA_Text.setOnDragDetected((MouseEvent)->{
             Dragboard db = TA_Text.startDragAndDrop(TransferMode.ANY);
@@ -195,7 +221,17 @@ public class DocumentLoad implements Initializable {
             this.OnDragDropped(DragEvent);
          });
           
-         
+
+     	Configuration config = Configuration.getInstance();
+        ArduinoConnection arduino =  ArduinoConnection.getInstance();
+        if(!arduino.isArduinoConnect()) {
+	     	if(!config.getArduinoTerminal().isEmpty() && config.getArduinoTransmisionRate()>0 && arduino.getSerialPort().contains(config.getArduinoTerminal())) {
+	     		arduino.setTerminalConnection(config.getArduinoTerminal());
+	     		arduino.setTerminalRate(config.getArduinoTransmisionRate());
+	     		arduino.connectToArduino();
+	     	}
+	         
+        }
    }
     
    private void pressNextWord(){
