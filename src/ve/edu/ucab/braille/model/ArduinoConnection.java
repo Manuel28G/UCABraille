@@ -14,6 +14,9 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import jssc.SerialPortEvent;
+import jssc.SerialPortEventListener;
 import jssc.SerialPortException;
 import ve.edu.ucab.braille.presenter.DocumentLoad;
 
@@ -27,6 +30,22 @@ public class ArduinoConnection {
    private PanamaHitek_Arduino connection ;
    private static ArduinoConnection arduinoConnection;
    private boolean arduinoIsConnect = false;
+   private SerialPortEventListener listener = new SerialPortEventListener() {
+		
+		@Override
+		public void serialEvent(SerialPortEvent arg0) {
+			try {
+				if(connection.isMessageAvailable()) {
+					System.out.println("Mensaje recibido:"+connection.printMessage());
+				}
+				
+			} catch (SerialPortException | ArduinoException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+	};
    
    public static ArduinoConnection getInstance() throws ArduinoException {
 	   if(arduinoConnection == null) {
@@ -39,9 +58,25 @@ public class ArduinoConnection {
 			   arduinoConnection = new ArduinoConnection();
 		   }
 	   }
+	   
 	   return arduinoConnection;
    }
-
+   
+   /**
+    * Constructor de la clase Arduino Connection
+    * @param _terminal Terminal por el cual esta conectado el Arduino p.e. COM1
+    * @param frecuency frecuencia de la conexión 
+ * @throws URISyntaxException 
+    */
+   private ArduinoConnection(String _terminal,int _frecuency) throws ArduinoException{
+       terminal=_terminal;
+       frecuency=_frecuency;
+       connection=new PanamaHitek_Arduino();
+       if(connection.getSerialPorts().contains(_terminal)) {
+    	   connectToArduino(terminal, frecuency);
+       }
+   }
+   
    public ArduinoConnection() {
 	       connection=new PanamaHitek_Arduino();
 	       setTerminalConnection("");
@@ -49,7 +84,7 @@ public class ArduinoConnection {
    
    private void connectToArduino(String _terminal,int _frecuency) throws ArduinoException {
 	   if(!arduinoIsConnect) {
-		   connection.arduinoTX(terminal, frecuency);//declaramos solo para envio
+		   connection.arduinoRXTX(terminal, frecuency,listener);//declaramos solo para envio
 		   connection.setTimeOut(1);
 		   DocumentLoad.getInstance().arduinoIsConnect();
 		   arduinoIsConnect = true;
@@ -66,21 +101,6 @@ public class ArduinoConnection {
    
    public void setArduinoConnect(boolean _arduinoIsConnect) {
 	   arduinoIsConnect = _arduinoIsConnect;
-   }
-   
-   /**
-    * Constructor de la clase Arduino Connection
-    * @param _terminal Terminal por el cual esta conectado el Arduino p.e. COM1
-    * @param frecuency frecuencia de la conexión 
- * @throws URISyntaxException 
-    */
-   private ArduinoConnection(String _terminal,int _frecuency) throws ArduinoException{
-       terminal=_terminal;
-       frecuency=_frecuency;
-       connection=new PanamaHitek_Arduino();
-       if(connection.getSerialPorts().contains(_terminal)) {
-    	   connectToArduino(terminal, frecuency);
-       }
    }
    
    public List<String> getSerialPort(){
