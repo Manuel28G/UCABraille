@@ -279,7 +279,7 @@ public class DocumentLoad implements Initializable {
     * Método que se ejecuta al presionar el boto "Anterior" en la interfaz
     * el cual realiza la lectura del caracter anterior y su represenación braille
     */
-    private void pressPreviousButton(){
+    public void pressPreviousButton(){
         
        String response=ManagementDocument.getInstance().getPreviousLetter();
        validateEdge(response, false);    
@@ -288,7 +288,7 @@ public class DocumentLoad implements Initializable {
     * Método que se ejecuta al presionar el boto "Siguiente" en la interfaz
     * el cual realiza la lectura del caracter siguiente y su represenación braille
      */
-    private void pressNextButton(){
+    public void pressNextButton(){
         
         String response=ManagementDocument.getInstance().getNextLetter();
         validateEdge(response, true);

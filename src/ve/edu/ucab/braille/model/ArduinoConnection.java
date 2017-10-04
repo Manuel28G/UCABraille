@@ -36,7 +36,24 @@ public class ArduinoConnection {
 		public void serialEvent(SerialPortEvent arg0) {
 			try {
 				if(connection.isMessageAvailable()) {
-					System.out.println("Mensaje recibido:"+connection.printMessage());
+					final String next = "Letra siguiente";
+					final String previous = "Letra anterior";
+
+					String message = connection.printMessage();
+					System.out.println("Mensaje recibido:"+message);
+					switch(message) {
+						case next:
+							nextButtonListener();
+							break;
+						
+						case previous: 
+							previousButtonListener();
+							break;
+						
+						default:
+							System.out.println("ERROR COMANDO NO RECONOCIDO"); 
+							break;
+					}
 				}
 				
 			} catch (SerialPortException | ArduinoException e) {
@@ -166,7 +183,7 @@ public class ArduinoConnection {
     * de siguiente caracter del arudino
     */
    public void nextButtonListener(){
-       
+       DocumentLoad.getInstance().pressNextButton();
    }
     
    /**
@@ -174,7 +191,7 @@ public class ArduinoConnection {
     * de anterior caracter del arudino
     */  
    public void previousButtonListener(){
-       
+       DocumentLoad.getInstance().pressPreviousButton();
    }
    
    /**
