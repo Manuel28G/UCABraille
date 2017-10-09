@@ -9,6 +9,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.stream.Collectors;
 import javafx.scene.control.ProgressBar;
 import ve.edu.ucab.braille.model.Configuration;
@@ -37,6 +39,8 @@ public class ReadDocument {
 	private DocumentRead document;
     private static String filePath;
     public static String documentExtesion;
+    public static Timer timer = new Timer();
+   
         
         public ReadDocument(String _filePath)
         {
@@ -220,4 +224,5 @@ public class ReadDocument {
             }
              return document;             
          }
+
 }

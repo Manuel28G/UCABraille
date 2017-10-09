@@ -9,6 +9,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.TimerTask;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -50,6 +52,8 @@ import com.panamahitek.ArduinoException;
 
 import ve.edu.ucab.braille.controller.ManagementDocument;
 import ve.edu.ucab.braille.controller.ManagementHistory;
+import ve.edu.ucab.braille.controller.ReadDocument;
+import ve.edu.ucab.braille.controller.Util;
 import ve.edu.ucab.braille.model.ArduinoConnection;
 import ve.edu.ucab.braille.model.Configuration;
 
@@ -60,61 +64,92 @@ import ve.edu.ucab.braille.model.Configuration;
  */
 public class DocumentLoad implements Initializable {
 
-    private Pane PN_Left;
-    @FXML
-    private RadioButton RB_L1;
-    @FXML
-    private RadioButton RB_L4;
-    @FXML
-    private RadioButton RB_L2;
-    @FXML
-    private RadioButton RB_L5;
-    @FXML
-    private RadioButton RB_L3;
-    @FXML
-    private RadioButton RB_L6;
-    @FXML
-    private Pane PN_Right;
-    @FXML
-    public static  ProgressIndicator PI_ProgressLoad;
-    @FXML
-    private RadioButton RB_R1;
-    @FXML
-    private RadioButton RB_R4;
-    @FXML
-    private RadioButton RB_R2;
-    @FXML
-    private RadioButton RB_R5;
-    @FXML
-    private RadioButton RB_R3;
-    @FXML
-    private RadioButton RB_R6;
-    @FXML
-    private TextArea TA_Text;
+	private boolean isPressAutomaticRead = false; //Variable para determinar si se encuentra en lectura automática 
+
     @FXML
     private AnchorPane PN_Principal;
+
+    @FXML
+    private TextArea TA_Text;
+
+    @FXML
+    private Pane PN_Left;
+
+    @FXML
+    private RadioButton RB_L1;
+
+    @FXML
+    private RadioButton RB_L4;
+
+    @FXML
+    private RadioButton RB_L2;
+
+    @FXML
+    private RadioButton RB_L5;
+
+    @FXML
+    private RadioButton RB_L3;
+
+    @FXML
+    private RadioButton RB_L6;
+
+    @FXML
+    private Pane PN_Right;
+
+    @FXML
+    private RadioButton RB_R1;
+
+    @FXML
+    private RadioButton RB_R4;
+
+    @FXML
+    private RadioButton RB_R2;
+
+    @FXML
+    private RadioButton RB_R5;
+
+    @FXML
+    private RadioButton RB_R3;
+
+    @FXML
+    private RadioButton RB_R6;
+
     @FXML
     private MenuItem MN_LoadFile;
+
     @FXML
     private MenuItem MN_PreviousLetter;
+
     @FXML
     private MenuItem MN_PreviousWord;
+
     @FXML
     private MenuItem MN_PreviousParagraph;
+
     @FXML
     private MenuItem MN_NextLetter;
+
     @FXML
     private MenuItem MN_NextWord;
+
     @FXML
     private MenuItem MN_NextParagraph;
+
+    @FXML
+    private MenuItem MN_AutomaticRead;
+
     @FXML
     private MenuItem MN_Information;
+
     @FXML
     private MenuItem MN_Contact;
+
     @FXML
-    public ProgressBar PB_Progress;
+    private ProgressIndicator PI_ProgressLoad;
+
     @FXML
     private ImageView IV_Connection;
+
     
     private List<RadioButton> leftRepresentation;
     private List<RadioButton> rightRepresentation;
@@ -388,6 +423,34 @@ public class DocumentLoad implements Initializable {
     private void contactActionMenu(ActionEvent event) {
     }
 
+
+    @FXML
+    void onActionAutomaticRead(ActionEvent event) {
+    	if(!isPressAutomaticRead) {
+    		MN_AutomaticRead.setText(Util.PAUSE_AUTOMATIC_READ);
+    		ReadDocument.timer.schedule(new TimerTask() {
+
+                @Override
+                public void run() {
+                	try {
+                		DocumentLoad.getInstance().pressNextButton();
+                	}
+                	catch (IllegalStateException ex) {
+                		MN_AutomaticRead.setText(Util.PLAY_AUTOMATIC_READ);
+                    	isPressAutomaticRead = !isPressAutomaticRead;
+                		this.cancel();
+                	}
+                }
+            }, 0, Configuration.getInstance().getReadSpeed()*1000);
+    	}
+    	else
+    	{
+    		MN_AutomaticRead.setText(Util.PLAY_AUTOMATIC_READ);
+    		ReadDocument.timer.cancel();
+    	}
+    	isPressAutomaticRead = !isPressAutomaticRead;
+    	
+    }
 
 }
 

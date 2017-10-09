@@ -99,6 +99,11 @@
                 </MenuItem>
               </items>
             </Menu>
+                  <MenuItem fx:id="MN_AutomaticRead" mnemonicParsing="false" onAction="#onActionAutomaticRead" text="Iniciar automática">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="P" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Ayuda">

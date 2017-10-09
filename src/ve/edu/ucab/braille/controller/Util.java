@@ -32,4 +32,7 @@ public class Util {
         public static final char lineSeparator=' ';
         public static final SimpleDateFormat DATA_FORMAT=new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         public static File configurationRute = new File("src/resource/config.json");
+
+        public static String PLAY_AUTOMATIC_READ = "Iniciar lectura";
+        public static String PAUSE_AUTOMATIC_READ = "Detener lectura";
 }
