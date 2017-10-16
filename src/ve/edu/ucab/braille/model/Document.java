@@ -5,9 +5,7 @@
  */
 package ve.edu.ucab.braille.model;
 
-import ve.edu.ucab.braille.controller.ManagementDocument;
 import ve.edu.ucab.braille.controller.Util.Layer;
-
 
 /**
  *

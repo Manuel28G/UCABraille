@@ -10,11 +10,7 @@ import com.panamahitek.PanamaHitek_Arduino;
 
 import java.net.URISyntaxException;
 import java.util.Arrays;
-import java.util.Enumeration;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
 import jssc.SerialPortException;

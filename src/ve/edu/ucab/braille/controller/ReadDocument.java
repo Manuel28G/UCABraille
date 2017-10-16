@@ -10,9 +10,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
 import java.util.stream.Collectors;
-import javafx.scene.control.ProgressBar;
 import ve.edu.ucab.braille.model.Configuration;
 import ve.edu.ucab.braille.model.Document;
 import ve.edu.ucab.braille.model.DocumentRead;
@@ -20,7 +18,6 @@ import ve.edu.ucab.braille.model.GeneralPropertie;
 import ve.edu.ucab.braille.model.Letter;
 import ve.edu.ucab.braille.model.Text;
 import ve.edu.ucab.braille.presenter.DocumentLoad;
-
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
@@ -40,6 +37,8 @@ public class ReadDocument {
     private static String filePath;
     public static String documentExtesion;
     public static Timer timer = new Timer();
+	private WordExtractor extractor;
+	private XWPFWordExtractor file;
    
         
         public ReadDocument(String _filePath)
@@ -100,7 +99,7 @@ public class ReadDocument {
 	private  void readWord(String filePath) throws IOException{
 		FileInputStream fis = new FileInputStream(filePath);
 		HWPFDocument doc2 = new HWPFDocument(fis);
-		WordExtractor extractor = new WordExtractor(doc2);
+		extractor = new WordExtractor(doc2);
 		textDocument=extractor.getText();
 
 	}
@@ -115,7 +114,7 @@ public class ReadDocument {
 		
 		XWPFDocument doc;
 		doc = new XWPFDocument(fis);
-		XWPFWordExtractor file = new XWPFWordExtractor(doc);
+		file = new XWPFWordExtractor(doc);
 		document = new DocumentRead();
 //        document.setTitle(file.getExtendedProperties().getName());
 //        document.setSize(Long.toString(file.length()));

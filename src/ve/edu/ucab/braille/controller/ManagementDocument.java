@@ -36,8 +36,6 @@ public class ManagementDocument {
     private ArduinoConnection arduino;
     
     private static Document document;
-    private String documentRute;
-    private int caracterOnFocus;
     private Document letterOnFocus;
     private final Braille braille;
     

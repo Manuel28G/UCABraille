@@ -5,14 +5,11 @@
  */
 package ve.edu.ucab.braille.controller;
 
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import com.panamahitek.ArduinoException;
-
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,14 +24,9 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import ve.edu.ucab.braille.model.ArduinoConnection;
 import ve.edu.ucab.braille.model.Configuration;
-import ve.edu.ucab.braille.presenter.DocumentLoad;
-import ve.edu.ucab.braille.presenter.UCABraille;
 
 /**
  * FXML Controller class

@@ -5,12 +5,9 @@
  */
 package ve.edu.ucab.braille.presenter;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.TimerTask;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,37 +16,29 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
 import java.awt.FileDialog;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import javafx.event.ActionEvent;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.AnchorPane;
 import javax.swing.JFrame;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import com.panamahitek.ArduinoException;
-
 import ve.edu.ucab.braille.controller.ManagementDocument;
 import ve.edu.ucab.braille.controller.ManagementHistory;
 import ve.edu.ucab.braille.controller.ReadDocument;
@@ -245,7 +234,7 @@ public class DocumentLoad implements Initializable {
    private void initializeEvents() throws ArduinoException{
           
          TA_Text.setOnDragDetected((MouseEvent)->{
-            Dragboard db = TA_Text.startDragAndDrop(TransferMode.ANY);
+             TA_Text.startDragAndDrop(TransferMode.ANY);
          });
          
          TA_Text.setOnDragOver(DragEvent->{ 

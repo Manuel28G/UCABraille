@@ -8,9 +8,6 @@ package ve.edu.ucab.braille.presenter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.swing.Action;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -45,7 +42,6 @@ public class UCABraille extends Application {
         try {
             fxmlLoader = new FXMLLoader(UCABraille.class.getResource(ruteMainFXML));
             root1 = (Parent) fxmlLoader.load();
-
             
         } catch (IOException ex) {
             String error="Mensaje: "+ex.getMessage();
@@ -73,7 +69,7 @@ public class UCABraille extends Application {
         stage.show();
     }
 
-    /**
+        /**
      * Método inicial con el cual arranca la aplicación
      * @param args the command line arguments
      */
