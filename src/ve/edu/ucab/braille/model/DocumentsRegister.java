@@ -23,5 +23,30 @@ public class DocumentsRegister {
         lastReadDate="";
         totalDocumentsRead=0;
     }
+
+	public List<DocumentHistory> getDocumentsRead() {
+		return documentsRead;
+	}
+
+	public void setDocumentsRead(List<DocumentHistory> documentsRead) {
+		this.documentsRead = documentsRead;
+	}
+
+	public String getLastReadDate() {
+		return lastReadDate;
+	}
+
+	public void setLastReadDate(String lastReadDate) {
+		this.lastReadDate = lastReadDate;
+	}
+
+	public int getTotalDocumentsRead() {
+		return totalDocumentsRead;
+	}
+
+	public void setTotalDocumentsRead(int totalDocumentsRead) {
+		this.totalDocumentsRead = totalDocumentsRead;
+	}
+    
     
 }

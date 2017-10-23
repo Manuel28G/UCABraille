@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+
+<AnchorPane prefHeight="192.0" prefWidth="500.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111">
+   <children>
+      <Pane prefHeight="200.0" prefWidth="500.0" style="-fx-background-color: #FFFFFF;">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="6.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../resource/Image/LogoUCAB.png" />
+               </image>
+            </ImageView>
+            <TextArea layoutX="6.0" layoutY="54.0" prefHeight="146.0" prefWidth="489.0" style="-fx-background-color: tr;" text="UCABraille es un trabajo especial de grado desarrollado en el año 2016-2017 &#10;por:&#10;         V- 21.116.775 Manuel Goncalves Lopez &#10;         V- 18.143.153 Luis Gonzalvez Lara&#10;&#10;El código se encuentra disponible en https://github.com/Manuel28G/UCABraille" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

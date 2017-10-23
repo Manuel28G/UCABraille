@@ -74,3 +74,10 @@ HistoryTmp\.json
 nb-configuration\.xml
 
 nbactions\.xml
+
+build\.fxbuild
+
+\.classpath
+
+\.settings/
+/target/

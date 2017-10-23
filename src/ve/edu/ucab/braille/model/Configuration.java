@@ -7,12 +7,17 @@ package ve.edu.ucab.braille.model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import ve.edu.ucab.braille.controller.Util;
+import ve.edu.ucab.braille.presenter.DocumentLoad;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,83 +26,127 @@ import java.util.logging.Logger;
  * @author Manuel Goncalves Lopez
  */
 public class Configuration {
-    private boolean automaticRead;
-    private double speedRead;//Minutos,Segundos
-    private boolean saveLastFile;//Guardar el ultimo documento leido
-    private String terminal;
-    private String fileRead;
-    private String lastLetterRead;
-    private static final String configurationFolder = System.getProperty("user.dir")+"/Config";
-    private static final String fileName="/configuration.json";
-    private static final String configurationRute = configurationFolder+fileName;
-    
-    public Configuration(){
-         automaticRead = false;
-         speedRead = 0.0;
-         saveLastFile = false;
-         terminal = "";
-         fileRead = "";
-         lastLetterRead = "";
-    }
-
-    public boolean isAutomaticRead() {
-        return automaticRead;
-    }
-
-    public void setAutomaticRead(boolean automaticRead) {
-        this.automaticRead = automaticRead;
-    }
-
-    public double getSpeedRead() {
-        return speedRead;
-    }
-
-    public void setSpeedRead(double speedRead) {
-        this.speedRead = speedRead;
-    }
-
-    public boolean isSaveLastFile() {
-        return saveLastFile;
-    }
-
-    public void setSaveLastFile(boolean saveLastFile) {
-        this.saveLastFile = saveLastFile;
-    }
-
-    public String getTerminal() {
-        return terminal;
-    }
-
-    public void setTerminal(String terminal) {
-        this.terminal = terminal;
-    }
-
-    public String getFileRead() {
-        return fileRead;
-    }
-
-    public void setFileRead(String fileRead) {
-        this.fileRead = fileRead;
-    }
-
-    public String getLastLetterRead() {
-        return lastLetterRead;
-    }
-
-    public void setLastLetterRead(String lastLetterRead) {
-        this.lastLetterRead = lastLetterRead;
-    }
+	
+	private String lastView;
+	private int readSpeed;
+	private String arduinoTerminal;
+	private int arduinoTransmisionRate;
+	private List<DocumentRead> document;
+	private static Configuration configuration;
  
-    /**
+	private Configuration() {
+		lastView = "";
+		readSpeed = 0;
+		arduinoTerminal = "COM3";
+		arduinoTransmisionRate = 9600;
+		document = new ArrayList<>();
+	}
+	
+    public String getLastView() {
+		return lastView;
+	}
+
+	public void setLastView(String lastView) {
+		this.lastView = lastView;
+	}
+
+	public int getReadSpeed() {
+		return readSpeed;
+	}
+
+	public void setReadSpeed(int readSpeed) {
+		this.readSpeed = readSpeed;
+	}
+
+	public String getArduinoTerminal() {
+		return arduinoTerminal;
+	}
+
+	public void setArduinoTerminal(String arduinoTerminal) {
+		this.arduinoTerminal = arduinoTerminal;
+	}
+
+	public int getArduinoTransmisionRate() {
+		return arduinoTransmisionRate;
+	}
+
+	public void setArduinoTransmisionRate(int arduinoTransmisionRate) {
+		this.arduinoTransmisionRate = arduinoTransmisionRate;
+	}
+
+	public List<DocumentRead> getListDocument() {
+		return document;
+	}
+
+	public void setDocument(List<DocumentRead> document) {
+		this.document = document;
+	}
+
+	public  String getConfigurationRute() {
+		return Util.configurationRute.getAbsolutePath();
+	}
+
+	public void addDocument(DocumentRead _documentRead) {
+		if(!document.isEmpty()) {
+			for(DocumentRead doc: document) {
+				if(doc.getTitle().equals(_documentRead.getTitle()) && (doc.getSize().equals(_documentRead.getSize()))) {
+					document.remove(doc);
+					break;
+				}
+			}
+		}
+			
+		document.add(_documentRead);
+	}
+	
+	public DocumentRead getDocument(DocumentRead _documentRead) {
+		boolean find = false;
+		if(!document.isEmpty()) {
+			for(DocumentRead doc: document) {
+				if(doc.getTitle().equals(_documentRead.getTitle()) && (doc.getSize().equals(_documentRead.getSize()))) {
+					find = true;
+					_documentRead = doc;
+					if(_documentRead.getActualLetter() >= doc.getTotalLetter()) {
+						_documentRead.setActualLetter(0);
+					}
+					break;
+				}
+			}
+		}
+		if(!find) {
+			document.add(_documentRead);
+		}
+			
+		return _documentRead;
+	}
+	
+	public Document getDocument(Document _document) {
+		DocumentRead documentRead = getDocument(_document.getDocumentRead());
+		_document.setDocumentRead(documentRead);
+		return _document;
+	}
+	
+	public void addDocument(Document _document) {
+
+		if(_document != null) {
+			DocumentRead document = _document.getDocumentRead();
+			addDocument(document);
+			_document.setDocumentRead(document);
+		}
+
+	}
+	
+	/**
      * Metodo que carga la configuración inicial del sistema de un archivo JSON
      */
-    public static Configuration loadConfiguration(){
+    public static Configuration getInstance(){
         try {
-            return loadConfiguration(configurationRute);
+            return loadConfiguration(Util.configurationRute.getAbsolutePath());
         } catch (FileNotFoundException ex) {
-            System.out.println("Mensaje: "+ex.getMessage());
-            System.out.println("Causa: "+ex.getCause());
-            return null;
+           String error="Mensaje: "+ex.getMessage();
+           error +="Causa: "+ex.getCause();
+           DocumentLoad.logger.error(error);
+           return null;
         }
     }
     
@@ -111,13 +160,18 @@ public class Configuration {
         
         Gson gson = new Gson();
         File file = new File(_path);
-        Configuration config = new Configuration();
-        if(file.exists()){
-            FileReader reader = new FileReader(file);
-            config = gson.fromJson(reader, Configuration.class);
+        if(configuration == null) {
+        	if(file.exists()){
+	            FileReader reader = new FileReader(file);
+	            configuration = gson.fromJson(reader, Configuration.class);
+	        }
+        	else {
+        		configuration = new Configuration();
+        	}
         }
-        return config;
+        return configuration;
     }
+    
     
     /**
      * Método que guarda la configuración en un archivo JSON 
@@ -125,24 +179,27 @@ public class Configuration {
     public void saveConfiguration() {
         Writer writer = null;
         try {
-            
-            File file = new File(configurationRute);
+            File file = Util.configurationRute;
             if(!file.exists()){
-                new File(configurationFolder).mkdirs();
+                String directory = Util.configurationRute.getAbsolutePath().replace(Util.configurationRute.getName(), "");
+                new File(directory).mkdirs();
                 file.createNewFile();
                 file.setExecutable(false);
                 file.setWritable(true);
                 file.setReadable(true);
             }
-            writer = new FileWriter(configurationRute);
+            writer = new FileWriter(Util.configurationRute);
             Gson gson = new GsonBuilder().create();
-            gson.toJson(this, writer);
+            gson.toJson(configuration, writer);
         } catch (IOException ex) {
-            System.out.println("Mensaje: "+ex.getMessage());
-            System.out.println("Causa: "+ex.getCause());
+            String error="Mensaje: "+ex.getMessage();
+            error +="Causa: "+ex.getCause();
+            DocumentLoad.logger.error(error);
         } finally {
             try {
-                writer.close();
+            	if(writer != null) {
+            		writer.close();
+            	}
             } catch (IOException ex) {
                 Logger.getLogger(Configuration.class.getName()).log(Level.SEVERE, null, ex);
             }

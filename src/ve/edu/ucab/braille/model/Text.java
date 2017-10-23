@@ -5,13 +5,11 @@
  */
 package ve.edu.ucab.braille.model;
 
-import ve.edu.ucab.braille.controller.util.Layer;
+import ve.edu.ucab.braille.controller.Util.Layer;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
-import sun.rmi.server.Util;
-import ve.edu.ucab.braille.controller.util;
+import ve.edu.ucab.braille.controller.Util;
 
 /**
  *
@@ -26,7 +24,35 @@ public class Text extends Document{
     private boolean searchReverse=false;//variable para complementar la logia de busqueda inversa
    
     
-    public Text(Layer _layer ){
+    public List<Document> getChildrenList() {
+		return childrenList;
+	}
+
+	public void setChildrenList(List<Document> childrenList) {
+		this.childrenList = childrenList;
+	}
+
+	public int getIdGeneral() {
+		return idGeneral;
+	}
+
+	public void setIdGeneral(int idGeneral) {
+		this.idGeneral = idGeneral;
+	}
+
+	public boolean isSearchReverse() {
+		return searchReverse;
+	}
+
+	public void setSearchReverse(boolean searchReverse) {
+		this.searchReverse = searchReverse;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public Text(Layer _layer ){
         childrenList=new ArrayList<>();
         text="";
         idGeneral=0;
@@ -126,7 +152,7 @@ public class Text extends Document{
     @Override
     public Document getNext(Layer _layer) {
         Document response=null;
-        ListIterator li = childrenList.listIterator();
+        ListIterator<Document> li = childrenList.listIterator();
         while(li.hasNext()) {
             Document document=(Document)li.next();
 
@@ -142,7 +168,7 @@ public class Text extends Document{
                    
                   if(response!=null){
                       
-                            if(_layer!=Layer.LETTER &&(response.getText().equals(util.SEPARATOR_JUMP)|| response.getText().equals(util.SEPARATOR_SPACE))){
+                            if(_layer!=Layer.LETTER &&(response.getText().equals(Util.SEPARATOR_JUMP)|| response.getText().equals(Util.SEPARATOR_SPACE))){
                              this.setFocusIdChild(new Letter(' ', response.getId()));
                              response=null;
                             }
@@ -165,7 +191,7 @@ public class Text extends Document{
     public Document getPrevious(Layer _layer) {
 
     Document response=null;
-    ListIterator li = childrenList.listIterator(childrenList.size());
+    ListIterator<Document> li = childrenList.listIterator(childrenList.size());
 
     while(li.hasPrevious()) {
         Document document=(Document)li.previous();
@@ -188,7 +214,7 @@ public class Text extends Document{
                    
                       if(response!=null){
                       
-                            if(_layer!=Layer.LETTER &&(response.getText().equals(util.SEPARATOR_JUMP)|| response.getText().equals(util.SEPARATOR_SPACE))){
+                            if(_layer!=Layer.LETTER &&(response.getText().equals(Util.SEPARATOR_JUMP)|| response.getText().equals(Util.SEPARATOR_SPACE))){
                              this.setFocusIdChild(new Letter(' ', response.getId()));
                              response=null;
                             }

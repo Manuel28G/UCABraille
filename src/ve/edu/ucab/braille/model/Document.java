@@ -5,8 +5,7 @@
  */
 package ve.edu.ucab.braille.model;
 
-import ve.edu.ucab.braille.controller.util.Layer;
-
+import ve.edu.ucab.braille.controller.Util.Layer;
 
 /**
  *
@@ -18,19 +17,30 @@ public abstract class Document {
      public Layer layer;//
      private int childRangeMin;//Limite minimo del ID que cntiene entre los hijos
      private int childRangeMax;//Limite maximo del ID que cntiene entre los hijos
+     private DocumentRead documentRead;
      private static Document childInFocus;//indice del hijo que se contiene como seleccionado para saltar al siguiente o anterior
    
      public Document(){
          childRangeMin=999999;
          childRangeMax=0;
-         
          if(childInFocus==null){
             childInFocus=this;
          }
          
      }
      
-     public void setFocusIdChild(Document _childInFocus){
+     public DocumentRead getDocumentRead() {
+		return documentRead;
+	}
+
+	public void setDocumentRead(DocumentRead documentRead) {
+		this.documentRead = documentRead;
+		Letter letra = new Letter();
+		letra.setId(documentRead.getActualLetter()-1);//posicionamos el foco una letra antes
+		this.setFocusIdChild(letra);
+	}
+
+	public void setFocusIdChild(Document _childInFocus){
          childInFocus=_childInFocus;
      }
      
