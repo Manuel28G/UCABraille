@@ -171,6 +171,7 @@ public class ManagementDocument {
 	                            _textArea.setText(document.getText());
 	                            _textArea.setEditable(false);
 	                            _textArea.selectRange(1, 0);
+	                            ManagementNotification.playDocumentLoadVoice();
                             }
 
                         } catch (IOException | InterruptedException | InvocationTargetException ex) {

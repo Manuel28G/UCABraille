@@ -41,6 +41,7 @@ import org.apache.logging.log4j.Logger;
 import com.panamahitek.ArduinoException;
 import ve.edu.ucab.braille.controller.ManagementDocument;
 import ve.edu.ucab.braille.controller.ManagementHistory;
+import ve.edu.ucab.braille.controller.ManagementNotification;
 import ve.edu.ucab.braille.controller.ReadDocument;
 import ve.edu.ucab.braille.controller.Util;
 import ve.edu.ucab.braille.model.ArduinoConnection;
@@ -276,7 +277,16 @@ public class DocumentLoad implements Initializable {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Información del sistema");
             alert.setHeaderText("Limite de frontera");
-            String edge=(isNext)?"fianal":"comienzo";
+            String edge;
+            if(isNext) {
+            	edge = "fianal";
+            	ManagementNotification.playReadEndVoice();
+            }
+            else
+            {
+            	edge = "comienzo";
+            	ManagementNotification.playInitialLetterVoice();
+            }
             alert.setContentText("ha llegado al "+edge+" del documento");
             alert.showAndWait();     
        }
@@ -416,7 +426,8 @@ public class DocumentLoad implements Initializable {
     @FXML
     void onActionAutomaticRead(ActionEvent event) {
     	if(!isPressAutomaticRead) {
-    		MN_AutomaticRead.setText(Util.PAUSE_AUTOMATIC_READ);
+    		ManagementNotification.playAutomaticReadStartVoice();
+    		try {
     		ReadDocument.timer.schedule(new TimerTask() {
 
                 @Override
@@ -427,15 +438,23 @@ public class DocumentLoad implements Initializable {
                 	catch (IllegalStateException ex) {
                 		MN_AutomaticRead.setText(Util.PLAY_AUTOMATIC_READ);
                     	isPressAutomaticRead = !isPressAutomaticRead;
+                		ManagementNotification.playAutomaticReadEndVoice();
                 		this.cancel();
                 	}
                 }
             }, 0, Configuration.getInstance().getReadSpeed()*1000);
+
+    		MN_AutomaticRead.setText(Util.PAUSE_AUTOMATIC_READ);
+    		}
+    		catch(java.lang.IllegalStateException ex) {
+    			ex.printStackTrace();
+    		}
     	}
     	else
     	{
     		MN_AutomaticRead.setText(Util.PLAY_AUTOMATIC_READ);
     		ReadDocument.timer.cancel();
+    		ManagementNotification.playAutomaticReadEndVoice();
     	}
     	isPressAutomaticRead = !isPressAutomaticRead;
     	
