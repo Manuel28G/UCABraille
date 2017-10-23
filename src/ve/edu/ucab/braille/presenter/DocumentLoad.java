@@ -314,7 +314,6 @@ public class DocumentLoad implements Initializable {
     * el cual realiza la lectura del caracter anterior y su represenación braille
     */
     public void pressPreviousButton(){
-        
        String response=ManagementDocument.getInstance().getPreviousLetter();
        validateEdge(response, false);    
     }
@@ -323,7 +322,6 @@ public class DocumentLoad implements Initializable {
     * el cual realiza la lectura del caracter siguiente y su represenación braille
      */
     public void pressNextButton(){
-        
         String response=ManagementDocument.getInstance().getNextLetter();
         validateEdge(response, true);
     }
