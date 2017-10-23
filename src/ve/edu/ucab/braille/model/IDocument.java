@@ -5,7 +5,6 @@
  */
 package ve.edu.ucab.braille.model;
 
-import java.util.List;
 
 /**
  *

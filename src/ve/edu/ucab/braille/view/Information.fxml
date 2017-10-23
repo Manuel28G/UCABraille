@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+
+<AnchorPane prefHeight="270.0" prefWidth="490.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111">
+   <children>
+      <Pane prefHeight="270.0" prefWidth="490.0" style="-fx-background-color: #FFFFFF;">
+         <children>
+            <ImageView fitHeight="83.0" fitWidth="200.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../resource/Image/LogoUCAB.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="14.0" layoutY="72.0" text="¿Que es UCABraille?" />
+            <Label layoutX="14.0" layoutY="155.0" text="¿A quien va dirigido UCABraille?" />
+            <TextArea editable="false" layoutX="14.0" layoutY="89.0" prefHeight="63.0" prefWidth="459.0" style="-fx-background-color: tr;" text="Es un software que permite la conversión de documentos de texto plano&#10;a su representación en caracteres braille, los cuales son enviados por &#10;ositivo" />
+            <TextArea editable="false" layoutX="14.0" layoutY="179.0" prefHeight="63.0" prefWidth="459.0" style="-fx-background-color: t;" text="A personas con discapacidad visual, que puedan realizar lecturas &#10;mediante el sistema de puntos braille&#10;" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

@@ -19,12 +19,9 @@ public class Braille {
         {
             //Valores sin adignación
             stringToBraille.put(" ",new byte[][]{emptyArray,emptyArray});
-            
             stringToBraille.put("\n",new byte[][]{emptyArray,{0,0,0,0,0,0}});
             stringToBraille.put("\r",new byte[][]{emptyArray,{0,0,0,0,0,0}});
             stringToBraille.put("",new byte[][]{emptyArray,{0,0,0,0,0,0}});
-            
-            
             //Letras miúsculas
             stringToBraille.put("a", new byte[][]{emptyArray,{1,0,0,0,0,0}});
             stringToBraille.put("b", new byte[][]{emptyArray,{1,1,0,0,0,0}});
@@ -93,27 +90,22 @@ public class Braille {
             stringToBraille.put("8", new byte[][]{{0,0,1,1,1,1},{1,1,0,0,1,0}});
             stringToBraille.put("9", new byte[][]{{0,0,1,1,1,1},{0,1,0,1,0,0}});
             //vocales asentuadas
-            
             stringToBraille.put("á", new byte[][]{emptyArray,{1,1,1,0,1,1}});
             stringToBraille.put("é", new byte[][]{emptyArray,{0,1,1,1,0,1}});//
             stringToBraille.put("í", new byte[][]{emptyArray,{0,0,1,1,0,0}});
             stringToBraille.put("ó", new byte[][]{emptyArray,{0,0,1,1,0,1}});
             stringToBraille.put("ú", new byte[][]{emptyArray,{0,1,1,1,1,1}});
             //vocales con dieresis
-            
             stringToBraille.put("ä", new byte[][]{emptyArray,emptyArray});
             stringToBraille.put("ë", new byte[][]{emptyArray,emptyArray});
             stringToBraille.put("ï", new byte[][]{emptyArray,emptyArray});
             stringToBraille.put("ö", new byte[][]{emptyArray,emptyArray});
             stringToBraille.put("ü", new byte[][]{emptyArray,{1,1,0,0,1,1}});
-            
             stringToBraille.put("à", new byte[][]{emptyArray,{1,1,1,0,1,1}});
             stringToBraille.put("è", new byte[][]{emptyArray,{1,1,1,0,1,1}});
             stringToBraille.put("ì", new byte[][]{emptyArray,{1,1,1,0,1,1}});
             stringToBraille.put("ò", new byte[][]{emptyArray,{1,1,1,0,1,1}});
             stringToBraille.put("ù", new byte[][]{emptyArray,{1,1,1,0,1,1}});
-            
-            
             //signos de puntuacion
             stringToBraille.put(".", new byte[][]{emptyArray,{0,0,1,0,0,0}});
             stringToBraille.put(",", new byte[][]{emptyArray,{0,1,0,0,0,0}});
@@ -157,6 +149,7 @@ public class Braille {
             stringToBraille.put("£", new byte[][]{emptyArray,emptyArray});
             stringToBraille.put("§", new byte[][]{emptyArray,emptyArray});
             stringToBraille.put("\\", new byte[][]{emptyArray,emptyArray});
+            stringToBraille.put(Character.toString ((char) 9),new byte[][]{emptyArray,emptyArray});//Tabulador 
             
         }  
         

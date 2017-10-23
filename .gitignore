@@ -51,21 +51,35 @@ Temporary Items
 #Todos los archivos compilados
 build/
 #Todos los archivos de configuración privada
-nbproject/private/
-nbproject/
+nbproject/private/**
+nbproject/**
+bin/**
 REAME.txt
 
 nbproject/private/private.xml
+nbproject/private/private.properties
+nbproject/private/private.properties
+nbproject/private/private.xml
 nbproject/project.properties
 nbproject/project.xml
-nbproject/private/private.properties
 nbproject/build-impl.xml
-nbproject/private/private.properties
-nbproject/private/private.xml
-nbproject/private/private.xml
-nbproject/private/private.xml
+nbproject/project.properties
+
+nbproject/
+
+dist/javadoc/
+
+HistoryTmp\.json
+
+nb-configuration\.xml
+
+nbactions\.xml
+
+build\.fxbuild
+
+\.classpath
 
 \.settings/
+/target/
 
-\bin/
-\target/
+/bin/
