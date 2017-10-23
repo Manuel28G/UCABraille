@@ -5,6 +5,7 @@
  */
 package ve.edu.ucab.braille.presenter;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,10 +13,14 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import ve.edu.ucab.braille.controller.ManagementDocument;
+import ve.edu.ucab.braille.controller.ManagementNotification;
 import ve.edu.ucab.braille.model.Configuration;
 import ve.edu.ucab.braille.model.Document;
 
@@ -65,6 +70,9 @@ public class UCABraille extends Application {
 		   stage.close();
 		   System.exit(0);
 		});
+        
+        
+        ManagementNotification.playWelcomeVoice();
         
         stage.show();
     }
