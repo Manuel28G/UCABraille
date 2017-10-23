@@ -97,14 +97,19 @@ public class ArduinoConnection {
    
    private void connectToArduino(String _terminal,int _frecuency) throws ArduinoException {
 	   if(!arduinoIsConnect) {
+		   try {
 		   connection.arduinoRXTX(terminal, frecuency,listener);//declaramos solo para envio
+		   }
+		   catch(com.panamahitek.ArduinoException ex) {
+			   System.err.println("Problema para abrir el terminal:"+terminal);
+		   }
 		   connection.setTimeOut(1);
 		   DocumentLoad.getInstance().arduinoIsConnect();
 		   arduinoIsConnect = true;
 	   }
 	   else
 	   {
-		   System.out.println("ERROR YA EL ARDUINO ESTA CONECTADO");
+		   System.err.println("ERROR YA EL ARDUINO ESTA CONECTADO");
 	   }
    }
    
