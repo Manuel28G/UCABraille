@@ -314,16 +314,26 @@ public class DocumentLoad implements Initializable {
     * el cual realiza la lectura del caracter anterior y su represenación braille
     */
     public void pressPreviousButton(){
+        try {
        String response=ManagementDocument.getInstance().getPreviousLetter();
-       validateEdge(response, false);    
+       validateEdge(response, false);
+	    }
+	    catch(NullPointerException ex) {
+	    	System.err.println("No hay palabra anterior");
+	    }
     }
     /**
     * Método que se ejecuta al presionar el boto "Siguiente" en la interfaz
     * el cual realiza la lectura del caracter siguiente y su represenación braille
      */
     public void pressNextButton(){
+        try {
         String response=ManagementDocument.getInstance().getNextLetter();
         validateEdge(response, true);
+        }
+        catch(NullPointerException ex) {
+        	System.err.println("No hay palabra siguiente");
+        }
     }
     
     /**
