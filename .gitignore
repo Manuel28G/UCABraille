@@ -81,3 +81,5 @@ build\.fxbuild
 
 \.settings/
 /target/
+
+/bin/
