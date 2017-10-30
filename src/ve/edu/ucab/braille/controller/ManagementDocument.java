@@ -6,13 +6,20 @@
 package ve.edu.ucab.braille.controller;
 
 import com.panamahitek.ArduinoException;
+
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.Timer;
+
+import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
@@ -38,8 +45,28 @@ public class ManagementDocument {
     private static Document document;
     private Document letterOnFocus;
     private final Braille braille;
+    private Date lastChange = new Date();
+    private Timer timerChange ;
+    
     
     private ManagementDocument(){
+    	timerChange = new Timer (2000, new ActionListener () 
+    	{ 
+    	   
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent arg0) {
+				Date now = Calendar.getInstance().getTime();
+				long seconds = (now.getTime() - lastChange.getTime())/1000;
+				System.out.println("Last:"+lastChange.toString());
+				System.out.println("Seconds:"+seconds);
+				if(seconds > 10 && seconds < 13) {
+					ManagementDocument.getInstance().neutralRepresentation();
+				}
+				
+				
+			} 
+    	}); 
+    	timerChange.start();
         braille=new Braille();    
         try { 
             arduino=ArduinoConnection.getInstance(); 
@@ -67,8 +94,13 @@ public class ManagementDocument {
         return managementDocument;
     }
     
+    public void neutralRepresentation() {
+    	arduino.sendData(braille.getBraille(" "));
+    }
+    
     
     public String getNextLetter(){
+    	lastChange = Calendar.getInstance().getTime();
         letterOnFocus=document.getNext(Util.Layer.LETTER);
         String response = null;
         if(letterOnFocus != null) {
@@ -81,7 +113,8 @@ public class ManagementDocument {
     }
     
     public String getPreviousLetter(){
-        
+
+    	lastChange = Calendar.getInstance().getTime();
         letterOnFocus=document.getPrevious(Util.Layer.LETTER);
         String response = null;
         if(letterOnFocus != null) {
@@ -93,6 +126,7 @@ public class ManagementDocument {
     }
     
     public String getNextWord(){
+    	lastChange = Calendar.getInstance().getTime();
         letterOnFocus=document.getNext(Util.Layer.WORD);
         String response = null;
         if(letterOnFocus != null) {
@@ -104,6 +138,7 @@ public class ManagementDocument {
     }
     
     public String getPreviousWord(){
+    	lastChange = Calendar.getInstance().getTime();
         letterOnFocus=document.getPrevious(Util.Layer.WORD);
         String response = null;
         if(letterOnFocus != null) {
@@ -115,6 +150,7 @@ public class ManagementDocument {
     }
     
     public String getNextParagraph(){
+    	lastChange = Calendar.getInstance().getTime();
         letterOnFocus=document.getNext(Util.Layer.PARAGRAPH);
         String response = null;
         if(letterOnFocus != null) {
@@ -126,6 +162,7 @@ public class ManagementDocument {
     }
     
     public String getPreviousParagraph(){
+    	lastChange = Calendar.getInstance().getTime();
         letterOnFocus=document.getPrevious(Util.Layer.PARAGRAPH);
         String response = null;
         if(letterOnFocus != null) {
