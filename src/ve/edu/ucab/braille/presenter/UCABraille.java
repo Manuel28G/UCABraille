@@ -62,12 +62,14 @@ public class UCABraille extends Application {
         stage.setTitle(aplicationName);
         stage.setScene(new Scene(root1));  
         stage.setOnCloseRequest(t -> {
-		    t.consume();
-		    Document _document = ManagementDocument.getInstance().getDocument();
-		    config.addDocument(_document);
-		    config.getListDocument();
+		   ManagementDocument.getInstance().neutralRepresentation();
+		    
+		   Document _document = ManagementDocument.getInstance().getDocument();
+		   config.addDocument(_document);
+		   config.getListDocument();
 	       config.saveConfiguration();
 		   stage.close();
+		   t.consume();
 		   System.exit(0);
 		});
         
