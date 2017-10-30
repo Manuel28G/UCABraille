@@ -157,20 +157,9 @@ public class ArduinoConnection {
        String message=Arrays.toString(represent[0]).replace("[", "").replace("]", "").replace(",","").replace(" ", "");
        message+=Arrays.toString(represent[1]).replace("[", "").replace("]", "").replace(",","").replace(" ", "");
        try {
-    	   System.out.println("Intentando enviar");
-    	   System.out.println("ports:"+connection.getPortsAvailable());
-    	   System.out.println("portsSerial:"+connection.getSerialPorts());
-    	   PanamaHitek_Arduino connectTmp = new PanamaHitek_Arduino();
-    	   System.out.println("ports:"+connectTmp.getPortsAvailable());
-    	   System.out.println("portsSerial:"+connectTmp.getSerialPorts());
-    	   connectTmp = null;
- 
-//    	   this.connectToArduino(terminal, frecuency);
            connection.sendData(message);
-    	   System.out.println("Enviado..");
-//           connection.flushSerialPort();
-//    	   System.out.println("Enviado..");
-       } catch (ArduinoException ex) {
+    	   System.out.println("Enviado.."+message);
+      } catch (ArduinoException ex) {
     	   ex.printStackTrace();
     	   DocumentLoad.getInstance().arduinoIsDisconnect();
        } catch (SerialPortException ex) {
