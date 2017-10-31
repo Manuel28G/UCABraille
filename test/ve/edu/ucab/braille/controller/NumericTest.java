@@ -10,6 +10,9 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import junit.framework.Assert;
+
 import static org.junit.Assert.*;
 
 /**
@@ -20,52 +23,53 @@ public class NumericTest {
     
     public NumericTest() {
     }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
 
     /**
      * Test of round method, of class Numeric.
      */
     @Test
     public void testRound() {
-        System.out.println("round");
         double value = 3.4576;
         int places = 2;
         double expResult = 3.46;
         double result = Numeric.round(value, places);
-        assertEquals(expResult, result, 0.01);
+        assertEquals(expResult, result,0.001);
         
-        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
+	    value = 3.4546;
+	    expResult = 3.45;
+	    result = Numeric.round(value, places);
+	    assertEquals(expResult, result,0.001);
+        
+        
     }
     
-}
-/*
-    3.4578 el valor del doble
-    luegares 2 
-    resultado esperado 3.46
-    resultado 3,46
-    resultado de la prueba: falla entra en el metodo fail 
+
+    /**
+     * Test of round method, of class Numeric.
+     */
+    
+    @Test
+    public void negativeValue() {
+        double value = -1;
+        int places = 2;
+        double expResult = 3.46;
+        double result = Numeric.round(value, places);
+        assertEquals(result, value,0.001);
+        
+    }
     
 
-    -3.4578 el valor del doble
-    luegares 2 
-    resultado esperado -3.44
-    resultado -3,46
-    resultado de la prueba: falla esperaba 3,46
-
-*/ 
+    /**
+     * Test of round method, of class Numeric.
+     */
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void negativePlaces() {
+        double value = 2.0;
+        int places = -1;
+        double expResult = 3.46;
+        double result = Numeric.round(value, places);
+        
+        
+    }
+}

@@ -12,7 +12,12 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+
 import ve.edu.ucab.braille.model.Document;
+import ve.edu.ucab.braille.model.DocumentRead;
 
 /**
  *
@@ -23,35 +28,18 @@ public class ReadDocumentTest {
     public ReadDocumentTest() {
     }
     
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
 
-    /**
-     * Test of getDocument method, of class ReadDocument.
-     */
-    @Test
-    public void testGetDocument() throws Exception {
-        System.out.println("getDocument");
-        ProgressBar _progress = null;
-        ReadDocument instance = null;
-        Document expResult = null;
-        Document result = instance.getDocument(_progress);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
+    
+    @Test(expected = NullPointerException.class)
+    public void NullDocument() throws InvocationTargetException, IOException, InterruptedException {
+    	ReadDocument document = new ReadDocument(null);
+    		document.getDocument(null);
+    }
+    
+    @Test(expected = IOException.class)
+    public void documentUnexist() throws InvocationTargetException, IOException, InterruptedException {
+    	ReadDocument document = new ReadDocument("c:/prueba.txt");
+    		document.getDocument(new DocumentRead());
     }
     
 }
