@@ -13,6 +13,7 @@ GitHub es una plataforma de desarrollo que se utiliza para almacenar proyectos u
 - **Master** En esta rama reside el proyecto final realizando integraciones del backend con el frontend
 - **Backend** En dicha rama, reside la lógica de la aplicación Windows y las estructuras de los objetos que serán manipulados a través de ella
 - **Frontend** La rama del frontend, recopila toda la parte estética de la aplicación como lo son las imágenes e interfaces gráficas
+
 Se puede conseguir la última versión del manejador de versiones [aquí](https://desktop.github.com/)
 
 ### Arquitectura MVC
