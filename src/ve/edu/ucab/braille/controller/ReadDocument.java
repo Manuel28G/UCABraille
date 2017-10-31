@@ -35,8 +35,8 @@ public class ReadDocument {
 	private static String textDocument="";
 	private DocumentRead document;
     private static String filePath;
-    public static String documentExtesion;
-    public static Timer timer = new Timer();
+    private static String documentExtesion;
+    private static Timer timer = new Timer();
 	private WordExtractor extractor;
 	private XWPFWordExtractor file;
    
@@ -44,6 +44,10 @@ public class ReadDocument {
         public ReadDocument(String _filePath)
         {
             filePath=_filePath;
+        }
+        
+        public static Timer getTimer() {
+        	return timer;
         }
         
         /**

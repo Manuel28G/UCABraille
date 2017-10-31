@@ -436,7 +436,7 @@ public class DocumentLoad implements Initializable {
     	if(!isPressAutomaticRead) {
     		ManagementNotification.playAutomaticReadStartVoice();
     		try {
-    		ReadDocument.timer.schedule(new TimerTask() {
+    		ReadDocument.getTimer().schedule(new TimerTask() {
 
                 @Override
                 public void run() {
@@ -461,7 +461,7 @@ public class DocumentLoad implements Initializable {
     	else
     	{
     		MN_AutomaticRead.setText(Util.PLAY_AUTOMATIC_READ);
-    		ReadDocument.timer.cancel();
+    		ReadDocument.getTimer().cancel();
     		ManagementNotification.playAutomaticReadEndVoice();
     	}
     	isPressAutomaticRead = !isPressAutomaticRead;
