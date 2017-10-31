@@ -99,13 +99,15 @@ public class ArduinoConnection {
 	   if(!arduinoIsConnect) {
 		   try {
 		   connection.arduinoRXTX(terminal, frecuency,listener);//declaramos solo para envio
-		   }
-		   catch(com.panamahitek.ArduinoException ex) {
-			   System.err.println("Problema para abrir el terminal:"+terminal);
-		   }
+
 		   connection.setTimeOut(1);
 		   DocumentLoad.getInstance().arduinoIsConnect();
 		   arduinoIsConnect = true;
+		   }
+		   catch(com.panamahitek.ArduinoException ex) {
+			   DocumentLoad.getInstance().arduinoIsDisconnect();
+			   System.err.println("Problema para abrir el terminal:"+terminal);
+		   }
 	   }
 	   else
 	   {
