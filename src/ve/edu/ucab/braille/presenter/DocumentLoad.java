@@ -361,12 +361,14 @@ public class DocumentLoad implements Initializable {
             fd.setVisible(true);
             String file=fd.getFile();
             String directory=fd.getDirectory();
-            String path=directory+file;
-            Configuration config = Configuration.getInstance();
-            ManagementDocument.getInstance().loadDocumentText(TA_Text, path,config);
-            //refrescamos la selección
-            ManagementDocument.getInstance().refreshBrailleRepresent(leftRepresentation, rightRepresentation,TA_Text);
-            fd.dispose();
+            if(file != null && directory != null) {
+	            String path=directory+file;
+	            Configuration config = Configuration.getInstance();
+	            ManagementDocument.getInstance().loadDocumentText(TA_Text, path,config);
+	            //refrescamos la selección
+	            ManagementDocument.getInstance().refreshBrailleRepresent(leftRepresentation, rightRepresentation,TA_Text);
+	            fd.dispose();
+            }
     }
 
     @FXML
@@ -423,18 +425,50 @@ public class DocumentLoad implements Initializable {
 
     @FXML
     private void informationActionMenu(ActionEvent event) {
-        
+    	FXMLLoader fxmlLoader;         
+        Parent root1 = null;
+    	fxmlLoader = new FXMLLoader(UCABraille.class.getResource(UCABraille.ruteInfoFXML));
+         try {
+			root1 = (Parent) fxmlLoader.load();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+         Stage stage = new Stage();
+         stage.initModality(Modality.APPLICATION_MODAL);
+         stage.initStyle(StageStyle.DECORATED);
+         stage.setMaximized(false);
+         stage.setResizable(false);
+         stage.setTitle("Información");
+         stage.setScene(new Scene(root1));  
+         stage.show();
     }
 
     @FXML
     private void contactActionMenu(ActionEvent event) {
+    	FXMLLoader fxmlLoader;         
+        Parent root1 = null;
+    	fxmlLoader = new FXMLLoader(UCABraille.class.getResource(UCABraille.ruteContactFXML));
+         try {
+			root1 = (Parent) fxmlLoader.load();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+         Stage stage = new Stage();
+         stage.initModality(Modality.APPLICATION_MODAL);
+         stage.initStyle(StageStyle.DECORATED);
+         stage.setMaximized(false);
+         stage.setResizable(false);
+         stage.setTitle("Información");
+         stage.setScene(new Scene(root1));  
+         stage.show();
     }
 
 
     @FXML
     void onActionAutomaticRead(ActionEvent event) {
     	if(!isPressAutomaticRead) {
-    		ManagementNotification.playAutomaticReadStartVoice();
     		try {
     		ReadDocument.getTimer().schedule(new TimerTask() {
 
@@ -449,14 +483,28 @@ public class DocumentLoad implements Initializable {
                 		ManagementNotification.playAutomaticReadEndVoice();
                 		this.cancel();
                 	}
+                	catch(java.lang.IllegalArgumentException ex) {
+                		MN_AutomaticRead.setText(Util.PLAY_AUTOMATIC_READ);
+                    	isPressAutomaticRead = !isPressAutomaticRead;
+                		ManagementNotification.playAutomaticReadEndVoice();
+                		this.cancel();
+                	}
                 }
             }, 0, Configuration.getInstance().getReadSpeed()*1000);
+
+    		ManagementNotification.playAutomaticReadStartVoice();
 
     		MN_AutomaticRead.setText(Util.PAUSE_AUTOMATIC_READ);
     		}
     		catch(java.lang.IllegalStateException ex) {
-    			ex.printStackTrace();
+    			
     		}
+    		catch (java.lang.IllegalArgumentException e) {
+    			MN_AutomaticRead.setText(Util.PLAY_AUTOMATIC_READ);
+            	isPressAutomaticRead = !isPressAutomaticRead;
+        		ManagementNotification.playAutomaticReadEndVoice();
+        		ReadDocument.getTimer().cancel();
+			}
     	}
     	else
     	{
