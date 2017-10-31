@@ -32,6 +32,8 @@ public class UCABraille extends Application {
     
     public static String ruteMainFXML="/ve/edu/ucab/braille/view/DocumentLoad.fxml";
     public static String ruteOptionsFXML="/ve/edu/ucab/braille/view/Options.fxml";
+    public static String ruteInfoFXML="/ve/edu/ucab/braille/view/Information.fxml";
+    public static String ruteContactFXML="/ve/edu/ucab/braille/view/Contact.fxml";
     String aplicationName="UCABraille";
     
     
