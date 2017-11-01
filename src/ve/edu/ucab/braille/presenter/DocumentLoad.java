@@ -55,7 +55,8 @@ import ve.edu.ucab.braille.model.Configuration;
 public class DocumentLoad implements Initializable {
 
 	private boolean isPressAutomaticRead = false; //Variable para determinar si se encuentra en lectura automática 
-
+	private static boolean voiceStart = false;
+	
     @FXML
     private AnchorPane PN_Principal;
 
@@ -326,14 +327,10 @@ public class DocumentLoad implements Initializable {
     * Método que se ejecuta al presionar el boto "Siguiente" en la interfaz
     * el cual realiza la lectura del caracter siguiente y su represenación braille
      */
-    public void pressNextButton(){
-        try {
+    public void pressNextButton() throws NullPointerException{
         String response=ManagementDocument.getInstance().getNextLetter();
         validateEdge(response, true);
-        }
-        catch(NullPointerException ex) {
-        	System.err.println("No hay palabra siguiente");
-        }
+      
     }
     
     /**
@@ -470,31 +467,32 @@ public class DocumentLoad implements Initializable {
     void onActionAutomaticRead(ActionEvent event) {
     	if(!isPressAutomaticRead) {
     		try {
-    		ReadDocument.getTimer().schedule(new TimerTask() {
+    			
+    			if(Configuration.getInstance().getReadSpeed()>0) {
+		    		ReadDocument.getTimer().schedule(new TimerTask() {
+		
+		                @Override
+		                public void run() {
+		                	try {
+		                		DocumentLoad.getInstance().pressNextButton();
+		                		if(!voiceStart) {
+		        		    		ManagementNotification.playAutomaticReadStartVoice();
+		        		    		MN_AutomaticRead.setText(Util.PAUSE_AUTOMATIC_READ);
+		        		    		voiceStart = true;
+		                		}
+		                		
+		                	}
+		                	catch (IllegalStateException  | java.lang.IllegalArgumentException | NullPointerException ex) {
+		                		MN_AutomaticRead.setText(Util.PLAY_AUTOMATIC_READ);
+		                    	isPressAutomaticRead = !isPressAutomaticRead;
+		                		ManagementNotification.playAutomaticReadEndVoice();
+		                		this.cancel();
+		                	}
+		                }
+		            }, 0, Configuration.getInstance().getReadSpeed()*1000);
 
-                @Override
-                public void run() {
-                	try {
-                		DocumentLoad.getInstance().pressNextButton();
-                	}
-                	catch (IllegalStateException ex) {
-                		MN_AutomaticRead.setText(Util.PLAY_AUTOMATIC_READ);
-                    	isPressAutomaticRead = !isPressAutomaticRead;
-                		ManagementNotification.playAutomaticReadEndVoice();
-                		this.cancel();
-                	}
-                	catch(java.lang.IllegalArgumentException ex) {
-                		MN_AutomaticRead.setText(Util.PLAY_AUTOMATIC_READ);
-                    	isPressAutomaticRead = !isPressAutomaticRead;
-                		ManagementNotification.playAutomaticReadEndVoice();
-                		this.cancel();
-                	}
-                }
-            }, 0, Configuration.getInstance().getReadSpeed()*1000);
+    			}
 
-    		ManagementNotification.playAutomaticReadStartVoice();
-
-    		MN_AutomaticRead.setText(Util.PAUSE_AUTOMATIC_READ);
     		}
     		catch(java.lang.IllegalStateException ex) {
     			
