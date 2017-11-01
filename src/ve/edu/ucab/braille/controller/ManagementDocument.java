@@ -93,7 +93,9 @@ public class ManagementDocument {
     }
     
     public void neutralRepresentation() {
-    	arduino.sendData(braille.getBraille(" "));
+    	if(arduino.isArduinoConnect()) {
+    		arduino.sendData(braille.getBraille(" "));
+    	}
     }
     
     
@@ -225,6 +227,7 @@ public class ManagementDocument {
                     for (File archivo : listArchivo){
                         String path=archivo.getAbsolutePath();
                         this.loadDocumentText(_textArea, path,config);
+                        ManagementNotification.playDocumentLoadVoice();
                     }
                     try {
                         Thread.sleep(1000);
