@@ -57,8 +57,6 @@ public class ManagementDocument {
 			public void actionPerformed(java.awt.event.ActionEvent arg0) {
 				Date now = Calendar.getInstance().getTime();
 				long seconds = (now.getTime() - lastChange.getTime())/1000;
-				System.out.println("Last:"+lastChange.toString());
-				System.out.println("Seconds:"+seconds);
 				if(seconds > 10 && seconds < 13) {
 					ManagementDocument.getInstance().neutralRepresentation();
 				}
